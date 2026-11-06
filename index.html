@@ -134,6 +134,35 @@ tr.grp td{padding-top:14px;font-size:12px;color:var(--water);font-family:var(--m
 details.colx summary{cursor:pointer;color:var(--water);font-size:14px}
 details.colx summary:focus-visible{outline:2px solid var(--water);outline-offset:2px}
 details.colx[open] summary{margin-bottom:8px}
+.sched{min-width:860px}
+.sched td{vertical-align:top}
+.sched td.wk{white-space:nowrap}
+.gcol{width:160px}
+.gbar{position:relative;height:10px;background:var(--grid);margin-top:7px;min-width:140px}
+.gbar i{position:absolute;top:0;bottom:0;background:var(--water)}
+.sched ul{margin:0;padding-left:16px;font-size:13px;color:var(--muted);display:grid;gap:2px}
+.sched tr.ret td{color:var(--muted)}
+.chk-groups{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.chk-groups .sheet{display:grid;gap:8px;align-content:start}
+.ci{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;font-size:14px;cursor:pointer;align-items:start;padding:4px 0}
+.ci input{margin:3px 0 0;width:18px;height:18px;accent-color:var(--water);cursor:inherit}
+.ci input:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+.ci.done span{color:var(--muted);text-decoration:line-through}
+.ci small{display:block;color:var(--water);font-size:12px;text-decoration:none}
+.elevs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:16px}
+figure.elev{margin:0;display:grid;gap:6px;overflow-x:auto}
+figure.elev figcaption{font-family:var(--display);font-weight:600;font-size:15px}
+.dwg-elev{min-width:480px}
+.dwg-mep{min-width:600px;max-width:900px;margin:0 auto}
+.mept{min-width:720px}
+.mE{stroke:var(--timber);stroke-width:2.4;fill:none;stroke-linejoin:round}
+.mW{stroke:var(--water);stroke-width:2.4;fill:none;stroke-linejoin:round}
+.mD{stroke:var(--ink);stroke-width:1.8;fill:none;stroke-dasharray:7 4;stroke-linejoin:round}
+.mR{stroke:var(--glass);stroke-width:1.8;fill:none;stroke-dasharray:3 4}
+.mk{fill:var(--sheet);stroke:var(--ink);stroke-width:1.2}
+.mkE{fill:var(--timber)} .mkW{fill:var(--water)} .mkD{fill:var(--ink)}
+.lg-e{color:var(--timber)} .lg-w{color:var(--water)} .lg-d{color:var(--ink)} .lg-r{color:var(--glass)}
+.fenceS{fill:var(--muted);opacity:.25}
 .jswarn{margin:0;padding:10px 14px;border:1px solid var(--timber);color:var(--ink);background:var(--sheet);font-size:13px}
 .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
 .opt{font:inherit;text-align:left;display:grid;gap:4px;padding:14px 16px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
@@ -187,7 +216,7 @@ h3{font-family:var(--display);font-size:16px;font-weight:600;margin:0}
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">แบบร่างแนวคิด · บ้านพักอาศัยยกใต้ถุนสูงหนีน้ำ · ฉบับที่ 10</div>
+    <div class="eyebrow">แบบร่างแนวคิด · บ้านพักอาศัยยกใต้ถุนสูงหนีน้ำ · ฉบับที่ 12</div>
     <h1>บ้านยกสูงหนีน้ำ บนที่ดิน 1 ไร่</h1>
     <p class="lede">ตัวบ้านและลานจอดรถตั้งอยู่บนโครงสร้างเสา-คาน ยกพื้นสูง <span id="lede-h">4.00</span> ม. จากระดับดิน ใต้ถุนปล่อยโล่งให้น้ำไหลผ่านและใช้จอดรถได้ในวันปกติ เมื่อน้ำมา ขับรถขึ้นทางลาดไปจอดบนคานได้ <span id="lede-cars">3 คัน</span></p>
     <dl class="specs">
@@ -295,6 +324,14 @@ h3{font-family:var(--display);font-size:16px;font-weight:600;margin:0}
     <div class="sheet scroll"><svg class="dwg dwg-sec" id="section" role="img" aria-label="รูปด้านข้างแสดงระดับพื้น ทางลาด และระดับน้ำท่วม"></svg></div>
   </section>
 
+  <section aria-labelledby="h-elev">
+    <div class="sec-head">
+      <h2 id="h-elev">รูปด้าน 4 ทิศ</h2>
+      <p>มาตราส่วนเดียวกันทุกรูป · ปรับตามความสูง แบบที่จอดรถ และส่วนเสริมที่เลือก</p>
+    </div>
+    <div class="elevs" id="elevs"></div>
+  </section>
+
   <section aria-labelledby="h-cols">
     <div class="sec-head">
       <h2 id="h-cols">ผังเสาและฐานราก</h2>
@@ -323,6 +360,25 @@ h3{font-family:var(--display);font-size:16px;font-weight:600;margin:0}
             </table>
           </div>
         </details>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-mep">
+    <div class="sec-head">
+      <h2 id="h-mep">ผังงานระบบไฟและน้ำ</h2>
+      <p>อุปกรณ์ที่เสียหายเมื่อจมน้ำอยู่สูงกว่าน้ำท่วมทั้งหมด · ตำแหน่งเป็นแนวทางให้ช่างและวิศวกรไฟฟ้า</p>
+    </div>
+    <div class="stack">
+      <div class="sheet" style="display:grid;gap:10px">
+        <div class="scroll"><svg class="dwg dwg-mep" id="mep" role="img" aria-label="ผังงานระบบไฟฟ้า ประปา และระบายน้ำ"></svg></div>
+        <p class="status" style="margin:0"><b class="lg-e">━</b> ไฟฟ้า · <b class="lg-w">━</b> น้ำประปา · <b class="lg-d">┅</b> น้ำทิ้ง · <b class="lg-r">┅</b> น้ำฝน · วงกลมมีตัวอักษร = อุปกรณ์ ดูชื่อในตาราง</p>
+      </div>
+      <div class="sheet scroll">
+        <table class="qty mept">
+          <thead><tr><th>จุด</th><th>อุปกรณ์</th><th>ตำแหน่ง</th><th class="n">ระดับติดตั้ง</th><th>เหตุผล</th></tr></thead>
+          <tbody id="mepList"></tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -389,6 +445,33 @@ h3{font-family:var(--display);font-size:16px;font-weight:600;margin:0}
       </div>
     </div>
     <p class="caveat">ยังไม่รวม: แอร์ เฟอร์นิเจอร์ ค่าขอมิเตอร์ไฟฟ้า-ประปา (รั้วรอบที่ดินเลือกเพิ่มได้ในส่วนเสริม) · ราคาวัสดุจริงต่างกันตามจังหวัดและช่วงเวลา ควรขอใบเสนอราคาจากร้านวัสดุและผู้รับเหมาในพื้นที่อย่างน้อย 3 ราย · แหล่งราคาอ้างอิง: <a href="https://www.yotathai.com/material-prices/category/precast-concrete" target="_blank" rel="noopener">ราคาเสาเข็ม (โยธาไทย)</a>, <a href="https://www.yotathai.com/material-prices/category/steel" target="_blank" rel="noopener">ราคาเหล็ก (โยธาไทย)</a>, <a href="https://www.yotathai.com/labor-rates/structure" target="_blank" rel="noopener">ค่าแรงกรมบัญชีกลาง ว 480/2569</a></p>
+  </section>
+
+  <section aria-labelledby="h-sched">
+    <div class="sec-head">
+      <h2 id="h-sched">แผนงวดงานและงวดเงิน</h2>
+      <p>คิดจากงบประมาณด้านบน รวมค่าดำเนินการผู้รับเหมา 12% · ปรับตามตัวเลือกและส่วนเสริม</p>
+    </div>
+    <p class="status" id="schedSum" style="margin:0"></p>
+    <div class="sheet scroll">
+      <table class="sched">
+        <thead><tr><th>งวด</th><th>งาน</th><th class="n">สัปดาห์</th><th class="gcol">ช่วงเวลา</th><th class="n">ค่างาน (บาท)</th><th class="n">%</th><th>ตรวจก่อนจ่ายเงิน</th></tr></thead>
+        <tbody id="sched"></tbody>
+      </table>
+    </div>
+    <p class="caveat" style="margin:0">แบ่งงวดตามงานที่เสร็จจริง ไม่จ่ายล่วงหน้าเกินงานที่ทำ · หักเงินประกันผลงาน 5% ทุกงวด คืนหลังส่งมอบ 6 เดือนถ้าไม่มีชำรุด · ค่าแบบและขออนุญาตในงวด 1 มักจ่ายให้ผู้ออกแบบโดยตรง · ระยะเวลาเป็นค่าประมาณ ฤดูฝนอาจช้ากว่านี้ 1–2 เดือน</p>
+  </section>
+
+  <section aria-labelledby="h-check">
+    <div class="sec-head">
+      <h2 id="h-check">เช็กลิสต์ก่อนน้ำมา</h2>
+      <p>ติ๊กเก็บไว้ในเครื่องนี้ · รายการเปลี่ยนตามส่วนเสริมที่เลือก</p>
+    </div>
+    <div class="ad-bar">
+      <p class="status" id="chkSum" aria-live="polite" style="margin:0"></p>
+      <div class="views"><button type="button" id="chkReset">เริ่มใหม่ (ล้างเครื่องหมาย)</button></div>
+    </div>
+    <div class="chk-groups" id="checklist"></div>
   </section>
 
   <section aria-labelledby="h-notes">
@@ -1281,6 +1364,237 @@ function buildAddonUI(){
   document.getElementById('adClear').addEventListener('click',()=>{adSel.clear();saveAd();refreshCosts()});
 }
 function saveAd(){try{localStorage.setItem('fh-addons',JSON.stringify([...adSel]))}catch(e){}}
+/* ---------- 4-side elevations (painter's projection of simple prisms) ---------- */
+function elevPrims(){
+  const I=[], dh=H-4, U=h=>h+dh, ct=H-0.6;
+  const B=(x0,x1,y0,y1,h0,h1,cls)=>I.push({t:'box',x0,x1,y0,y1,h0,h1,cls});
+  COLS_X.forEach(x=>COLS_Y.forEach(y=>B(x-0.2,x+0.2,y-0.2,y+0.2,0,ct,'col')));
+  [[3.2,31.2],[3.2,36.8]].forEach(c=>B(c[0]-0.2,c[0]+0.2,c[1]-0.2,c[1]+0.2,0,ct,'col'));
+  rampSup().forEach(o=>{const t=rampH(o.y)-0.3;B(3.25,3.65,o.y-0.2,o.y+0.2,0,t,'col');if(o.both)B(6.35,6.75,o.y-0.2,o.y+0.2,0,t,'col')});
+  I.push({t:'ramp',x0:3,x1:7,y0:RAMP.y0,y1:31});
+  I.push({t:'stair',x0:STAIR.x0,x1:STAIR.x1,y0:STAIR.y0,y1:17});
+  B(7,31,17,37,ct,H,'slab'); B(3,7,31,37,ct,H,'slab');
+  const rl=(x0,x1,y0,y1)=>B(x0,x1,y0,y1,H,H+1.05,'glassF');
+  rl(7,STAIR.x0,16.98,17.04); rl(STAIR.x1,31,16.98,17.04); rl(6.98,7.04,17,31); rl(30.96,31.02,17,23); rl(3,19,36.96,37.02); rl(2.98,3.04,31,37);
+  B(19,31,23,37,H,U(7),'wallS');
+  B(19.8,24.2,22.94,23,H+0.04,U(6.5),'winS'); B(26,30,22.94,23,H+0.04,U(6.5),'winS'); B(24.3,25.7,22.92,23,H,U(7),'timS');
+  B(31,31.06,25,28.5,U(4.9),U(6.4),'winS'); B(31,31.06,31,33,U(5.6),U(6.4),'winS');
+  B(18.94,19,24.5,28,U(4.9),U(6.4),'winS'); B(18.94,19,31,33,U(5),U(6.2),'winS'); B(18.93,19,33.5,34.7,H,U(6.2),'timS');
+  B(20,24,37,37.06,U(5),U(6.2),'winS'); B(28,30,37,37.06,U(5.5),U(6.4),'winS');
+  I.push({t:'gable',x0:18,x1:32,y0:22,y1:38,he:U(6.667),hr:U(9),hw:U(7)});
+  B(6.8,19,OPT.cp.y0,37.3,U(6.62),U(6.78),'ink');
+  OPT.cp.posts.forEach(y=>{B(7,7.14,y-0.07,y+0.07,H,U(6.62),'ink');if(y<23)B(18.86,19,y-0.07,y+0.07,H,U(6.62),'ink')});
+  const car=(x,y,along,h0)=>{if(along==='y'){B(x-0.9,x+0.9,y-2.25,y+2.25,h0+0.3,h0+1.05,'car');B(x-0.75,x+0.75,y-1.0,y+1.3,h0+1.05,h0+1.5,'winS')}
+    else{B(x-2.25,x+2.25,y-0.9,y+0.9,h0+0.3,h0+1.05,'car');B(x-1.3,x+1.0,y-0.75,y+0.75,h0+1.05,h0+1.5,'winS')}};
+  OPT.cars.forEach(c=>car(c.x,c.y,OPT.dir==='x'?'y':'x',H));
+  GROUND_CARS.forEach(c=>car(c.x,27.5,'y',0));
+  if(adOn('bed2')){B(7.5,14.5,17.5,23,H,U(6.8),'wallS');B(7.2,14.8,17.2,23.3,U(6.8),U(7),'ink');B(8.3,11.3,17.44,17.5,U(4.6),U(6.3),'winS')}
+  if(adOn('lift')) B(25.5,27.3,15.1,17,0,H+1.6,'glassF');
+  if(adOn('tank')) B(29.2,30.8,21,22.6,H,H+1.96,'winS');
+  if(adOn('gen')) B(29.5,30.7,19.3,20,H,H+0.91,'ink');
+  if(adOn('boat')) B(31.9,33.3,11,15,0,0.55,'car');
+  if(adOn('fence')){const f=(x0,x1,y0,y1)=>B(x0,x1,y0,y1,0,1.6,'fenceS');f(14,40,-0.08,0.08);f(0,2,-0.08,0.08);f(-0.08,0.08,0,40);f(39.92,40.08,0,40);f(0,40,39.92,40.08)}
+  return I;
+}
+const ELEV_VIEWS=[['front','ด้านหน้า (มองจากถนน)'],['rear','ด้านหลัง'],['left','ด้านซ้าย'],['right','ด้านขวา']];
+function drawElev(){
+  const host=document.getElementById('elevs'); if(!host) return; host.innerHTML='';
+  const P=elevPrims(), ct=H-0.6;
+  ELEV_VIEWS.forEach(([vid,title])=>{
+    const fig=document.createElement('figure');fig.className='sheet elev';
+    const svg=document.createElementNS(NS,'svg');svg.setAttribute('class','dwg dwg-elev');svg.setAttribute('role','img');svg.setAttribute('aria-label','รูป'+title);
+    fig.appendChild(svg);const cap=document.createElement('figcaption');cap.textContent=title;fig.appendChild(cap);host.appendChild(fig);
+    const s=13, top=H+5.8, ml=8, mt=10;
+    const U=(x,y)=>vid==='front'?x:vid==='rear'?40-x:vid==='left'?40-y:y;
+    const near=p=>vid==='front'?p.y0:vid==='rear'?40-p.y1:vid==='left'?p.x0:40-p.x1;
+    const ux=u=>ml+(u+2)*s, hy=h=>mt+(top-h)*s;
+    svg.setAttribute('viewBox','0 0 '+(ml+44*s+96)+' '+(hy(-0.8)+6));
+    const defs=el('defs',{},svg), ep=el('pattern',{id:'earth-'+vid,width:7,height:7,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},defs);
+    el('line',{x1:0,y1:0,x2:0,y2:7,class:'hair'},ep);
+    const pt=(x,y,h)=>ux(U(x,y))+','+hy(h);
+    const rect=(p,h0,h1,cls)=>{const a=U(p.x0,p.y0),b=U(p.x1,p.y1),u0=Math.min(a,b),u1=Math.max(a,b);el('rect',{x:ux(u0),y:hy(h1),width:Math.max(0.6,(u1-u0)*s),height:Math.max(0.6,(h1-h0)*s),class:cls},svg)};
+    const side=vid==='left'||vid==='right';
+    P.slice().sort((a,b)=>near(b)-near(a)).forEach(p=>{
+      if(p.t==='box'){rect(p,p.h0,p.h1,p.cls);return}
+      if(p.t==='gable'){
+        if(side){rect(p,p.he,p.hr,'roofS');return}
+        el('polygon',{points:[pt(19,0,p.hw),pt(25,0,p.hr),pt(31,0,p.hw)].join(' '),class:vid==='front'?'timS':'wallS'},svg);
+        el('polygon',{points:[pt(p.x0,0,p.he-0.18),pt(p.x0,0,p.he),pt(25,0,p.hr+0.1),pt(p.x1,0,p.he),pt(p.x1,0,p.he-0.18),pt(25,0,p.hr-0.08)].join(' '),class:'roofS'},svg);return}
+      if(p.t==='ramp'){
+        if(!side){rect(p,0,H,'slab');rect(p,H,H+1.0,'glassF');return}
+        const x=vid==='left'?3:7, y0=RAMP.y0;
+        el('polygon',{points:[pt(x,y0,0),pt(x,31,H),pt(x,37,H),pt(x,37,ct),pt(x,31,ct),pt(x,y0+2.1*rampL()/28,0)].join(' '),class:'slab'},svg);
+        el('polygon',{points:[pt(x,y0,0.3),pt(x,31,H+0.3),pt(x,31,H+1.0),pt(x,y0,1.0)].join(' '),class:'glassF'},svg);return}
+      if(p.t==='stair'){
+        if(!side){rect(p,0,H,'wallS');for(let i=1;i<STAIR.risers;i++){const h=i*H/STAIR.risers;el('line',{x1:ux(Math.min(U(p.x0,0),U(p.x1,0))),x2:ux(Math.max(U(p.x0,0),U(p.x1,0))),y1:hy(h),y2:hy(h),class:'hair'},svg)}return}
+        let d='M'+pt(0,STAIR.y0,0);const r=H/STAIR.risers;
+        for(let i=0;i<STAIR.risers-1;i++){d+=' L'+pt(0,STAIR.y0+i*STAIR.tread,(i+1)*r)+' L'+pt(0,STAIR.y0+(i+1)*STAIR.tread,(i+1)*r)}
+        d+=' L'+pt(0,17,H)+' L'+pt(0,17,H-0.45)+' Z';
+        el('path',{d:d,class:'wallS'},svg);return}
+    });
+    el('rect',{x:ux(-2),y:hy(0),width:44*s,height:0.8*s,fill:'url(#earth-'+vid+')'},svg);
+    el('line',{x1:ux(-2),y1:hy(0),x2:ux(42),y2:hy(0),class:'thin'},svg);
+    [[0,'±0.00'],[H,'+'+f2(H)],[H+3,'+'+f2(H+3)],[H+5,'+'+f2(H+5)]].forEach(m=>{
+      el('line',{x1:ux(41.6),y1:hy(m[0]),x2:ux(43.2),y2:hy(m[0]),class:'dimL'},svg);
+      el('path',{d:`M${ux(43.2)},${hy(m[0])} l-4,-6 h8 z`,class:'ink'},svg);
+      txt(svg,ux(43.2)+8,hy(m[0])+4,m[1],'t-dim','start');
+    });
+    const lab=vid==='front'?['ซ้าย','ขวา']:vid==='rear'?['ขวา','ซ้าย']:vid==='left'?['หลัง','หน้า (ถนน)']:['หน้า (ถนน)','หลัง'];
+    txt(svg,ux(-1.6),hy(-0.8)-2,lab[0],'t-dim','start'); txt(svg,ux(41.6),hy(-0.8)-2,lab[1],'t-dim','end');
+  });
+}
+
+/* ---------- electrical & plumbing plan ---------- */
+function drawMEP(){
+  const svg=document.getElementById('mep'); if(!svg) return; svg.innerHTML='';
+  const s=15, ml=20, mt=20;
+  const px=x=>ml+(x+0.5)*s, py=y=>mt+(41-y)*s;
+  svg.setAttribute('viewBox','0 0 '+(ml+41*s+20)+' '+(py(-4)+10));
+  const R=(x0,y0,x1,y1,cls,extra)=>el('rect',Object.assign({x:px(x0),y:py(y1),width:(x1-x0)*s,height:(y1-y0)*s,class:cls},extra||{}),svg);
+  const PL=(pts,cls)=>el('polyline',{points:pts.map(p=>px(p[0])+','+py(p[1])).join(' '),class:cls},svg);
+  // context
+  R(-0.5,-4,40.5,0,'road'); txt(svg,px(26),py(-2)+4,'ถนน · ท่อระบายน้ำสาธารณะ','t-s t-muted');
+  R(0,0,40,40,'lawn'); el('rect',{x:px(0),y:py(40),width:40*s,height:40*s,class:'site'},svg);
+  R(7,17,31,37,'ctxF'); R(3,31,7,37,'ctxF'); R(3,RAMP.y0,7,31,'ctxF');
+  R(19,23,31,37,'room',{stroke:'var(--line)','stroke-width':1.2});
+  [[19,30,25,37,'ครัว'],[25,23,31,30,'ห้องนอน'],[19,23,25,30,'นั่งเล่น'],[27,30,31,34,'ห้องน้ำ'],[27,34,31,37,'ซักล้าง']].forEach(r=>{R(r[0],r[1],r[2],r[3],'ctx');txt(svg,px((r[0]+r[2])/2),py((r[1]+r[3])/2)+4,r[4],'t-dim')});
+  COLS_X.forEach(x=>COLS_Y.forEach(y=>R(x-0.2,y-0.2,x+0.2,y+0.2,'col',{opacity:.35})));
+  const ROWS=[], mark=(id,x,y,kind,name,where,lvl,why)=>{
+    el('circle',{cx:px(x),cy:py(y),r:9,class:'mk'},svg);el('circle',{cx:px(x),cy:py(y),r:9,class:'mk'+kind,opacity:.18},svg);
+    txt(svg,px(x),py(y)+4,id,'t-s');ROWS.push([id,name,where,lvl,why])};
+  const deck='+'+f2(H), inH='+'+f2(H+1.5);
+  // rain: gutters + downpipes + site swale
+  PL([[18,22.2],[18,37.8]],'mR');PL([[32,22.2],[32,37.8]],'mR');
+  PL([[32,22.2],[38.6,22.2]],'mR');PL([[32,37.8],[38.6,37.8],[38.6,0.4],[37,0.4]],'mR');PL([[18,37.8],[18,39.2],[38.6,39.2]],'mR');
+  // waste water
+  PL([[29,32],[30.8,32],[33.6,32],[33.6,14]],'mD');
+  PL([[29.6,35.6],[30.8,35.6],[30.8,32]],'mD');
+  PL([[21.5,36.6],[21.5,38.6],[38.3,38.6]],'mD');
+  PL([[33.6,11],[33.6,0.9]],'mD');
+  R(32.8,11,34.4,14,'mk'); txt(svg,px(35.3),py(12.5)+4,'ถังบำบัด','t-dim','start');
+  // water supply
+  const tank=adOn('tank');
+  PL([[17.5,0.5],[17.5,22],[19.6,22],[19.6,35.9],[28.8,35.9],[28.8,35.4]],'mW');
+  PL([[28.8,35.4],[28.8,32.2]],'mW');
+  if(tank) PL([[28.8,35.4],[30.4,35.4],[30.4,21.8],[30,21.8]],'mW');
+  // electrical
+  PL([[15.5,0.5],[15.5,17.2],[19,17.2],[19,23.6],[25.6,23.6],[25.6,36.4],[26,36.4]],'mE');
+  PL([[26,36.4],[26.3,36.4],[26.3,30.4],[19,30.4],[19,27],[13,27]],'mE');
+  if(adOn('ev')||adOn('ramp')) PL([[19,30.4],[19,30.8],[7.2,30.8]],'mE');
+  if(adOn('ramp')) PL([[7.2,30.8],[3.2,30.8],[3.2,RAMP.y0+3]],'mE');
+  if(adOn('gen')) PL([[26.3,30.4],[26.3,20.4],[29.5,20.4],[29.5,19.65]],'mE');
+  // marks
+  mark('M',15.5,0.5,'E','มิเตอร์ไฟฟ้า + เบรกเกอร์เมน','ขอบที่ดินด้านถนน ติดเสาคอนกรีต','≥ +2.50','ระดับต่ำสุดที่ไม่จมน้ำท่วมตัวอย่าง 1.50 ม. และการไฟฟ้ายังเข้าอ่านได้');
+  mark('W',17.5,0.5,'W','มิเตอร์น้ำประปา + วาล์ว','ขอบที่ดินด้านถนน','±0.00','มิเตอร์น้ำจมน้ำได้ ใส่วาล์วกันกลับหลังมิเตอร์');
+  mark('A',19,17.2,'E','สายเมนขึ้นเสา A3 (ร้อยท่อ)','เดินลอยใต้คาน ไม่ฝังดิน','ใต้คาน','สายใต้ดินช่วงน้ำท่วมเสี่ยงไฟรั่ว');
+  mark('DB',26,36.4,'E','ตู้ไฟหลัก + กันดูด (RCD)','ทางเดินในบ้าน หน้าซักล้าง',inH,'อยู่ชั้นบนทั้งหมด ตัดไฟใต้ถุนแยกได้');
+  mark('U',13,27,'E','วงจรใต้ถุน (ไฟส่องสว่าง เต้ารับสูง 1.20 ม.)','เสา C2',adOn('rcd')?'สวิตช์ตัดจากชั้นบน':'เบรกเกอร์แยก','ตัดวงจรนี้ก่อนน้ำมา ส่วนบนบ้านยังใช้ไฟได้');
+  mark('P',28.8,35.4,'W','ปั๊มน้ำ + ถังแรงดัน','ห้องซักล้าง',deck,'ปั๊มเสียทันทีถ้าจมน้ำ จึงอยู่ชั้นบน');
+  mark('S',33.6,12.5,'D','ถังบำบัดสำเร็จรูป 1,600 ลิตร แบบปิดสนิท','สนามหน้าด้านขวา ฝังดิน','ฝังดิน','ฝาปิดสนิท น้ำท่วมไม่เข้าถัง');
+  mark('V',33.6,0.9,'D','วาล์วกันน้ำย้อน (check valve)','ท่อออกก่อนลงท่อสาธารณะ','ฝังดิน','กันน้ำจากถนนดันย้อนเข้าถังบำบัดและห้องน้ำ');
+  mark('G',21.5,38.6,'D','บ่อดักไขมันครัว','หลังบ้าน ใต้แนวครัว','ฝังดิน','กันไขมันอุดท่อ น้ำที่ผ่านแล้วลงรางระบายรอบที่ดิน');
+  mark('R',38.6,20,'D','รางระบายน้ำฝนรอบที่ดิน','ชิดแนวเขตขวา ลงท่อถนน','±0.00','รับน้ำจากหลังคาและลานจอด');
+  mark('C',23.2,37.7,'E','คอยล์ร้อนแอร์','ยึดผนังหลังบ้าน',inH,'ไม่วางบนพื้นดิน');
+  if(tank) mark('T',30,21.8,'W','ถังน้ำสำรอง 3,000 ลิตร + รับน้ำฝน','ลานชั้นบน หน้าห้องนอน',deck,'มีน้ำใช้เมื่อประปาใช้ไม่ได้');
+  if(adOn('gen')) mark('GN',30.1,19.65,'E','เครื่องปั่นไฟ + สวิตช์สลับไฟ','ลานชั้นบน หน้าห้องนอน',deck,'สลับใช้ไฟสำรองโดยไม่ย้อนเข้าสายการไฟฟ้า');
+  if(adOn('solar')) mark('SL',28.4,36.4,'E','อินเวอร์เตอร์ + แบตเตอรี่โซลาร์','ห้องซักล้าง (แผงบนหลังคา)',inH,'แบตเตอรี่ต้องไม่จมน้ำ');
+  if(adOn('ev')) mark('EV',7.2,30.8,'E','ที่ชาร์จรถไฟฟ้า','เสาเหล็กหลังคาโรงจอด',deck,'ชาร์จได้ระหว่างน้ำท่วม');
+  if(adOn('rcd')) ROWS.push(['—','สวิตช์ตัดไฟใต้ถุนจากชั้นบน','ในตู้ไฟหลัก',inH,'กดตัดไฟชั้นล่างทั้งหมดได้ในจุดเดียว']);
+  if(adOn('drain')) ROWS.push(['—','ท่อระบายน้ำลานจอด 3 จุด','ตามแนวเสาฝั่งซ้าย ลงรางรอบที่ดิน',deck,'ดูตำแหน่งในผังพื้นชั้นบน']);
+  const tb=document.getElementById('mepList');tb.innerHTML='';
+  ROWS.forEach(r=>{const tr=document.createElement('tr');r.forEach((v,j)=>{const td=document.createElement('td');td.textContent=v;if(j===3)td.className='n';tr.appendChild(td)});tb.appendChild(tr)});
+}
+
+/* ---------- payment schedule ---------- */
+const PH_MAP=[['เจาะสำรวจดิน',1],['เสาเข็มตอก',2],['ปรับพื้นที่',1],['ผนังอิฐ',6],['หลังคาโครงเหล็ก',6],['หลังคาโรงจอด',6],['ฝ้า',7],['ประตู-หน้าต่าง',7],['ประตูภายใน',7],['พื้นในบ้าน',8],['กระเบื้องผนังห้องน้ำ',7],['ระเบียงพื้นไม้',8],['ผิวลานจอด',8],['ลานคอนกรีตใต้ถุน',8],['สีภายนอก',8],['ราวกันตก',8],['บันไดเหล็ก',5],['ระบบไฟฟ้า',7],['ระบบประปา',7],['เคาน์เตอร์ครัว',8],['เขียนแบบ',1]];
+function renderSched(){
+  const tb=document.getElementById('sched'); if(!tb) return;
+  const t=ST(), amt=[0,0,0,0,0,0,0,0,0,0];
+  const sh3=(17.3+t.f1V+27.5+t.colV)/t.concX, sh4=(31.6+75.6)/t.concX, sh5=(t.rampV+t.pierV)/t.concX;
+  buildBOQ(OPT).forEach(([g,rows],gi)=>rows.forEach(r=>{
+    const v=r[1]*r[3];
+    if(gi===1){amt[3]+=v*sh3;amt[4]+=v*sh4;amt[5]+=v*sh5;return}
+    if(g.indexOf('7.')===0){amt[9]+=v;return}
+    const m=PH_MAP.find(x=>r[0].indexOf(x[0])===0); amt[m?m[1]:8]+=v;
+  }));
+  const big=adOn('lift')||adOn('bed2');
+  const P=[null,
+    {n:'เตรียมงานและขออนุญาต',w:6,d:'แบบก่อสร้าง คำนวณโครงสร้าง ยื่นขออนุญาต เจาะสำรวจดิน ปรับพื้นที่ วางผัง',c:['ได้ใบอนุญาตก่อสร้างแล้ว','ผลเจาะดินกำหนดความยาวเข็มชัดเจน','หมุดวางผังตรงแนวเขตที่ดิน']},
+    {n:'ตอกเสาเข็ม',w:2,d:'ตอกเข็ม '+t.piles+' ต้น',c:['จำนวนเข็มครบ '+t.piles+' ต้น ตรงตำแหน่งในผังเสา','มีบันทึกการตอกทุกต้น ตอกถึงระดับที่วิศวกรกำหนด','ทดสอบเข็มถ้าวิศวกรกำหนด']},
+    {n:'ฐานราก คานคอดิน เสาใต้ถุน',w:4,d:'ฐานราก '+(27+t.nF1)+' ฐาน คานคอดิน เสา คสล. 27 ต้น',c:['ตรวจเหล็กเสริมตามแบบก่อนเทคอนกรีต','มีผลทดสอบแท่งคอนกรีต','เสาได้ดิ่ง อยู่ตรงแนวเสา']},
+    {n:'คานและพื้นลานชั้นบน +'+f2(H),w:4,d:'คานชั้นบน พื้นลาน 504 ตร.ม. ชานพักทางลาด',c:['ค้ำยันแน่นหนาก่อนเท','ระดับพื้นได้ +'+f2(H)+' ม. เอียงไปท่อระบาย','ถอดค้ำยันตามอายุคอนกรีตที่วิศวกรกำหนด']},
+    {n:'ทางลาดและบันได',w:3,d:'ทางลาด '+fmtL(t.L)+' ม. เสาทางลาด บันได '+STAIR.risers+' ขั้น',c:['ความชันไม่เกิน 15%','ผิวเซาะร่องกันลื่น ขอบกันล้อครบ','ทดลองขับรถขึ้นลงจริง']},
+    {n:'ตัวบ้านและหลังคา',w:5,d:'ผนัง หลังคาบ้าน หลังคาโรงจอด',c:['ฉีดน้ำทดสอบหลังคา ไม่รั่ว','ผนังได้ดิ่ง ไม่ร้าว']},
+    {n:'งานระบบ ประตูหน้าต่าง ฝ้า',w:4,d:'ไฟฟ้า ประปา สุขภัณฑ์ ประตูหน้าต่าง ฝ้า กระเบื้องห้องน้ำ',c:['ทดสอบไฟรั่วและเบรกเกอร์ทุกวงจร','ทดสอบแรงดันท่อน้ำ ไม่ซึม','ตู้ไฟ ปั๊ม อยู่ชั้นบนทั้งหมด มีวาล์วกันน้ำย้อน']},
+    {n:'งานผิว ราวกันตก ลานใต้ถุน',w:4,d:'พื้น ระเบียง สี ราวกันตก เคาน์เตอร์ครัว ลานคอนกรีตใต้ถุน',c:['ราวกันตกสูง 1 ม. แข็งแรง','พื้นไม่มีน้ำขัง สีไม่ด่าง']},
+    {n:amt[9]?'ส่วนเสริม เก็บงาน ส่งมอบ':'เก็บงานและส่งมอบ',w:2+(amt[9]?1:0)+(big?3:0),d:amt[9]?'ส่วนเสริมที่เลือก '+AD_ALL.filter(a=>adOn(a.id)).length+' รายการ แก้งานตามรายการชำรุด':'แก้งานตามรายการชำรุด ทำความสะอาด',c:['แก้รายการชำรุดครบ','ได้แบบตามที่สร้างจริง (as-built) และใบรับประกันอุปกรณ์']}];
+  const total=amt.reduce((a,b)=>a+b,0)*1.12, weeks=P.slice(1).reduce((a,p)=>a+p.w,0);
+  tb.innerHTML=''; let wk=0;
+  for(let i=1;i<=9;i++){
+    const p=P[i], v=amt[i]*1.12, tr=document.createElement('tr');
+    const td=(html,cls)=>{const c=document.createElement('td');if(cls)c.className=cls;c.innerHTML=html;tr.appendChild(c)};
+    const esc=x=>String(x).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+    td(String(i)); td('<b>'+esc(p.n)+'</b><br><small class="t-muted">'+esc(p.d)+'</small>');
+    td('สัปดาห์ '+(wk+1)+'–'+(wk+p.w),'n wk');
+    td('<div class="gbar"><i style="left:'+(wk/weeks*100).toFixed(1)+'%;width:'+(p.w/weeks*100).toFixed(1)+'%"></i></div>');
+    td(v?fmtB(Math.round(v/1000)*1000):'—','n'); td(v?(v/total*100).toFixed(1):'—','n');
+    td('<ul>'+p.c.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>');
+    tb.appendChild(tr); wk+=p.w;
+  }
+  const tr=document.createElement('tr');tr.className='ret';
+  tr.innerHTML='<td></td><td>คืนเงินประกันผลงาน 5% (หักไว้ทุกงวด)</td><td class="n wk">+6 เดือน</td><td></td><td class="n">'+fmtB(Math.round(total*0.05/1000)*1000)+'</td><td class="n">—</td><td><ul><li>ไม่มีรอยร้าว รั่ว ซึม ระหว่างประกัน</li></ul></td>';
+  tb.appendChild(tr);
+  const sum=document.createElement('tr');sum.className='sum';
+  sum.innerHTML='<td></td><td>รวมจ่ายผู้รับเหมา</td><td class="n wk">'+weeks+' สัปดาห์</td><td></td><td class="n">'+fmtB(Math.round(total/1000)*1000)+'</td><td class="n">100</td><td></td>';
+  tb.appendChild(sum);
+  setT('schedSum','ใช้เวลาก่อสร้างประมาณ '+weeks+' สัปดาห์ (ราว '+Math.round(weeks/4.3)+' เดือน) · จ่ายผู้รับเหมารวม '+mil(total)+' แบ่ง 9 งวด · เงินเผื่อ 5% อีก '+mil(total*0.05)+' เก็บไว้เองสำหรับงานเพิ่มหรือราคาขึ้น');
+}
+
+/* ---------- before-flood checklist ---------- */
+let chkDone={};
+try{const v=JSON.parse(localStorage.getItem('fh-check')||'{}');if(v&&typeof v==='object')chkDone=v}catch(e){}
+function renderChecklist(){
+  const host=document.getElementById('checklist'); if(!host) return;
+  const n=OPT.n, G=[
+   {g:'เมื่อมีประกาศเตือนน้ำ (2–3 วันก่อน)',items:[
+     ['cars','ย้ายรถใต้ถุนขึ้นจอดบนคาน','บนคานจอดได้ '+n+' คัน รถที่เหลือฝากจอดที่สูงอื่น'],
+     ['store','เก็บของใต้ถุนขึ้นชั้นบน: ถังแก๊ส สารเคมี เครื่องมือ'],
+     ['food','ตุนน้ำดื่ม อาหารแห้ง ยา ไฟฉาย แบตสำรอง อย่างน้อย 7 วัน'],
+     ['gen','เติมน้ำมันเครื่องปั่นไฟ และลองเดินเครื่อง',null,'gen'],
+     ['solar','ชาร์จแบตเตอรี่โซลาร์ให้เต็ม',null,'solar'],
+     ['tank','เติมน้ำถังสำรองให้เต็ม',null,'tank'],
+     ['ev','ชาร์จรถไฟฟ้าให้เต็ม',null,'ev'],
+     ['boat','เตรียมเรือ ไม้พาย เสื้อชูชีพ ผูกเรือไว้ที่ชานผูกเรือ',null,'boat']]},
+   {g:'ก่อนน้ำเข้าที่ดิน',items:[
+     ['power',adOn('rcd')?'กดสวิตช์ตัดไฟใต้ถุนจากชั้นบน':'ปิดเบรกเกอร์วงจรใต้ถุนที่ตู้ไฟชั้นบน'],
+     ['valve','ปิดวาล์วกันน้ำย้อนท่อน้ำทิ้ง และฝาถังบำบัด'],
+     ['lift','ส่งลิฟต์ขึ้นจอดชั้นบน แล้วปิดสวิตช์ลิฟต์',null,'lift'],
+     ['gate','ล็อกประตูรั้ว เก็บของมีค่าจากใต้ถุน'],
+     ['photo','ถ่ายรูปบ้านและระดับน้ำไว้ใช้เคลมประกัน']]},
+   {g:'หลังน้ำลด',items:[
+     ['crack','ดูรอยร้าวที่โคนเสา เสา และคาน ถ้ามีให้วิศวกรตรวจ'],
+     ['clean','ล้างโคลนใต้ถุนและทางลาด ก่อนขับรถลง'],
+     ['elec','ให้ช่างไฟตรวจวงจรใต้ถุนก่อนเปิดไฟ'],
+     ['septic','ตรวจถังบำบัดและท่อระบาย ว่าไม่มีโคลนอุดตัน']]}];
+  host.innerHTML=''; let all=0, done=0;
+  G.forEach(g=>{
+    const box=document.createElement('div');box.className='sheet';
+    const h=document.createElement('h3');h.textContent=g.g;box.appendChild(h);
+    g.items.filter(it=>!it[3]||adOn(it[3])).forEach(it=>{
+      all++; if(chkDone[it[0]]) done++;
+      const lab=document.createElement('label');lab.className='ci'+(chkDone[it[0]]?' done':'');
+      const cb=document.createElement('input');cb.type='checkbox';cb.id='ck-'+it[0];cb.checked=!!chkDone[it[0]];
+      cb.addEventListener('change',()=>{if(cb.checked)chkDone[it[0]]=1;else delete chkDone[it[0]];try{localStorage.setItem('fh-check',JSON.stringify(chkDone))}catch(e){}renderChecklist()});
+      const sp=document.createElement('span');sp.textContent=it[1];
+      if(it[2]){const sm=document.createElement('small');sm.textContent=it[2];sp.appendChild(sm)}
+      lab.appendChild(cb);lab.appendChild(sp);box.appendChild(lab);
+    });
+    host.appendChild(box);
+  });
+  setT('chkSum','ทำแล้ว '+done+' จาก '+all+' รายการ'+(done===all&&all?' · พร้อมรับน้ำ':''));
+}
+document.getElementById('chkReset').addEventListener('click',()=>{chkDone={};try{localStorage.removeItem('fh-check')}catch(e){}renderChecklist()});
+
 function refreshCosts(){
   AD_ALL.forEach(a=>{
     const ok=adOK(a,OPT), lab=document.getElementById('adl-'+a.id), cb=document.getElementById('ad-'+a.id); if(!lab) return;
@@ -1296,7 +1610,7 @@ function refreshCosts(){
     :'ยังไม่ได้เลือกส่วนเสริม · งบที่ควรเตรียม '+mil(base);
   Object.keys(OPTS).forEach(k=>setT('optcost-'+k,'งบที่ควรเตรียม ≈ '+mil(boqTotal(OPTS[k])*1.176)));
   setT('optDesc',OPT.desc+' · งบที่ควรเตรียมประมาณ '+mil(all)+(picked.length?' (รวมส่วนเสริม)':''));
-  renderBOQ(); updQty(); drawPlan(); drawCols(); if(rebuild3d) rebuild3d(); stillMsg();
+  renderBOQ(); updQty(); drawPlan(); drawCols(); renderSched(); renderChecklist(); drawElev(); drawMEP(); if(rebuild3d) rebuild3d(); stillMsg();
   Object.keys(HEIGHTS).forEach(k=>{const keep=H;setGeom(HEIGHTS[k]);const t=boqTotal(OPT)*1.176;setGeom(keep);setT('hcost-'+k,'งบที่ควรเตรียม ≈ '+mil(t))});
 }
 
