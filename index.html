@@ -393,7 +393,7 @@ details.colx[open] summary{margin-bottom:6px}
   <div class="topbar-in pad">
     <div class="brand">
       <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 5l8 6"></path><path d="M6 10v4h12v-4"></path><path d="M7 14v6M17 14v6M12 14v6"></path><path d="M2 21c2-1 3-1 5 0s3 1 5 0 3-1 5 0 3 1 5 0"></path></svg></span>
-      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด ฉบับที่ 24</small></span>
+      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด ฉบับที่ 25</small></span>
     </div>
     <div class="top-act">
       <span class="copy-msg" id="copyMsg" aria-live="polite"></span>
@@ -1312,18 +1312,31 @@ function renderLegend(){
   labelTexts().forEach((t,i)=>{const li=document.createElement('li');li.innerHTML='<i>'+(i+1)+'</i><span>'+t+'</span>';ol.appendChild(li)});
   ol.hidden=!document.getElementById('showTags').checked;
 }
-new ResizeObserver(()=>{viewer.classList.toggle('narrow',viewer.clientWidth<600)}).observe(viewer);
+new ResizeObserver(()=>{viewer.classList.toggle('narrow',viewer.clientWidth<600);requestAnimationFrame(()=>declutterTags(document.getElementById('stillTags')))}).observe(viewer);
 document.getElementById('showTags').addEventListener('change',renderLegend);
 let imgFail=false;
 const stillTags=document.getElementById('stillTags'), waterCv=document.getElementById('stillWater'), showTagsEl=document.getElementById('showTags');
 const HM_CACHE={};
 function stillKey(){return OPT.key+'-h'+Math.round(H*10)+'-'+currentView}
 function labelTexts(){return ['<b>ที่จอดรถบนคาน</b> '+OPT.n+' คัน','<b>ทางลาดรถขึ้น</b> ชัน '+slopeTxt()+'%','<b>ใต้ถุนโล่ง</b> จอดรถ 6–8 คัน','<b>ตัวบ้าน</b> นอน · ครัว · ห้องน้ำ','<b>บันได</b>คนเดิน','<b>ระเบียง</b> +'+f2(H)]}
+// keep labels from covering each other: later labels move up/down, or hide when there is no room
+function declutterTags(host){
+  if(!host||host.hidden) return; const box=host.getBoundingClientRect(); if(!box.width) return;
+  const placed=[], hit=(a,b)=>a.left<b.right+2&&a.right>b.left-2&&a.top<b.bottom+2&&a.bottom>b.top-2;
+  document.querySelectorAll('#viewer .vtop > *, #viewer .vb span, #viewer .views').forEach(e=>{const r=e.getBoundingClientRect();if(r.width&&r.bottom>box.top&&r.top<box.bottom&&r.right>box.left&&r.left<box.right)placed.push(r)});
+  [...host.children].forEach(d=>{if(d.hidden)return; d.style.marginTop='0px'; d.style.visibility='';
+    let r=d.getBoundingClientRect(), off=0, ok=!placed.some(q=>hit(r,q));
+    for(let k=1;!ok&&k<=6;k++){for(const sg of [-1,1]){off=sg*k*(r.height*0.6+2);
+      const t={left:r.left,right:r.right,top:r.top+off,bottom:r.bottom+off};
+      if(t.top>=box.top&&t.bottom<=box.bottom&&!placed.some(q=>hit(t,q))){ok=true;break}} }
+    if(ok){d.style.marginTop=off+'px';const rr=d.getBoundingClientRect();placed.push(rr)} else d.style.visibility='hidden'});
+}
 function renderStillTags(){
   stillTags.innerHTML=''; stillTags.hidden=!stillMode||!showTagsEl.checked;
   const P=(window.STILL_TAGS||{})[stillKey()]; if(!P) return;
   const T=labelTexts();
   P.forEach((p,i)=>{if(!p)return;const d=document.createElement('div');d.className='tag';d.innerHTML='<i class="n">'+(i+1)+'</i><span class="t">'+T[i]+'</span>';d.style.left=(p[0]*100).toFixed(2)+'%';d.style.top='calc('+(p[1]*100).toFixed(2)+'% - 10px)';stillTags.appendChild(d)});
+  requestAnimationFrame(()=>declutterTags(stillTags));
 }
 function loadHM(key,cb){
   const have=HM_CACHE[key]; if(have){if(have.data)cb(have);else have.wait.push(cb);return}
@@ -1708,7 +1721,7 @@ function init3D(){ try{
   window.__fh3d={renderer:renderer,scene:scene,camera:camera,LABELS:LABELS,rampH:rampH,RAMP:RAMP};
   floatAdd=()=>{floatAddons();renderer.shadowMap.needsUpdate=true;requestRender()};
   function placeTags(w,h){LABELS.forEach(l=>{tmp.copy(l.v).project(camera);const vis=tmp.z<1&&Math.abs(tmp.x)<1.05&&Math.abs(tmp.y)<1.05;
-    l.d.hidden=!vis;if(vis){l.d.style.left=((tmp.x+1)/2*w)+'px';l.d.style.top=((1-tmp.y)/2*h-10)+'px'}})}
+    l.d.hidden=!vis;if(vis){l.d.style.left=((tmp.x+1)/2*w)+'px';l.d.style.top=((1-tmp.y)/2*h-10)+'px'}});declutterTags(tagsEl)}
 
   // views
   const VIEWS={
