@@ -149,6 +149,20 @@ button{font:inherit;color:inherit}
 .go3d{min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#FFFFFF;color:#0F2730;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(15,39,48,.2);cursor:pointer}
 .go3d[aria-pressed="true"]{background:#0F2730;color:#FFFFFF}
 .go3d:disabled{opacity:.7;cursor:wait}
+.fs-btn .fs-out{display:none}.viewer.fs .fs-btn .fs-in{display:none}.viewer.fs .fs-btn .fs-out{display:block}
+@media (max-width:520px){.fs-btn .fs-t{display:none}.fs-btn{padding:0 12px}}
+.fs-hint{display:none}
+html.fs-lock,html.fs-lock body{overflow:hidden}
+#viewer.fs{position:fixed;inset:0;z-index:1000;width:auto;height:100vh;height:100dvh;max-width:none;aspect-ratio:auto;border:0;border-radius:0;background:#0B1418;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0}
+#viewer.fs .imgbox{flex:none;width:min(100%,calc(100vh * 16 / 9));width:min(100%,calc(100dvh * 16 / 9));height:auto;aspect-ratio:16/9;margin:0 auto}
+#viewer.fs.narrow .imgbox{width:100%}
+#viewer.fs.static.narrow{background:var(--surface);padding:max(8px,env(safe-area-inset-top)) 0 max(8px,env(safe-area-inset-bottom))}
+#viewer.fs canvas#scene{position:absolute;inset:0}
+#viewer.fs .vtop{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+#viewer.fs .vb{top:max(14px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left))}
+#viewer.fs .views{bottom:max(12px,env(safe-area-inset-bottom));left:max(12px,env(safe-area-inset-left))}
+#viewer.fs .drive-ctl{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+@media (orientation:portrait) and (max-width:600px){#viewer.fs.static .fs-hint{display:block;margin:0 16px;text-align:center;font-size:13px;color:var(--muted)}}
 .drivebox{position:absolute;inset:0;z-index:5;background:#0B1418;display:grid;place-items:center;border-radius:inherit;overflow:hidden}
 .drivebox .dv{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .drivebox .dv:not([src]){visibility:hidden}
@@ -379,7 +393,7 @@ details.colx[open] summary{margin-bottom:6px}
   <div class="topbar-in pad">
     <div class="brand">
       <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 5l8 6"></path><path d="M6 10v4h12v-4"></path><path d="M7 14v6M17 14v6M12 14v6"></path><path d="M2 21c2-1 3-1 5 0s3 1 5 0 3-1 5 0 3 1 5 0"></path></svg></span>
-      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด ฉบับที่ 22</small></span>
+      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด ฉบับที่ 23</small></span>
     </div>
     <div class="top-act">
       <span class="copy-msg" id="copyMsg" aria-live="polite"></span>
@@ -489,7 +503,9 @@ details.colx[open] summary{margin-bottom:6px}
           </div>
           <button type="button" class="go3d" id="goDrive"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg>ดูรถขึ้นจอด</button>
           <button type="button" class="go3d" id="go3d" aria-pressed="false">หมุนดูแบบ 3 มิติ</button>
+          <button type="button" class="go3d fs-btn" id="fsBtn" aria-label="ขยายเต็มจอ" title="ขยายเต็มจอ"><svg class="fs-in" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg><svg class="fs-out" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"></path></svg><span class="fs-t">เต็มจอ</span></button>
         </div>
+        <p class="fs-hint" id="fsHint">หมุนมือถือเป็นแนวนอนเพื่อดูภาพใหญ่ขึ้น</p>
         <div class="drivebox" id="driveBox" hidden>
           <img class="dv" id="dvA" alt="ภาพจำลองรถขับขึ้นทางลาดไปจอดบนคาน"><img class="dv" id="dvB" alt="" aria-hidden="true">
           <p class="drive-cap" id="driveCap" aria-live="polite"></p>
@@ -2152,6 +2168,32 @@ const DRIVE_TXT={gate:'เข้าประตูรั้ว ขับตร�
   document.getElementById('driveAgain').addEventListener('click',()=>{if(!box.hidden)open()});
   box.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
   document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{if(!box.hidden)open()}));
+})();
+
+/* ---------- fullscreen viewer (real Fullscreen API when available, CSS fallback e.g. iPhone) ---------- */
+(function(){
+  const btn=document.getElementById('fsBtn'); if(!btn) return;
+  const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+  let api=false;
+  function sync(){const on=viewer.classList.contains('fs');btn.setAttribute('aria-label',on?'ออกจากเต็มจอ':'ขยายเต็มจอ');btn.title=btn.getAttribute('aria-label');btn.querySelector('.fs-t').textContent=on?'ย่อ':'เต็มจอ';btn.setAttribute('aria-pressed',on?'true':'false')}
+  function enter(){
+    viewer.classList.add('fs'); document.documentElement.classList.add('fs-lock'); sync();
+    const rq=viewer.requestFullscreen||viewer.webkitRequestFullscreen;
+    if(rq){try{const pr=rq.call(viewer,{navigationUI:'hide'});api=true;
+      const lock=()=>{try{const o=screen.orientation;if(o&&o.lock&&Math.min(screen.width,screen.height)<600)o.lock('landscape').catch(()=>{})}catch(e){}};
+      if(pr&&pr.then)pr.then(lock).catch(()=>{api=false});else lock()}catch(e){api=false}}
+  }
+  function exit(){
+    viewer.classList.remove('fs'); document.documentElement.classList.remove('fs-lock');
+    try{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock()}catch(e){}
+    if(fsEl()){const ex=document.exitFullscreen||document.webkitExitFullscreen;try{const r=ex.call(document);if(r&&r.catch)r.catch(()=>{})}catch(e){}}
+    api=false; sync(); btn.focus({preventScroll:true});
+  }
+  btn.addEventListener('click',()=>viewer.classList.contains('fs')?exit():enter());
+  const onChange=()=>{if(!fsEl()&&api&&viewer.classList.contains('fs'))exit()};
+  document.addEventListener('fullscreenchange',onChange); document.addEventListener('webkitfullscreenchange',onChange);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&viewer.classList.contains('fs')&&!fsEl()&&document.getElementById('driveBox').hidden)exit()});
+  sync();
 })();
 
 /* ---------- app shell: tabs, side summary, breakdown, copy link ---------- */
