@@ -80,7 +80,7 @@ button{font:inherit;color:inherit}
 
 /* segmented controls */
 .seg{display:grid;gap:4px;background:var(--seg);border-radius:12px;padding:4px}
-.seg3{grid-template-columns:repeat(3,minmax(0,1fr))} .seg4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.seg2{grid-template-columns:repeat(2,minmax(0,1fr))} .seg3{grid-template-columns:repeat(3,minmax(0,1fr))} .seg4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .seg .opt{min-height:56px;border:0;border-radius:9px;background:transparent;color:var(--muted);cursor:pointer;display:grid;align-content:center;justify-items:center;gap:0;padding:6px 2px;line-height:1.25}
 .seg .opt b{font-weight:600;font-size:15px}
 .seg4 .opt b{font-family:var(--mono);font-weight:500;font-size:14px}
@@ -163,6 +163,16 @@ html.fs-lock,html.fs-lock body{overflow:hidden}
 #viewer.fs .views{bottom:max(12px,env(safe-area-inset-bottom));left:max(12px,env(safe-area-inset-left))}
 #viewer.fs .drive-ctl{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
 @media (orientation:portrait) and (max-width:600px){#viewer.fs.static .fs-hint{display:block;margin:0 16px;text-align:center;font-size:13px;color:var(--muted)}}
+.lock-card{display:grid;gap:10px}
+.lock-h{display:flex;align-items:center;gap:8px;font-size:18px;margin:0}
+.lock-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.lock-form input{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);color:var(--ink);font:inherit;font-size:16px;padding:0 12px;letter-spacing:.2em;min-width:0}
+.lock-form .btn-accent{padding:0 18px}
+.lock-err{margin:0;font-size:13px;color:var(--bad)}
+.lock-again{margin-bottom:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html.money-locked .money,html.money-locked .money-txt,html:not(.money-locked) .nomoney{display:none!important}
+html.money-locked .addon em{display:none}
 .drivebox{position:absolute;inset:0;z-index:5;background:#0B1418;display:grid;place-items:center;border-radius:inherit;overflow:hidden}
 .drivebox .dv{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .drivebox .dv:not([src]){visibility:hidden}
@@ -394,7 +404,7 @@ details.colx[open] summary{margin-bottom:6px}
   <div class="topbar-in pad">
     <div class="brand">
       <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 5l8 6"></path><path d="M6 10v4h12v-4"></path><path d="M7 14v6M17 14v6M12 14v6"></path><path d="M2 21c2-1 3-1 5 0s3 1 5 0 3-1 5 0 3 1 5 0"></path></svg></span>
-      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด ฉบับที่ 27</small></span>
+      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด ฉบับที่ 29</small></span>
     </div>
     <div class="top-act">
       <span class="copy-msg" id="copyMsg" aria-live="polite"></span>
@@ -418,6 +428,13 @@ details.colx[open] summary{margin-bottom:6px}
           <button type="button" class="opt" id="opt-C" data-opt="C" aria-pressed="false"><b>5 คัน</b><small id="optcost-C">6.07 ล้าน</small></button>
         </div>
         <p class="hint" id="optDesc"></p>
+      </div>
+      <div class="fld">
+        <span class="fld-l" id="lbl-side">ทางรถขึ้นและลานจอด</span>
+        <div class="seg seg2" role="group" aria-labelledby="lbl-side">
+          <button type="button" class="opt" id="side-L" data-side="L" aria-pressed="true"><b>ด้านซ้าย</b><small>บ้านอยู่ขวา</small></button>
+          <button type="button" class="opt" id="side-R" data-side="R" aria-pressed="false"><b>ด้านขวา</b><small>บ้านอยู่ซ้าย</small></button>
+        </div>
       </div>
       <div class="fld">
         <span class="fld-l" id="lbl-h">ความสูงพื้นชั้นบน (ม.)</span>
@@ -458,7 +475,17 @@ details.colx[open] summary{margin-bottom:6px}
       <button type="button" class="btn" data-goto="addons">เลือกส่วนเสริม</button>
     </section>
 
-    <section class="card budget-card" aria-labelledby="sb-lbl">
+    <section class="card lock-card nomoney" aria-labelledby="lock-h">
+      <h2 id="lock-h" class="lock-h"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>งบประมาณ</h2>
+      <p class="hint">ซ่อนไว้ ใส่รหัสเพื่อดูงบ ราคา และงวดงาน</p>
+      <form class="lock-form" id="lockForm" autocomplete="off">
+        <label class="sr" for="lockCode">รหัสดูงบ</label>
+        <input id="lockCode" type="password" inputmode="numeric" maxlength="12" placeholder="รหัส" autocomplete="off">
+        <button type="submit" class="btn-accent">ดูงบ</button>
+      </form>
+      <p class="lock-err" id="lockErr" role="alert" hidden>รหัสไม่ถูกต้อง ลองอีกครั้ง</p>
+    </section>
+    <section class="card budget-card money" aria-labelledby="sb-lbl">
       <span class="lbl" id="sb-lbl">งบที่ควรเตรียม</span>
       <span class="big"><span id="sb-all">6.09</span> <small>ล้านบาท</small></span>
       <div class="blines">
@@ -466,6 +493,7 @@ details.colx[open] summary{margin-bottom:6px}
         <div><span>จ้างผู้รับเหมา (+12%)</span><span id="sb-con">5.80 ล้าน</span></div>
         <div><span>ส่วนเสริมที่เลือก</span><span id="sb-add">—</span></div>
       </div>
+      <button type="button" class="btn lock-again" id="lockAgain">ซ่อนงบ</button>
       <button type="button" class="btn-accent" data-goto="budget">ดูงบและงวดงาน
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
       </button>
@@ -482,7 +510,7 @@ details.colx[open] summary{margin-bottom:6px}
       <button type="button" role="tab" id="tab-struct" data-tab="struct" aria-controls="p-struct" aria-selected="false" tabindex="-1">ผังเสา</button>
       <button type="button" role="tab" id="tab-mep" data-tab="mep" aria-controls="p-mep" aria-selected="false" tabindex="-1">งานระบบ</button>
       <button type="button" role="tab" id="tab-addons" data-tab="addons" aria-controls="p-addons" aria-selected="false" tabindex="-1">ส่วนเสริม</button>
-      <button type="button" role="tab" id="tab-budget" data-tab="budget" aria-controls="p-budget" aria-selected="false" tabindex="-1">งบและงวดงาน</button>
+      <button type="button" role="tab" class="money" id="tab-budget" data-tab="budget" aria-controls="p-budget" aria-selected="false" tabindex="-1">งบและงวดงาน</button>
       <button type="button" role="tab" id="tab-car" data-tab="car" aria-controls="p-car" aria-selected="false" tabindex="-1">เช็กรถ</button>
       <button type="button" role="tab" id="tab-check" data-tab="check" aria-controls="p-check" aria-selected="false" tabindex="-1">เช็กลิสต์น้ำท่วม</button>
     </div>
@@ -552,7 +580,7 @@ details.colx[open] summary{margin-bottom:6px}
         <div class="kpi"><span class="k-l">ระยะก่อสร้าง</span><span class="k-v" id="kpi-time">≈ 8 เดือน</span><span class="k-s" id="kpi-time-s">9 งวด · 34 สัปดาห์</span></div>
       </div>
 
-      <section class="card" aria-labelledby="h-bd">
+      <section class="card money" aria-labelledby="h-bd">
         <div class="card-h"><h3 id="h-bd">ค่าก่อสร้างแยกหมวด</h3><span class="status" id="bdNote"></span></div>
         <div class="bd-bar" id="bdBar" role="img" aria-label="สัดส่วนค่าก่อสร้างแยกหมวด"></div>
         <div class="bd-leg" id="bdLeg"></div>
@@ -665,7 +693,7 @@ details.colx[open] summary{margin-bottom:6px}
       <div class="ad-groups" id="addons"></div>
     </section>
 
-    <section class="panel" id="p-budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
+    <section class="panel money" id="p-budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
       <div class="panel-h"><h2 id="h-cost">งบประมาณ</h2><p>ราคาอ้างอิงเดือน ส.ค. 2569 ภาคกลาง · รวม VAT · หน่วยบาท</p></div>
       <dl class="totals">
         <div><dt>ค่าวัสดุ + ค่าแรง (คุมงานเอง)</dt><dd id="t-direct">–</dd></div>
@@ -749,13 +777,13 @@ details.colx[open] summary{margin-bottom:6px}
   </main>
 </div>
 
-<div class="mbar">
+<div class="mbar money">
   <span><span class="lbl">งบที่ควรเตรียม</span><b><span id="mb-all">6.09</span> ล้านบาท</b></span>
   <button type="button" class="btn-accent" style="padding:0 16px" data-goto="budget">ดูงบ</button>
 </div>
 
 <script>window.addEventListener('error',function(e){if(/ResizeObserver/.test(e.message||''))return;window.__jsErr=e.message||'โหลดไม่สำเร็จ';var w=document.getElementById('jsWarn');if(w){w.hidden=false;w.textContent='หน้าเว็บทำงานไม่ครบ ('+(e.message||'โหลดไม่สำเร็จ')+') · ลองดาวน์โหลดไฟล์ใหม่แล้วเปิดด้วย Chrome หรือ Edge หรือเปิดจากลิงก์ ถ้ายังเป็นอยู่ ส่งภาพหน้าจอข้อความนี้มาได้เลย'}});</script>
-<script>window.FH_CHUNKS=true;window.FALLBACK_IMG={};window.STILL_TAGS={"A-h30-iso":[[0.3488,0.4051],[0.3817,0.6689],[0.4504,0.5941],[0.4965,0.2976],[0.7241,0.5499],[0.5192,0.5141]],"A-h30-front":[[0.4247,0.449],[0.3171,0.5334],[0.4195,0.5529],[0.555,0.4069],[0.6092,0.568],[0.4641,0.5033]],"A-h30-ramp":[[0.6858,0.4108],[0.4564,0.6114],[0.7404,0.6703],null,null,[0.9023,0.5231]],"A-h30-under":[[0.499,0.2533],null,[0.3315,0.51],[0.896,0.0413],null,[0.4271,0.295]],"A-h30-top":[[0.434,0.3173],[0.3697,0.5478],[0.4423,0.4841],[0.5524,0.3296],[0.5801,0.6346],[0.4772,0.5158]],"A-h35-iso":[[0.3483,0.3925],[0.4217,0.7098],[0.4503,0.5857],[0.4965,0.286],[0.7246,0.5403],[0.5193,0.5009]],"A-h35-front":[[0.4247,0.4398],[0.3071,0.5399],[0.4195,0.5462],[0.555,0.3975],[0.6092,0.5591],[0.464,0.4927]],"A-h35-ramp":[[0.6858,0.3889],[0.434,0.6343],[0.7405,0.6511],null,null,[0.9025,0.4904]],"A-h35-under":[[0.499,0.2273],null,[0.3315,0.4864],[0.8961,0.0081],null,[0.4271,0.2514]],"A-h35-top":[[0.4337,0.3163],[0.3697,0.6038],[0.4421,0.484],[0.5526,0.3287],[0.5804,0.6351],[0.4771,0.5159]],"A-h40-iso":[[0.3479,0.3799],[0.4661,0.7552],[0.4502,0.5772],[0.4965,0.2742],[0.7251,0.5307],[0.5193,0.4875]],"A-h40-front":[[0.4247,0.4306],[0.2961,0.547],[0.4195,0.5396],[0.555,0.3882],[0.6093,0.5501],[0.464,0.4822]],"A-h40-ramp":[[0.6858,0.3671],[0.4027,0.6666],[0.7405,0.6319],null,null,[0.9026,0.4578]],"A-h40-under":[[0.499,0.2012],null,[0.3314,0.4628],null,null,[0.427,0.2077]],"A-h40-top":[[0.4333,0.3153],[0.3696,0.6599],[0.4419,0.4839],[0.5529,0.3277],[0.5807,0.6356],[0.477,0.5159]],"A-h45-iso":[[0.3475,0.3672],[0.4661,0.7474],[0.4501,0.5687],[0.4965,0.2624],[0.7256,0.5211],[0.5194,0.4741]],"A-h45-front":[[0.4246,0.4215],[0.296,0.5414],[0.4194,0.533],[0.555,0.3788],[0.6093,0.5412],[0.464,0.4716]],"A-h45-ramp":[[0.6859,0.3452],[0.4027,0.6441],[0.7406,0.6127],null,null,[0.9027,0.4251]],"A-h45-under":[[0.499,0.1752],null,[0.3314,0.4392],null,null,[0.427,0.164]],"A-h45-top":[[0.433,0.3143],[0.3693,0.6602],[0.4418,0.4838],[0.5532,0.3268],[0.581,0.636],[0.4769,0.5159]],"B-h30-iso":[[0.3463,0.4062],[0.3817,0.6689],[0.4504,0.5941],[0.4965,0.2976],[0.7241,0.5499],[0.5192,0.5141]],"B-h30-front":[[0.4227,0.449],[0.3171,0.5334],[0.4195,0.5529],[0.555,0.4069],[0.6092,0.568],[0.4641,0.5033]],"B-h30-ramp":[[0.6808,0.4108],[0.4564,0.6114],[0.7404,0.6703],null,null,[0.9023,0.5231]],"B-h30-under":[[0.4938,0.2539],null,[0.3315,0.51],[0.896,0.0413],null,[0.4271,0.295]],"B-h30-top":[[0.4321,0.3173],[0.3697,0.5478],[0.4423,0.4841],[0.5524,0.3296],[0.5801,0.6346],[0.4772,0.5158]],"B-h35-iso":[[0.3458,0.3936],[0.4217,0.7098],[0.4503,0.5857],[0.4965,0.286],[0.7246,0.5403],[0.5193,0.5009]],"B-h35-front":[[0.4226,0.4398],[0.3071,0.5399],[0.4195,0.5462],[0.555,0.3975],[0.6092,0.5591],[0.464,0.4927]],"B-h35-ramp":[[0.6808,0.389],[0.434,0.6343],[0.7405,0.6511],null,null,[0.9025,0.4904]],"B-h35-under":[[0.4938,0.228],null,[0.3315,0.4864],[0.8961,0.0081],null,[0.4271,0.2514]],"B-h35-top":[[0.4318,0.3163],[0.3697,0.6038],[0.4421,0.484],[0.5526,0.3287],[0.5804,0.6351],[0.4771,0.5159]],"B-h40-iso":[[0.3454,0.3809],[0.4661,0.7552],[0.4502,0.5772],[0.4965,0.2742],[0.7251,0.5307],[0.5193,0.4875]],"B-h40-front":[[0.4226,0.4306],[0.2961,0.547],[0.4195,0.5396],[0.555,0.3882],[0.6093,0.5501],[0.464,0.4822]],"B-h40-ramp":[[0.6809,0.3671],[0.4027,0.6666],[0.7405,0.6319],null,null,[0.9026,0.4578]],"B-h40-under":[[0.4938,0.202],null,[0.3314,0.4628],null,null,[0.427,0.2077]],"B-h40-top":[[0.4314,0.3153],[0.3696,0.6599],[0.4419,0.4839],[0.5529,0.3277],[0.5807,0.6356],[0.477,0.5159]],"B-h45-iso":[[0.3449,0.3682],[0.4661,0.7474],[0.4501,0.5687],[0.4965,0.2624],[0.7256,0.5211],[0.5194,0.4741]],"B-h45-front":[[0.4226,0.4215],[0.296,0.5414],[0.4194,0.533],[0.555,0.3788],[0.6093,0.5412],[0.464,0.4716]],"B-h45-ramp":[[0.6809,0.3452],[0.4027,0.6441],[0.7406,0.6127],null,null,[0.9027,0.4251]],"B-h45-under":[[0.4938,0.176],null,[0.3314,0.4392],null,null,[0.427,0.164]],"B-h45-top":[[0.4311,0.3143],[0.3693,0.6602],[0.4418,0.4838],[0.5532,0.3268],[0.581,0.636],[0.4769,0.5159]],"C-h30-iso":[[0.3829,0.4631],[0.3817,0.6689],[0.4504,0.5941],[0.4965,0.2976],[0.7241,0.5499],[0.599,0.4601]],"C-h30-front":[[0.3924,0.4532],[0.3171,0.5334],[0.4195,0.5529],[0.555,0.4069],[0.6092,0.568],[0.559,0.5029]],"C-h30-ramp":[[0.6423,0.3968],[0.4564,0.6114],[0.7404,0.6703],null,null,null],"C-h30-under":[[0.3193,0.2094],null,[0.3315,0.51],[0.896,0.0413],null,[0.8453,0.2576]],"C-h30-top":[[0.414,0.4331],[0.3697,0.5478],[0.4423,0.4841],[0.5524,0.3296],[0.5801,0.6346],[0.55,0.5077]],"C-h35-iso":[[0.3826,0.4493],[0.4217,0.7098],[0.4503,0.5857],[0.4965,0.286],[0.7246,0.5403],[0.5993,0.4478]],"C-h35-front":[[0.3923,0.4432],[0.3071,0.5399],[0.4195,0.5462],[0.555,0.3975],[0.6092,0.5591],[0.559,0.4924]],"C-h35-ramp":[[0.6423,0.3701],[0.434,0.6343],[0.7405,0.6511],null,null,null],"C-h35-under":[[0.3193,0.1782],null,[0.3315,0.4864],[0.8961,0.0081],null,[0.8454,0.2047]],"C-h35-top":[[0.4135,0.4328],[0.3697,0.6038],[0.4421,0.484],[0.5526,0.3287],[0.5804,0.6351],[0.5503,0.5077]],"C-h40-iso":[[0.3822,0.4355],[0.4661,0.7552],[0.4502,0.5772],[0.4965,0.2742],[0.7251,0.5307],[0.5995,0.4355]],"C-h40-front":[[0.3923,0.4333],[0.2961,0.547],[0.4195,0.5396],[0.555,0.3882],[0.6093,0.5501],[0.5591,0.4819]],"C-h40-ramp":[[0.6424,0.3434],[0.4027,0.6666],[0.7405,0.6319],null,null,null],"C-h40-under":[[0.3192,0.147],null,[0.3314,0.4628],null,null,[0.8456,0.1519]],"C-h40-top":[[0.4131,0.4324],[0.3696,0.6599],[0.4419,0.4839],[0.5529,0.3277],[0.5807,0.6356],[0.5505,0.5077]],"C-h45-iso":[[0.3818,0.4215],[0.4661,0.7474],[0.4501,0.5687],[0.4965,0.2624],[0.7256,0.5211],[0.5998,0.423]],"C-h45-front":[[0.3923,0.4233],[0.296,0.5414],[0.4194,0.533],[0.555,0.3788],[0.6093,0.5412],[0.5591,0.4713]],"C-h45-ramp":[[0.6424,0.3167],[0.4027,0.6441],[0.7406,0.6127],null,null,null],"C-h45-under":[[0.3192,0.1157],null,[0.3314,0.4392],null,null,[0.8458,0.0989]],"C-h45-top":[[0.4126,0.432],[0.3693,0.6602],[0.4418,0.4838],[0.5532,0.3268],[0.581,0.636],[0.5508,0.5077]]};window.DRIVE_CAPS={"A":[[0,"gate"],[2.95,"ramp"],[8.05,"landing"],[9.2,"bay"],[12.5,"parked"]],"B":[[0,"gate"],[2.95,"ramp"],[7.95,"landing"],[9.05,"bay"],[12.5,"parked"]],"C":[[0,"gate"],[2.65,"ramp"],[6.9,"landing"],[7.7,"bay"],[12.5,"parked"]]};</script>
+<script>window.FH_CHUNKS=true;window.FALLBACK_IMG={};window.STILL_TAGS={"A-h30-iso":[[0.3488,0.4051],[0.3817,0.6689],[0.4504,0.5941],[0.4965,0.2976],[0.7241,0.5499],[0.5192,0.5141]],"A-h30-front":[[0.4247,0.449],[0.3171,0.5334],[0.4195,0.5529],[0.555,0.4069],[0.6092,0.568],[0.4641,0.5033]],"A-h30-ramp":[[0.6858,0.4108],[0.4564,0.6114],[0.7404,0.6703],null,null,[0.9023,0.5231]],"A-h30-under":[[0.499,0.2533],null,[0.3315,0.51],[0.896,0.0413],null,[0.4271,0.295]],"A-h30-top":[[0.434,0.3173],[0.3697,0.5478],[0.4423,0.4841],[0.5524,0.3296],[0.5801,0.6346],[0.4772,0.5158]],"A-h35-iso":[[0.3483,0.3925],[0.4217,0.7098],[0.4503,0.5857],[0.4965,0.286],[0.7246,0.5403],[0.5193,0.5009]],"A-h35-front":[[0.4247,0.4398],[0.3071,0.5399],[0.4195,0.5462],[0.555,0.3975],[0.6092,0.5591],[0.464,0.4927]],"A-h35-ramp":[[0.6858,0.3889],[0.434,0.6343],[0.7405,0.6511],null,null,[0.9025,0.4904]],"A-h35-under":[[0.499,0.2273],null,[0.3315,0.4864],[0.8961,0.0081],null,[0.4271,0.2514]],"A-h35-top":[[0.4337,0.3163],[0.3697,0.6038],[0.4421,0.484],[0.5526,0.3287],[0.5804,0.6351],[0.4771,0.5159]],"A-h40-iso":[[0.3479,0.3799],[0.4661,0.7552],[0.4502,0.5772],[0.4965,0.2742],[0.7251,0.5307],[0.5193,0.4875]],"A-h40-front":[[0.4247,0.4306],[0.2961,0.547],[0.4195,0.5396],[0.555,0.3882],[0.6093,0.5501],[0.464,0.4822]],"A-h40-ramp":[[0.6858,0.3671],[0.4027,0.6666],[0.7405,0.6319],null,null,[0.9026,0.4578]],"A-h40-under":[[0.499,0.2012],null,[0.3314,0.4628],null,null,[0.427,0.2077]],"A-h40-top":[[0.4333,0.3153],[0.3696,0.6599],[0.4419,0.4839],[0.5529,0.3277],[0.5807,0.6356],[0.477,0.5159]],"A-h45-iso":[[0.3475,0.3672],[0.4661,0.7474],[0.4501,0.5687],[0.4965,0.2624],[0.7256,0.5211],[0.5194,0.4741]],"A-h45-front":[[0.4246,0.4215],[0.296,0.5414],[0.4194,0.533],[0.555,0.3788],[0.6093,0.5412],[0.464,0.4716]],"A-h45-ramp":[[0.6859,0.3452],[0.4027,0.6441],[0.7406,0.6127],null,null,[0.9027,0.4251]],"A-h45-under":[[0.499,0.1752],null,[0.3314,0.4392],null,null,[0.427,0.164]],"A-h45-top":[[0.433,0.3143],[0.3693,0.6602],[0.4418,0.4838],[0.5532,0.3268],[0.581,0.636],[0.4769,0.5159]],"B-h30-iso":[[0.3463,0.4062],[0.3817,0.6689],[0.4504,0.5941],[0.4965,0.2976],[0.7241,0.5499],[0.5192,0.5141]],"B-h30-front":[[0.4227,0.449],[0.3171,0.5334],[0.4195,0.5529],[0.555,0.4069],[0.6092,0.568],[0.4641,0.5033]],"B-h30-ramp":[[0.6808,0.4108],[0.4564,0.6114],[0.7404,0.6703],null,null,[0.9023,0.5231]],"B-h30-under":[[0.4938,0.2539],null,[0.3315,0.51],[0.896,0.0413],null,[0.4271,0.295]],"B-h30-top":[[0.4321,0.3173],[0.3697,0.5478],[0.4423,0.4841],[0.5524,0.3296],[0.5801,0.6346],[0.4772,0.5158]],"B-h35-iso":[[0.3458,0.3936],[0.4217,0.7098],[0.4503,0.5857],[0.4965,0.286],[0.7246,0.5403],[0.5193,0.5009]],"B-h35-front":[[0.4226,0.4398],[0.3071,0.5399],[0.4195,0.5462],[0.555,0.3975],[0.6092,0.5591],[0.464,0.4927]],"B-h35-ramp":[[0.6808,0.389],[0.434,0.6343],[0.7405,0.6511],null,null,[0.9025,0.4904]],"B-h35-under":[[0.4938,0.228],null,[0.3315,0.4864],[0.8961,0.0081],null,[0.4271,0.2514]],"B-h35-top":[[0.4318,0.3163],[0.3697,0.6038],[0.4421,0.484],[0.5526,0.3287],[0.5804,0.6351],[0.4771,0.5159]],"B-h40-iso":[[0.3454,0.3809],[0.4661,0.7552],[0.4502,0.5772],[0.4965,0.2742],[0.7251,0.5307],[0.5193,0.4875]],"B-h40-front":[[0.4226,0.4306],[0.2961,0.547],[0.4195,0.5396],[0.555,0.3882],[0.6093,0.5501],[0.464,0.4822]],"B-h40-ramp":[[0.6809,0.3671],[0.4027,0.6666],[0.7405,0.6319],null,null,[0.9026,0.4578]],"B-h40-under":[[0.4938,0.202],null,[0.3314,0.4628],null,null,[0.427,0.2077]],"B-h40-top":[[0.4314,0.3153],[0.3696,0.6599],[0.4419,0.4839],[0.5529,0.3277],[0.5807,0.6356],[0.477,0.5159]],"B-h45-iso":[[0.3449,0.3682],[0.4661,0.7474],[0.4501,0.5687],[0.4965,0.2624],[0.7256,0.5211],[0.5194,0.4741]],"B-h45-front":[[0.4226,0.4215],[0.296,0.5414],[0.4194,0.533],[0.555,0.3788],[0.6093,0.5412],[0.464,0.4716]],"B-h45-ramp":[[0.6809,0.3452],[0.4027,0.6441],[0.7406,0.6127],null,null,[0.9027,0.4251]],"B-h45-under":[[0.4938,0.176],null,[0.3314,0.4392],null,null,[0.427,0.164]],"B-h45-top":[[0.4311,0.3143],[0.3693,0.6602],[0.4418,0.4838],[0.5532,0.3268],[0.581,0.636],[0.4769,0.5159]],"C-h30-iso":[[0.3829,0.4631],[0.3817,0.6689],[0.4504,0.5941],[0.4965,0.2976],[0.7241,0.5499],[0.599,0.4601]],"C-h30-front":[[0.3924,0.4532],[0.3171,0.5334],[0.4195,0.5529],[0.555,0.4069],[0.6092,0.568],[0.559,0.5029]],"C-h30-ramp":[[0.6423,0.3968],[0.4564,0.6114],[0.7404,0.6703],null,null,null],"C-h30-under":[[0.3193,0.2094],null,[0.3315,0.51],[0.896,0.0413],null,[0.8453,0.2576]],"C-h30-top":[[0.414,0.4331],[0.3697,0.5478],[0.4423,0.4841],[0.5524,0.3296],[0.5801,0.6346],[0.55,0.5077]],"C-h35-iso":[[0.3826,0.4493],[0.4217,0.7098],[0.4503,0.5857],[0.4965,0.286],[0.7246,0.5403],[0.5993,0.4478]],"C-h35-front":[[0.3923,0.4432],[0.3071,0.5399],[0.4195,0.5462],[0.555,0.3975],[0.6092,0.5591],[0.559,0.4924]],"C-h35-ramp":[[0.6423,0.3701],[0.434,0.6343],[0.7405,0.6511],null,null,null],"C-h35-under":[[0.3193,0.1782],null,[0.3315,0.4864],[0.8961,0.0081],null,[0.8454,0.2047]],"C-h35-top":[[0.4135,0.4328],[0.3697,0.6038],[0.4421,0.484],[0.5526,0.3287],[0.5804,0.6351],[0.5503,0.5077]],"C-h40-iso":[[0.3822,0.4355],[0.4661,0.7552],[0.4502,0.5772],[0.4965,0.2742],[0.7251,0.5307],[0.5995,0.4355]],"C-h40-front":[[0.3923,0.4333],[0.2961,0.547],[0.4195,0.5396],[0.555,0.3882],[0.6093,0.5501],[0.5591,0.4819]],"C-h40-ramp":[[0.6424,0.3434],[0.4027,0.6666],[0.7405,0.6319],null,null,null],"C-h40-under":[[0.3192,0.147],null,[0.3314,0.4628],null,null,[0.8456,0.1519]],"C-h40-top":[[0.4131,0.4324],[0.3696,0.6599],[0.4419,0.4839],[0.5529,0.3277],[0.5807,0.6356],[0.5505,0.5077]],"C-h45-iso":[[0.3818,0.4215],[0.4661,0.7474],[0.4501,0.5687],[0.4965,0.2624],[0.7256,0.5211],[0.5998,0.423]],"C-h45-front":[[0.3923,0.4233],[0.296,0.5414],[0.4194,0.533],[0.555,0.3788],[0.6093,0.5412],[0.5591,0.4713]],"C-h45-ramp":[[0.6424,0.3167],[0.4027,0.6441],[0.7406,0.6127],null,null,null],"C-h45-under":[[0.3192,0.1157],null,[0.3314,0.4392],null,null,[0.8458,0.0989]],"C-h45-top":[[0.4126,0.432],[0.3693,0.6602],[0.4418,0.4838],[0.5532,0.3268],[0.581,0.636],[0.5508,0.5077]],"Ar-h30-iso":[[0.5127,0.3354],[0.7143,0.4505],[0.6008,0.4993],[0.3873,0.3396],[0.54,0.6935],[0.5844,0.4752]],"Ar-h30-front":[[0.5753,0.449],[0.6829,0.5334],[0.5805,0.5529],[0.445,0.4069],[0.3908,0.568],[0.5359,0.5033]],"Ar-h30-ramp":[[0.3142,0.4108],[0.5436,0.6114],[0.2596,0.6703],null,null,[0.0977,0.5231]],"Ar-h30-under":[[0.501,0.2533],null,[0.6685,0.51],[0.104,0.0413],null,[0.5729,0.295]],"Ar-h30-top":[[0.566,0.3173],[0.6303,0.5478],[0.5577,0.4841],[0.4476,0.3296],[0.4199,0.6346],[0.5228,0.5158]],"Ar-h35-iso":[[0.5128,0.3243],[0.7551,0.4715],[0.6009,0.4919],[0.3869,0.3269],[0.5401,0.6822],[0.5847,0.4627]],"Ar-h35-front":[[0.5753,0.4398],[0.6929,0.5399],[0.5805,0.5462],[0.445,0.3975],[0.3908,0.5591],[0.536,0.4927]],"Ar-h35-ramp":[[0.3142,0.3889],[0.566,0.6343],[0.2595,0.6511],null,null,[0.0975,0.4904]],"Ar-h35-under":[[0.501,0.2273],null,[0.6685,0.4864],[0.1039,0.0081],null,[0.5729,0.2514]],"Ar-h35-top":[[0.5663,0.3163],[0.6303,0.6038],[0.5579,0.484],[0.4474,0.3287],[0.4196,0.6351],[0.5229,0.5159]],"Ar-h40-iso":[[0.5128,0.3132],[0.7991,0.4942],[0.6011,0.4844],[0.3866,0.3141],[0.5402,0.6709],[0.5849,0.45]],"Ar-h40-front":[[0.5753,0.4306],[0.7039,0.547],[0.5805,0.5396],[0.445,0.3882],[0.3907,0.5501],[0.536,0.4822]],"Ar-h40-ramp":[[0.3142,0.3671],[0.5973,0.6666],[0.2595,0.6319],null,null,[0.0974,0.4578]],"Ar-h40-under":[[0.501,0.2012],null,[0.6686,0.4628],null,null,[0.573,0.2077]],"Ar-h40-top":[[0.5667,0.3153],[0.6304,0.6599],[0.5581,0.4839],[0.4471,0.3277],[0.4193,0.6356],[0.523,0.5159]],"Ar-h45-iso":[[0.5128,0.302],[0.7995,0.4885],[0.6013,0.4768],[0.3863,0.3012],[0.5403,0.6596],[0.5852,0.4373]],"Ar-h45-front":[[0.5754,0.4215],[0.704,0.5414],[0.5806,0.533],[0.445,0.3788],[0.3907,0.5412],[0.536,0.4716]],"Ar-h45-ramp":[[0.3141,0.3452],[0.5973,0.6441],[0.2594,0.6127],null,null,[0.0973,0.4251]],"Ar-h45-under":[[0.501,0.1752],null,[0.6686,0.4392],null,null,[0.573,0.164]],"Ar-h45-top":[[0.567,0.3143],[0.6307,0.6602],[0.5582,0.4838],[0.4468,0.3268],[0.419,0.636],[0.5231,0.5159]],"Br-h30-iso":[[0.5146,0.3346],[0.7143,0.4505],[0.6008,0.4993],[0.3873,0.3396],[0.54,0.6935],[0.5844,0.4752]],"Br-h30-front":[[0.5773,0.449],[0.6829,0.5334],[0.5805,0.5529],[0.445,0.4069],[0.3908,0.568],[0.5359,0.5033]],"Br-h30-ramp":[[0.3192,0.4108],[0.5436,0.6114],[0.2596,0.6703],null,null,[0.0977,0.5231]],"Br-h30-under":[[0.5062,0.2539],null,[0.6685,0.51],[0.104,0.0413],null,[0.5729,0.295]],"Br-h30-top":[[0.5679,0.3173],[0.6303,0.5478],[0.5577,0.4841],[0.4476,0.3296],[0.4199,0.6346],[0.5228,0.5158]],"Br-h35-iso":[[0.5146,0.3235],[0.7551,0.4715],[0.6009,0.4919],[0.3869,0.3269],[0.5401,0.6822],[0.5847,0.4627]],"Br-h35-front":[[0.5774,0.4398],[0.6929,0.5399],[0.5805,0.5462],[0.445,0.3975],[0.3908,0.5591],[0.536,0.4927]],"Br-h35-ramp":[[0.3192,0.389],[0.566,0.6343],[0.2595,0.6511],null,null,[0.0975,0.4904]],"Br-h35-under":[[0.5062,0.228],null,[0.6685,0.4864],[0.1039,0.0081],null,[0.5729,0.2514]],"Br-h35-top":[[0.5682,0.3163],[0.6303,0.6038],[0.5579,0.484],[0.4474,0.3287],[0.4196,0.6351],[0.5229,0.5159]],"Br-h40-iso":[[0.5147,0.3124],[0.7991,0.4942],[0.6011,0.4844],[0.3866,0.3141],[0.5402,0.6709],[0.5849,0.45]],"Br-h40-front":[[0.5774,0.4306],[0.7039,0.547],[0.5805,0.5396],[0.445,0.3882],[0.3907,0.5501],[0.536,0.4822]],"Br-h40-ramp":[[0.3191,0.3671],[0.5973,0.6666],[0.2595,0.6319],null,null,[0.0974,0.4578]],"Br-h40-under":[[0.5062,0.202],null,[0.6686,0.4628],null,null,[0.573,0.2077]],"Br-h40-top":[[0.5686,0.3153],[0.6304,0.6599],[0.5581,0.4839],[0.4471,0.3277],[0.4193,0.6356],[0.523,0.5159]],"Br-h45-iso":[[0.5147,0.3012],[0.7995,0.4885],[0.6013,0.4768],[0.3863,0.3012],[0.5403,0.6596],[0.5852,0.4373]],"Br-h45-front":[[0.5774,0.4215],[0.704,0.5414],[0.5806,0.533],[0.445,0.3788],[0.3907,0.5412],[0.536,0.4716]],"Br-h45-ramp":[[0.3191,0.3452],[0.5973,0.6441],[0.2594,0.6127],null,null,[0.0973,0.4251]],"Br-h45-under":[[0.5062,0.176],null,[0.6686,0.4392],null,null,[0.573,0.164]],"Br-h45-top":[[0.5689,0.3143],[0.6307,0.6602],[0.5582,0.4838],[0.4468,0.3268],[0.419,0.636],[0.5231,0.5159]],"Cr-h30-iso":[[0.5979,0.3587],[0.7143,0.4505],[0.6008,0.4993],[0.3873,0.3396],[0.54,0.6935],[0.4901,0.5243]],"Cr-h30-front":[[0.6076,0.4532],[0.6829,0.5334],[0.5805,0.5529],[0.445,0.4069],[0.3908,0.568],[0.441,0.5029]],"Cr-h30-ramp":[[0.3577,0.3968],[0.5436,0.6114],[0.2596,0.6703],null,null,null],"Cr-h30-under":[[0.6807,0.2094],null,[0.6685,0.51],[0.104,0.0413],null,[0.1547,0.2576]],"Cr-h30-top":[[0.586,0.4331],[0.6303,0.5478],[0.5577,0.4841],[0.4476,0.3296],[0.4199,0.6346],[0.45,0.5077]],"Cr-h35-iso":[[0.5982,0.3471],[0.7551,0.4715],[0.6009,0.4919],[0.3869,0.3269],[0.5401,0.6822],[0.4901,0.5108]],"Cr-h35-front":[[0.6077,0.4432],[0.6929,0.5399],[0.5805,0.5462],[0.445,0.3975],[0.3908,0.5591],[0.441,0.4924]],"Cr-h35-ramp":[[0.3577,0.3701],[0.566,0.6343],[0.2595,0.6511],null,null,null],"Cr-h35-under":[[0.6807,0.1782],null,[0.6685,0.4864],[0.1039,0.0081],null,[0.1546,0.2047]],"Cr-h35-top":[[0.5865,0.4328],[0.6303,0.6038],[0.5579,0.484],[0.4474,0.3287],[0.4196,0.6351],[0.4497,0.5077]],"Cr-h40-iso":[[0.5984,0.3354],[0.7991,0.4942],[0.6011,0.4844],[0.3866,0.3141],[0.5402,0.6709],[0.49,0.4973]],"Cr-h40-front":[[0.6077,0.4333],[0.7039,0.547],[0.5805,0.5396],[0.445,0.3882],[0.3907,0.5501],[0.4409,0.4819]],"Cr-h40-ramp":[[0.3576,0.3434],[0.5973,0.6666],[0.2595,0.6319],null,null,null],"Cr-h40-under":[[0.6808,0.147],null,[0.6686,0.4628],null,null,[0.1544,0.1519]],"Cr-h40-top":[[0.5869,0.4324],[0.6304,0.6599],[0.5581,0.4839],[0.4471,0.3277],[0.4193,0.6356],[0.4495,0.5077]],"Cr-h45-iso":[[0.5987,0.3237],[0.7995,0.4885],[0.6013,0.4768],[0.3863,0.3012],[0.5403,0.6596],[0.49,0.4837]],"Cr-h45-front":[[0.6077,0.4233],[0.704,0.5414],[0.5806,0.533],[0.445,0.3788],[0.3907,0.5412],[0.4409,0.4713]],"Cr-h45-ramp":[[0.3576,0.3167],[0.5973,0.6441],[0.2594,0.6127],null,null,null],"Cr-h45-under":[[0.6808,0.1157],null,[0.6686,0.4392],null,null,[0.1542,0.0989]],"Cr-h45-top":[[0.5874,0.432],[0.6307,0.6602],[0.5582,0.4838],[0.4468,0.3268],[0.419,0.636],[0.4492,0.5077]]};window.DRIVE_CAPS={"A":[[0,"gate"],[2.95,"ramp"],[8.05,"landing"],[9.2,"bay"],[12.5,"parked"]],"B":[[0,"gate"],[2.95,"ramp"],[7.95,"landing"],[9.05,"bay"],[12.5,"parked"]],"C":[[0,"gate"],[2.65,"ramp"],[6.9,"landing"],[7.7,"bay"],[12.5,"parked"]]};</script>
 <script>
 (function(){
 /* ---------- Shared design data (site coords: x → right, y → away from road, metres) ---------- */
@@ -786,7 +814,13 @@ const OPTS={
      desc:'เปลี่ยนครึ่งซ้ายของลานบนคานเป็นที่จอด ได้ 5 คัน ช่องกว้าง 2.75 ม. ขับขึ้นทางลาด เลี้ยวขวาเข้าทางวนด้านหลัง แล้วเลี้ยวขวาเข้าทางวนแนวยาว ระเบียงหน้าบ้านเหลือ 72 ตร.ม.',
      note:'ช่องจอดบนคานกว้าง 2.75 ม. ลึก 5.50 ม. จำนวน 5 ช่อง เรียงตามแนวยาวฝั่งซ้าย ถอยเข้าจากทางวนกว้าง 6.00 ม. มีหลังคาโปร่งแสงคลุมทั้งโซน 12 × 20 ม.'}
 };
-let OPT=OPTS.A;
+let OPT=OPTS.A, SIDE='L';
+// budget figures are hidden until the viewer enters the code (kept for this browser tab only)
+const MONEY_H=0xba585bcd;
+const moneyHash=t=>{let h=0x811c9dc5;for(const c of new TextEncoder().encode('fh-money:'+t)){h^=c;h=Math.imul(h,0x01000193)>>>0}return h>>>0};
+let moneyOpen=false; try{moneyOpen=sessionStorage.getItem('fh-money')==='1'}catch(e){}
+document.documentElement.classList.toggle('money-locked',!moneyOpen);
+const SFX=()=>SIDE==='R'?'r':'';
 const GROUND_CARS=[{x:8.8,c:'#7b8a8f'},{x:11.4,c:'#d4ac43'},{x:14.8,c:'#3f6b4f'},{x:17.2,c:'#3c6e9e'}];
 const TREES=[[36.5,4,1.1],[37.6,13,1.3],[36.4,22,1.0],[37.6,30,1.25],[35.2,38.4,0.95],[22,3,0.9],[31.5,3.6,1.1],[1.4,38.6,0.9]];
 const rampH=y=>{const y0=RAMP.y0,L=31-y0,tr=RAMP.tr||0,sl=RAMP.s||RAMP.h/L;if(y<=y0)return 0;if(y>=31)return RAMP.h;const u=y-y0;
@@ -1336,7 +1370,7 @@ document.getElementById('showTags').addEventListener('change',renderLegend);
 let imgFail=false;
 const stillTags=document.getElementById('stillTags'), waterCv=document.getElementById('stillWater'), showTagsEl=document.getElementById('showTags');
 const HM_CACHE={};
-function stillKey(){return OPT.key+'-h'+Math.round(H*10)+'-'+currentView}
+function stillKey(){return OPT.key+SFX()+'-h'+Math.round(H*10)+'-'+currentView}
 function labelTexts(){return ['<b>ที่จอดรถบนคาน</b> '+OPT.n+' คัน','<b>ทางลาดรถขึ้น</b> ชัน '+slopeTxt()+'%','<b>ใต้ถุนโล่ง</b> จอดรถ 6–8 คัน','<b>ตัวบ้าน</b> นอน · ครัว · ห้องน้ำ','<b>บันได</b>คนเดิน','<b>ระเบียง</b> +'+f2(H)]}
 // keep labels from covering each other: later labels move up/down, or hide when there is no room
 function declutterTags(host){
@@ -1380,7 +1414,7 @@ function drawWater(){
 }
 function updateStill(){
   if(!stillMode) return;
-  if(CHUNKED){const g=OPT.key+'-h'+Math.round(H*10);if(!(window.FALLBACK_IMG||{})[stillKey()]){
+  if(CHUNKED){const g=OPT.key+SFX()+'-h'+Math.round(H*10);if(!(window.FALLBACK_IMG||{})[stillKey()]){
     loadChunk(g).then(d=>{window.FALLBACK_IMG=Object.assign(window.FALLBACK_IMG||{},d);imgFail=false;updateStill()}).catch(()=>{imgFail=true;stillMsg()});return}}
   const key=stillKey(), ent=(window.FALLBACK_IMG||{})[key]||{}, nk=night?(anyLight()?'non':'noff'):(eve?'eve':''), rel='img/'+key+(nk?'-'+nk:'')+'.jpg', emb=nk?ent[nk]:ent.img;
   const list=(FILE_MODE||CHUNKED?[emb,rel]:[rel,emb]).filter(Boolean);
@@ -1483,7 +1517,7 @@ function init3D(){ try{
   [['field','grass'],['lawn','grass'],['wood','wood'],['concrete','conc'],['beam','conc'],['deck','conc'],['curb','conc'],['paved','paved'],['road','road'],['roof','roof'],['wall','wall']].forEach(([m,k])=>patch(M[m],k));
   M.panel=mat('#1d3350',{roughness:.3,metalness:.45}); M.tank=mat('#2f6fa8',{roughness:.5}); M.boat=mat('#c6cdd0',{metalness:.5,roughness:.35});
   M.lamp=mat('#fff3c4',{emissive:'#ffe08a',emissiveIntensity:.7}); M.stop=mat('#d8b23a'); M.mirror=mat('#e9f2f5',{metalness:.9,roughness:.1,side:THREE.DoubleSide});
-  const X=x=>x-20, Z=y=>20-y;
+  const MIR=SIDE==='R', X=x=>MIR?20-x:x-20, Xi=w=>MIR?20-w:w+20, Z=y=>20-y;
   let curParent=null, RAWB=false;
   function add(m,parent){m.castShadow=!m.material.transparent;m.receiveShadow=true;(parent||curParent||scene).add(m);return m}
   function box(x0,x1,y0,y1,h0,h1,m){if(!RAWB){h0=Hm(h0);h1=Hm(h1)}const me=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,h1-h0,y1-y0),m);me.position.set(X((x0+x1)/2),(h0+h1)/2,Z((y0+y1)/2));return add(me)}
@@ -1495,7 +1529,7 @@ function init3D(){ try{
   }
   function slopeX(xA,hA,xB,hB,y0,y1,o0,o1,m){
     hA=Hm(hA);hB=Hm(hB);
-    const dx=xB-xA,dh=hB-hA,Ln=Math.hypot(dx,dh),a=Math.atan2(dh,dx),o=(o0+o1)/2;
+    const dx=(xB-xA)*(MIR?-1:1),dh=hB-hA,Ln=Math.hypot(dx,dh),a=Math.atan2(dh,dx),o=(o0+o1)/2;
     const me=new THREE.Mesh(new THREE.BoxGeometry(Ln,o1-o0,y1-y0),m);
     me.rotation.z=a; me.position.set(X((xA+xB)/2)-o*Math.sin(a),(hA+hB)/2+o*Math.cos(a),Z((y0+y1)/2)); return add(me);
   }
@@ -1542,7 +1576,7 @@ function init3D(){ try{
   box(31,31.07,25,28.5,4.9,6.4,M.win); box(31,31.07,31,33,5.6,6.4,M.win);
   box(18.93,19,24.5,28,4.9,6.4,M.win); box(18.93,19,31,33,5.0,6.2,M.win); box(18.92,19,33.5,34.7,4.04,6.2,M.timber);
   box(20,24,37,37.07,5.0,6.2,M.win); box(28,30,37,37.07,5.5,6.4,M.win);
-  function gable(y,m){const sh=new THREE.Shape();sh.moveTo(X(19),Hm(7));sh.lineTo(X(31),Hm(7));sh.lineTo(X(25),Hm(9));sh.closePath();
+  function gable(y,m){const sh=new THREE.Shape(),ga=MIR?31:19,gb=MIR?19:31;sh.moveTo(X(ga),Hm(7));sh.lineTo(X(gb),Hm(7));sh.lineTo(X(25),Hm(9));sh.closePath();
     const me=new THREE.Mesh(new THREE.ShapeGeometry(sh),m);me.position.z=Z(y);add(me)}
   const gm=M.timber.clone();gm.side=THREE.DoubleSide;const gw=M.wall.clone();gw.side=THREE.DoubleSide;
   gable(22.99,gm); gable(37.01,gw);
@@ -1608,7 +1642,7 @@ function init3D(){ try{
     [-1,1].forEach(sx=>{bx(.4,.06,.06,sx*.6,fy,fz,carHead);bx(.36,.1,.06,sx*.64,ry,rz-.03,carTail);bx(.2,.1,.12,sx*.93,T.belt+.1,T.cab[0][0]-.15,body)});
     bx(.74,.12,.05,0,fy-.12,fz+.01,carDark);
     bx(1.74,.1,.08,0,T.body[0][1]+.06,T.body[1][0]+.04,carDark); bx(1.74,.1,.08,0,T.body[0][1]+.06,T.body[0][0]-.04,carDark);
-    g.position.set(X(x),Hm(h0),Z(y)); g.rotation.y=rot||0; (curParent||scene).add(g); return g;
+    g.position.set(X(x),Hm(h0),Z(y)); g.rotation.y=(MIR?-1:1)*(rot||0); (curParent||scene).add(g); return g;
   }
   // option-dependent parts: terrace, furniture, carport roof, bays, deck cars
   let optGroup=null;
@@ -1641,7 +1675,7 @@ function init3D(){ try{
     if(adOn('ramp')){
       RAWB=true;rampLamps().forEach(y=>{cyl(3.1,y,0.04,rampH(y)+0.3,rampH(y)+1.45,M.steel,8);cyl(3.1,y,0.11,rampH(y)+1.45,rampH(y)+1.6,M.lamp,10)});RAWB=false;
       cyl(3.25,36.75,0.04,4.0,5.6,M.steel,8);
-      const mr=new THREE.Mesh(new THREE.CircleGeometry(0.45,20),M.mirror);mr.position.set(X(3.35),Hm(5.9),Z(36.65));mr.rotation.y=-Math.PI*0.75;add(mr);
+      const mr=new THREE.Mesh(new THREE.CircleGeometry(0.45,20),M.mirror);mr.position.set(X(3.35),Hm(5.9),Z(36.65));mr.rotation.y=(MIR?1:-1)*Math.PI*0.75;add(mr);
       OPT.cars.forEach(c=>OPT.dir==='x'?box(c.x-0.7,c.x+0.7,25.5,25.7,4.0,4.12,M.stop):box(7.6,7.8,c.y-0.7,c.y+0.7,4.0,4.12,M.stop));
     }
     if(adOn('cctv')) [[7.2,17.2],[30.8,17.2],[3.2,31.2],[30.8,36.8]].forEach(c=>box(c[0]-0.09,c[0]+0.09,c[1]-0.3,c[1]+0.05,3.0,3.22,M.white));
@@ -1740,7 +1774,7 @@ function init3D(){ try{
   updLabels();
   buildNight(); applyNight3d=applyNight;
   rebuild3d=()=>{buildOpt();buildAdd();buildNight();updLabels();renderer.shadowMap.needsUpdate=true;requestRender()};
-  window.__fh3d={renderer:renderer,scene:scene,camera:camera,LABELS:LABELS,rampH:rampH,RAMP:RAMP};
+  window.__fh3d={X:X,Xi:Xi,renderer:renderer,scene:scene,camera:camera,LABELS:LABELS,rampH:rampH,RAMP:RAMP};
   floatAdd=()=>{floatAddons();renderer.shadowMap.needsUpdate=true;requestRender()};
   function placeTags(w,h){LABELS.forEach(l=>{tmp.copy(l.v).project(camera);const vis=tmp.z<1&&Math.abs(tmp.x)<1.05&&Math.abs(tmp.y)<1.05;
     l.d.hidden=!vis;if(vis){l.d.style.left=((tmp.x+1)/2*w)+'px';l.d.style.top=((1-tmp.y)/2*h-10)+'px'}});declutterTags(tagsEl)}
@@ -1757,6 +1791,7 @@ function init3D(){ try{
   function goView(k,instant){
     const v=VIEWS[k];
     const tp=new THREE.Vector3(...v.p),tt=new THREE.Vector3(...v.t);
+    if(SIDE==='R'&&k!=='iso'){tp.x=-tp.x;tt.x=-tt.x}
     const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(instant||reduce||!controls){camera.position.copy(tp);if(controls)controls.target.copy(tt);camera.lookAt(tt);anim=null;requestRender();return}
     anim={p0:camera.position.clone(),t0:controls.target.clone(),p1:tp,t1:tt,s:performance.now()};
@@ -1855,7 +1890,7 @@ function elevPrims(){
 const ELEV_VIEWS=[['front','ด้านหน้า (มองจากถนน)'],['rear','ด้านหลัง'],['left','ด้านซ้าย'],['right','ด้านขวา']];
 function drawElev(){
   const host=document.getElementById('elevs'); if(!host) return; host.innerHTML='';
-  const P=elevPrims(), ct=H-0.6;
+  const MX=v=>SIDE==='R'?40-v:v, P=elevPrims().map(p=>SIDE==='R'&&p.x0!=null?Object.assign({},p,{x0:40-p.x1,x1:40-p.x0}):p), ct=H-0.6;
   ELEV_VIEWS.forEach(([vid,title])=>{
     const fig=document.createElement('figure');fig.className='sheet elev';
     const svg=document.createElementNS(NS,'svg');svg.setAttribute('class','dwg dwg-elev');svg.setAttribute('role','img');svg.setAttribute('aria-label','รูป'+title);
@@ -1874,8 +1909,8 @@ function drawElev(){
       if(p.t==='box'){rect(p,p.h0,p.h1,p.cls);return}
       if(p.t==='gable'){
         if(side){rect(p,p.he,p.hr,'roofS');return}
-        el('polygon',{points:[pt(19,0,p.hw),pt(25,0,p.hr),pt(31,0,p.hw)].join(' '),class:vid==='front'?'timS':'wallS'},svg);
-        el('polygon',{points:[pt(p.x0,0,p.he-0.18),pt(p.x0,0,p.he),pt(25,0,p.hr+0.1),pt(p.x1,0,p.he),pt(p.x1,0,p.he-0.18),pt(25,0,p.hr-0.08)].join(' '),class:'roofS'},svg);return}
+        el('polygon',{points:[pt(MX(19),0,p.hw),pt(MX(25),0,p.hr),pt(MX(31),0,p.hw)].join(' '),class:vid==='front'?'timS':'wallS'},svg);
+        el('polygon',{points:[pt(p.x0,0,p.he-0.18),pt(p.x0,0,p.he),pt(MX(25),0,p.hr+0.1),pt(p.x1,0,p.he),pt(p.x1,0,p.he-0.18),pt(MX(25),0,p.hr-0.08)].join(' '),class:'roofS'},svg);return}
       if(p.t==='ramp'){
         if(!side){rect(p,0,H,'slab');rect(p,H,H+1.0,'glassF');return}
         const x=vid==='left'?3:7, y0=RAMP.y0;
@@ -2006,7 +2041,7 @@ function renderSched(){
   sum.innerHTML='<td></td><td>รวมจ่ายผู้รับเหมา</td><td class="n wk">'+weeks+' สัปดาห์</td><td></td><td class="n">'+fmtB(Math.round(total/1000)*1000)+'</td><td class="n">100</td><td></td>';
   tb.appendChild(sum);
   setT('schedSum','ใช้เวลาก่อสร้างประมาณ '+weeks+' สัปดาห์ (ราว '+Math.round(weeks/4.3)+' เดือน) · จ่ายผู้รับเหมารวม '+mil(total)+' แบ่ง '+no+' งวด · เงินเผื่อ 5% อีก '+mil(total*0.05)+' เก็บไว้เองสำหรับงานเพิ่มหรือราคาขึ้น');
-  setT('kpi-time','≈ '+Math.round(weeks/4.3)+' เดือน'); setT('kpi-time-s',no+' งวด · '+weeks+' สัปดาห์');
+  setT('kpi-time','≈ '+Math.round(weeks/4.3)+' เดือน'); setT('kpi-time-s',(moneyOpen?no+' งวด · ':'')+weeks+' สัปดาห์');
 }
 
 /* ---------- before-flood checklist ---------- */
@@ -2201,7 +2236,7 @@ const DRIVE_TXT={gate:'เข้าประตูรั้ว ขับตร�
     for(let n=0;n<6;n++) pump();
   }
   function open(){
-    run++; const id=run, k=OPT.key+(dview==='top'?'-top':''); box.hidden=false; showMsg(''); cap.textContent='กำลังโหลดภาพ…'; prog.style.width='0';
+    run++; const id=run, k=OPT.key+SFX()+(dview==='top'?'-top':''); box.hidden=false; showMsg(''); cap.textContent='กำลังโหลดภาพ…'; prog.style.width='0';
     A.removeAttribute('src'); B.removeAttribute('src'); B.style.opacity=0;
     if(CHUNKED&&!(window.DRIVE_FRAMES&&window.DRIVE_FRAMES[k])){
       loadChunk('drive-'+k).then(a=>{(window.DRIVE_FRAMES=window.DRIVE_FRAMES||{})[k]=a;if(id===run&&!box.hidden)open()}).catch(()=>{if(id===run){cap.textContent='';showMsg('โหลดภาพไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วกด "เล่นอีกครั้ง"')}});
@@ -2266,6 +2301,7 @@ const DRIVE_TXT={gate:'เข้าประตูรั้ว ขับตร�
 /* ---------- app shell: tabs, side summary, breakdown, copy link ---------- */
 const TABS=[...document.querySelectorAll('[role="tab"]')];
 function showTab(id,scroll){
+  if(!moneyOpen&&id==='budget') id='overview';
   if(!document.getElementById('p-'+id)) id='overview';
   TABS.forEach(t=>{const on=t.dataset.tab===id;t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;document.getElementById('p-'+t.dataset.tab).hidden=!on});
   try{localStorage.setItem('fh-tab',id)}catch(e){}
@@ -2278,6 +2314,11 @@ TABS.forEach((t,i)=>{
 });
 document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.goto,true);const t=document.querySelector('[data-tab="'+b.dataset.goto+'"]');if(t)t.focus({preventScroll:true})}));
 {let t0='overview';try{t0=localStorage.getItem('fh-tab')||'overview'}catch(e){}showTab(t0)}
+function setMoney(open){moneyOpen=open;try{open?sessionStorage.setItem('fh-money','1'):sessionStorage.removeItem('fh-money')}catch(e){}
+  document.documentElement.classList.toggle('money-locked',!open);if(!open&&!document.getElementById('p-budget').hidden)showTab('overview');refreshCosts()}
+document.getElementById('lockForm').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('lockCode'),er=document.getElementById('lockErr');
+  if(moneyHash(i.value.trim())===MONEY_H){er.hidden=true;i.value='';setMoney(true)}else{er.hidden=false;i.select()}});
+document.getElementById('lockAgain').addEventListener('click',()=>setMoney(false));
 const BD_COL=['--c3','--c1','--c2','--c4','--c5','--c6','--c7'];
 function updateSide(){
   const direct=boqTotal(OPT), base=boqTotal(OPT,true), picked=AD_ALL.filter(a=>adOn(a.id)), n2=x=>(x/1e6).toFixed(2);
@@ -2317,12 +2358,15 @@ function refreshCosts(){
   });
   const picked=AD_ALL.filter(a=>adSel.has(a.id)&&adOK(a,OPT)), addSum=picked.reduce((x,a)=>x+a.cost(OPT),0);
   const all=boqTotal(OPT)*1.176, base=boqTotal(OPT,true)*1.176;
-  document.getElementById('adSum').innerHTML=picked.length
+  document.getElementById('adSum').innerHTML=!moneyOpen?(picked.length?'เลือก '+picked.length+' รายการ':'ยังไม่ได้เลือกส่วนเสริม'):picked.length
     ?'เลือก '+picked.length+' รายการ · ส่วนเสริมรวม <b>'+fmtB(addSum)+' บาท</b> · งบที่ควรเตรียมรวม <b>'+mil(all)+'</b> (ไม่มีส่วนเสริม '+mil(base)+')'
     :'ยังไม่ได้เลือกส่วนเสริม · งบที่ควรเตรียม '+mil(base);
   Object.keys(OPTS).forEach(k=>setT('optcost-'+k,mil(boqTotal(OPTS[k])*1.176)));
-  setT('optDesc',OPT.desc+' · งบที่ควรเตรียมประมาณ '+mil(all)+(picked.length?' (รวมส่วนเสริม)':''));
+  setT('optDesc',OPT.desc+(moneyOpen?' · งบที่ควรเตรียมประมาณ '+mil(all)+(picked.length?' (รวมส่วนเสริม)':''):''));
+  document.querySelectorAll('[id^=optcost-],[id^=hcost-],[id^=lvcost-]').forEach(e=>e.classList.add('money'));
   renderBOQ(); updQty(); updateSide(); drawPlan(); drawCols(); renderSched(); renderCarForm();renderCar();renderChecklist(); drawElev(); drawMEP(); if(rebuild3d) rebuild3d(); stillMsg();
+  document.querySelectorAll('.opt[data-side]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.side===SIDE?'true':'false'));
+  ['optDesc','note-park','p-addons'].forEach(id=>sideWords(document.getElementById(id)));
   Object.keys(HEIGHTS).forEach(k=>{const keep=H;setGeom(HEIGHTS[k]);const t=boqTotal(OPT)*1.176;setGeom(keep);setT('hcost-'+k,mil(t))});
   [1,2,3,4].forEach(l=>setT('lvcost-'+l,mil(boqTotal(OPT,false,l)*1.176)));
   document.querySelectorAll('.opt[data-lv]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.lv===LEVEL?'true':'false'));
@@ -2343,6 +2387,35 @@ function selectOption(k){
   updateStill();
 }
 buildAddonUI();
+// ramp + car deck on the left (as drawn) or mirrored to the right; 3D, drawings and images follow
+function selectSide(sd,noHash){
+  SIDE=sd==='R'?'R':'L';
+  document.querySelectorAll('.opt[data-side]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.side===SIDE?'true':'false'));
+  if(ready3d) init3D();
+  refreshCosts(); updateStill(); if(!noHash) writeHash();
+}
+document.querySelectorAll('.opt[data-side]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.side!==SIDE)selectSide(b.dataset.side)}));
+// mirror a site drawing about its own centre, keeping every label readable
+function mirrorDwg(svg){
+  if(!svg||SIDE!=='R') return; const vb=(svg.getAttribute('viewBox')||'').split(/[ ,]+/).map(Number); if(vb.length<4) return;
+  const W=2*vb[0]+vb[2], g=document.createElementNS(NS,'g'); g.setAttribute('transform','matrix(-1 0 0 1 '+W+' 0)');
+  [...svg.childNodes].forEach(n=>{if(n.nodeName!=='defs'&&n.nodeName!=='style')g.appendChild(n)}); svg.appendChild(g);
+  g.querySelectorAll('text').forEach(t=>{const x=parseFloat(t.getAttribute('x'))||0, y=parseFloat(t.getAttribute('y'))||0, tr=t.getAttribute('transform')||'';
+    let ax=x; try{const c=t.transform.baseVal.consolidate(); if(c){const m=c.matrix; ax=m.a*x+m.c*y+m.e}}catch(e){}
+    t.setAttribute('transform',('matrix(-1 0 0 1 '+(2*ax)+' 0) '+tr).trim());
+    const a=t.getAttribute('text-anchor')||getComputedStyle(t).textAnchor; if(a==='start'||a==='end') t.setAttribute('text-anchor',a==='start'?'end':'start')});
+}
+// words that describe left/right positions on the site follow the chosen side
+const LR_ORIG=new WeakMap();
+function sideWords(root){
+  if(!root) return; const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT); let n;
+  while((n=w.nextNode())){if(!LR_ORIG.has(n)){if(!/ซ้าย|ขวา/.test(n.nodeValue))continue;LR_ORIG.set(n,n.nodeValue)}
+    const o=LR_ORIG.get(n); n.nodeValue=SIDE==='R'?o.replace(/ซ้าย|ขวา/g,m=>m==='ซ้าย'?'ขวา':'ซ้าย'):o}
+}
+{const dp=drawPlan,dc=drawCols,dm=drawMEP;
+ drawPlan=function(){dp();mirrorDwg(document.getElementById('plan'));sideWords(document.getElementById('p-plan'))};
+ drawCols=function(){dc();mirrorDwg(document.getElementById('cols'));sideWords(document.getElementById('p-struct'))};
+ drawMEP=function(){dm();mirrorDwg(document.getElementById('mep'));sideWords(document.getElementById('p-mep'))};}
 function selectHeight(h){
   if(!(h>0)) h=4; setGeom(h);
   document.querySelectorAll('.opt[data-h]').forEach(b=>b.setAttribute('aria-pressed',HEIGHTS[b.dataset.h]===H?'true':'false'));
@@ -2361,13 +2434,13 @@ function selectHeight(h){
   if(ready3d) init3D();
   drawSection(); refreshCosts(); applyFlood();
 }
-function parseHash(){const m=/^#cars-([345])(?:-h(\d\d))?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2]}:{}}
-function writeHash(){const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v}
+function parseHash(){const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
+function writeHash(){const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
 document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{selectOption(b.dataset.opt);writeHash()}));
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
 document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash()}));
-window.addEventListener('hashchange',()=>{const r=parseHash();if(!r.o)return;const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
-const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; setGeom(HEIGHTS[R0.h]||4);
+window.addEventListener('hashchange',()=>{const r=parseHash();if(!r.o)return;if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
+const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(HEIGHTS[R0.h]||4);
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
 guard(applyFlood); guard(showStill);
