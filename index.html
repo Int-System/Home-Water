@@ -220,7 +220,10 @@ html.money-locked .addon em{display:none}
 @media (max-width:520px){.views button{padding:0 10px;font-size:13px;min-height:36px}.go3d{min-height:38px;font-size:13px;padding:0 12px}.vb{display:none}}
 .viewer-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px}
 .chk{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
-.sopts{display:grid;gap:8px;margin-top:6px}.sopts .chk{font-size:14px;color:var(--ink);align-items:flex-start;cursor:pointer}.sopts .chk input{width:18px;height:18px;margin-top:2px;flex:none}.sopts small{color:var(--muted)}
+.sopts{display:grid;gap:8px;margin-top:6px}
+.mf-row{display:flex;gap:8px}.mf-row input{flex:1;min-width:0;min-height:44px;font:inherit;font-size:15px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.mf-v{display:grid;gap:4px;font-size:13.5px;margin:8px 0 0;padding:8px 12px;border-radius:10px;background:var(--surface2);color:var(--muted)}.mf-v.ok{background:var(--ok-soft);color:var(--ok)}.mf-v.warn{background:var(--warn-soft);color:var(--warn)}.mf-v.bad{background:var(--bad-soft);color:var(--bad)}
+#mfUse{margin-top:8px;width:100%}.sopts .chk{font-size:14px;color:var(--ink);align-items:flex-start;cursor:pointer}.sopts .chk input{width:18px;height:18px;margin-top:2px;flex:none}.sopts small{color:var(--muted)}
 html.m-shelter .viewer-foot{justify-content:flex-start} html.m-shelter .viewer-foot #tagsWrap{margin-left:auto}
 .jswarn{margin:0;padding:10px 14px;border:1px solid var(--warn-line);background:var(--warn-soft);color:var(--warn);font-size:13px;border-radius:12px}
 
@@ -436,7 +439,9 @@ details.colx[open] summary{margin-bottom:6px}
         <div class="seg seg3 sforms" role="group" aria-labelledby="lbl-sform"><button type="button" class="opt" data-sform="gable" aria-pressed="true"><b>จั่ว</b><small id="sfcost-gable">—</small></button><button type="button" class="opt" data-sform="hip" aria-pressed="false"><b>ปั้นหยา</b><small id="sfcost-hip">—</small></button><button type="button" class="opt" data-sform="twin" aria-pressed="false"><b>เรือนแฝด</b><small id="sfcost-twin">—</small></button><button type="button" class="opt" data-sform="lshape" aria-pressed="false"><b>ตัว L</b><small id="sfcost-lshape">—</small></button><button type="button" class="opt" data-sform="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="sfcost-butterfly">—</small></button><button type="button" class="opt" data-sform="aframe" aria-pressed="false"><b>A-frame</b><small id="sfcost-aframe">—</small></button><button type="button" class="opt" data-sform="barrel" aria-pressed="false"><b>โค้ง</b><small id="sfcost-barrel">—</small></button><button type="button" class="opt" data-sform="split" aria-pressed="false"><b>สลับระดับ</b><small id="sfcost-split">—</small></button><button type="button" class="opt" data-sform="wrap" aria-pressed="false"><b>ระเบียงรอบ</b><small id="sfcost-wrap">—</small></button></div>
         <p class="hint" id="sformDesc"></p>
         <span class="fld-l" id="lbl-sopt" style="margin-top:10px">หลังคาและบันได</span>
-        <div class="sopts" role="group" aria-labelledby="lbl-sopt"><label class="chk"><input type="checkbox" data-sopt="canopy" checked> <span>ใส่กันสาดใต้ระเบียง <small>ยื่น 1.20 ม. รอบ 4 ด้าน</small> <small id="socost-canopy"></small></span></label><label class="chk"><input type="checkbox" data-sopt="stair" checked> <span>ใส่หลังคาคลุมบันได <small id="socost-stair"></small></span></label><label class="chk"><input type="checkbox" data-sopt="easy" checked> <span>บันไดผู้สูงอายุ มีชานพัก <small>ลูกตั้งเตี้ย 15.4 ซม. ราวจับ ไฟส่องขั้น</small> <small id="socost-easy"></small></span></label></div>
+        <div class="sopts" role="group" aria-labelledby="lbl-sopt"><label class="chk"><input type="checkbox" data-sopt="canopy" checked> <span>ใส่กันสาดใต้ระเบียง <small>ยื่น 1.20 ม. รอบ 4 ด้าน</small> <small id="socost-canopy"></small></span></label><label class="chk"><input type="checkbox" data-sopt="stair" checked> <span>ใส่หลังคาคลุมบันได <small id="socost-stair"></small></span></label><label class="chk"><input type="checkbox" data-sopt="easy" checked> <span>บันไดผู้สูงอายุ มีชานพัก <small>ลูกตั้งเตี้ย ราวจับ ไฟส่องขั้น</small> <small id="socost-easy"></small></span></label></div>
+        <button type="button" class="btn" id="docBtn" style="margin-top:12px;width:100%">สร้างเอกสารแบบสำหรับช่าง (พิมพ์ / PDF)</button>
+        <p class="hint" id="docMsg" aria-live="polite"></p>
       </div>
       <div class="fld house-only">
         <span class="fld-l" id="lbl-park">ที่จอดรถบนคาน</span>
@@ -454,7 +459,7 @@ details.colx[open] summary{margin-bottom:6px}
           <button type="button" class="opt" id="side-R" data-side="R" aria-pressed="false"><b>ด้านขวา</b><small>บ้านอยู่ซ้าย</small></button>
         </div>
       </div>
-      <div class="fld house-only">
+      <div class="fld">
         <span class="fld-l" id="lbl-h">ความสูงพื้นชั้นบน (ม.)</span>
         <div class="seg seg4" role="group" aria-labelledby="lbl-h">
           <button type="button" class="opt" id="h-30" data-h="30" aria-pressed="false"><b>3.00</b><small id="hcost-30">5.82 ล้าน</small></button>
@@ -463,6 +468,12 @@ details.colx[open] summary{margin-bottom:6px}
           <button type="button" class="opt" id="h-45" data-h="45" aria-pressed="false"><b>4.50</b><small id="hcost-45">6.23 ล้าน</small></button>
         </div>
         <p class="hint" id="hDesc"></p>
+      </div>
+      <div class="fld">
+        <label class="fld-l" for="maxFlood">น้ำเคยท่วมสูงสุดที่บ้าน (ม. จากพื้นดิน)</label>
+        <div class="mf-row"><input id="maxFlood" type="number" min="0" max="6" step="0.1" inputmode="decimal" placeholder="เช่น 1.50"><button type="button" class="btn" id="mfSim" hidden>จำลองระดับนี้</button></div>
+        <p class="mf-v" id="mfVerdict" aria-live="polite"></p>
+        <button type="button" class="btn" id="mfUse" hidden></button>
       </div>
       <div class="fld house-only">
         <span class="fld-l" id="lbl-lv">ระดับการก่อสร้าง</span>
@@ -609,7 +620,7 @@ details.colx[open] summary{margin-bottom:6px}
         <h3 id="h-snotes">หลักคิดของบ้านพักชั่วคราว</h3>
         <p class="hint" style="font-size:14px;color:var(--ink)">ตัดที่จอดรถบนคานและทางรถขึ้นออก เหลือบ้านหลังเล็กบนเสา <span id="sn-piles">9</span> ต้น พื้นสูงเท่าบ้านหลัก เมื่อน้ำมา คนในบ้านและเพื่อนบ้านขึ้นไปหลบบนระเบียงได้ทันที</p>
         <ul class="notes">
-          <li><span>น้ำ</span><div>พื้น +4.00 ม. สูงกว่าน้ำท่วมตัวอย่าง 1.50 ม. อยู่ 2.50 ม. ใต้ถุนโล่งให้น้ำไหลผ่าน</div></li>
+          <li><span>น้ำ</span><div id="sn-water">พื้น +4.00 ม. สูงกว่าน้ำท่วมตัวอย่าง 1.50 ม. อยู่ 2.50 ม. ใต้ถุนโล่งให้น้ำไหลผ่าน</div></li>
           <li><span>ห้อง</span><div id="sn-rooms">ห้องนอน 2 ห้อง ห้องละ 3.00 × 3.00 ม. ครัว 2.20 × 3.00 ม. ห้องน้ำ 1.80 × 3.00 ม. เรียงแถวด้านหลัง ทุกห้องมีประตูออกระเบียง</div></li>
           <li><span>หลบน้ำ</span><div id="sn-refuge">ระเบียงมีหลังคายาว 10.00 × 3.00 ม. นั่งหลบได้ราว 20 คน ค้างคืนรวมในห้องได้ราว 14 คน</div></li>
           <li><span>หลังคา</span><div id="sn-canopy"></div></li>
@@ -994,18 +1005,21 @@ try{const v=localStorage.getItem('fh-sadd');if(v!==null){const a=JSON.parse(v);i
 function saveSAdd(){try{localStorage.setItem('fh-sadd',JSON.stringify([...sadSel]))}catch(e){}}
 let SHELTER_LABELS=SF.gable.labels;
 function shelterLabels(){const s=SF[SFORM]||SF.gable;if(!SEASY)return s.labels;const [sa,sb,sy]=s.stair;
-  return s.labels.map((l,i)=>i===1?{p:[(sa-1.35+sb)/2,sy-4.3,2.6],raw:true,h:'<b>บันไดชานพัก</b> 26 ขั้น เตี้ย'}:l)}
+  const d=stairDims(H);return s.labels.map((l,i)=>i===1?{p:[(sa-1.35+sb)/2,sy-d.LE-0.7,H/2+0.6],raw:true,h:'<b>บันไดชานพัก</b> '+d.nE+' ขั้น เตี้ย'}:l)}
 const SKEY=()=>'S'+(SFORM==='gable'?'':'-'+SFORM)+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+'-h40';
 function canopyQ(s){const [x0,y0,x1,y1]=s.bound,o=1.2,per=2*((x1-x0)+(y1-y0))+8*o;
   const br=s.cols[0].reduce((a,x)=>a+s.cols[1].filter(y=>x===x0||x===x1||y===y0||y===y1).length,0)-1;
   return {area:Math.round(2*o*((x1-x0)+(y1-y0))+4*o*o-1.5*o),br:br,gut:Math.round(per-1.5)}}
 function shelterBOQ(f,can,st,noAdd){
   if(can===undefined)can=SCAN; if(st===undefined)st=SSTAIR;
-  const s=SF[f||SFORM], G=JSON.parse(JSON.stringify(SHELTER_BOQ));
+  const s=SF[f||SFORM], G=JSON.parse(JSON.stringify(SHELTER_BOQ)), sd=stairDims(H), hf=H/4, dh=H-4;
+  G[1][1].forEach(r=>{if(r[0].indexOf('คอนกรีตโครงสร้าง')===0||r[0].indexOf('ค่าแรงเทคอนกรีต')===0)r[1]=+(r[1]+0.56*dh).toFixed(1);if(r[0].indexOf('เหล็กเสริม')===0||r[0].indexOf('ค่าแรงผูกเหล็ก')===0)r[1]=Math.round(r[1]+90*dh);
+    if(r[0].indexOf('ไม้แบบ')===0||r[0].indexOf('ค่าแรงไม้แบบ')===0)r[1]=Math.round(r[1]+9*dh);if(r[0].indexOf('ค้ำยัน')===0)r[0]='ค้ำยัน/นั่งร้านเช่า ใต้พื้นสูง '+H.toFixed(2)+' ม.'});
+  {const r=G[2][1].find(x=>x[0].indexOf('บันไดเหล็ก')===0); if(r){r[0]='บันไดเหล็ก กว้าง 1.20 ม. '+sd.nS+' ขั้น ราวจับสองข้าง';r[3]=Math.round(60000*hf)}}
   if(can){const q=canopyQ(s);G[2][1].push(['กันสาดใต้ระเบียง ยื่น 1.20 ม. รอบ 4 ด้าน (เมทัลชีท + โครงเหล็ก)',q.area,'ตร.ม.',950],['ค้ำยันเหล็กกันสาด',q.br,'จุด',900],['รางน้ำกันสาด',q.gut,'ม.',300])}
-  if(SEASY){const r=G[2][1].find(x=>x[0].indexOf('บันไดเหล็ก')===0); if(r){r[0]='บันไดเหล็กหักกลับ มีชานพักกลาง 26 ขั้น ลูกตั้ง 15.4 ซม. ลูกนอน 30 ซม. ราวจับสองข้าง';r[3]=92000}
+  if(SEASY){const r=G[2][1].find(x=>x[0].indexOf('บันไดเหล็ก')===0); if(r){r[0]='บันไดเหล็กหักกลับ มีชานพักกลาง '+sd.nE+' ขั้น ลูกตั้ง '+(sd.rE*100).toFixed(1)+' ซม. ลูกนอน 30 ซม. ราวจับสองข้าง';r[3]=Math.round(92000*hf)}
     G[2][1].push(['เสา + ฐานรากชานพักบันได',4,'ต้น',4500],['ไฟส่องขั้นบันได LED กันน้ำ + ไฟชานพัก',1,'ชุด',6500])}
-  if(st) G[2][1].push([SEASY?'หลังคาคลุมบันไดชานพัก + เสาเหล็ก 4 ต้น + รางน้ำ':'หลังคาคลุมบันได + เสาเหล็ก 4 ต้น + รางน้ำ',1,'ชุด',SEASY?38000:27500]);
+  if(st) G[2][1].push([SEASY?'หลังคาคลุมบันไดชานพัก + เสาเหล็ก 4 ต้น + รางน้ำ':'หลังคาคลุมบันได + เสาเหล็ก 4 ต้น + รางน้ำ',1,'ชุด',Math.round((SEASY?38000:27500)*(0.6+0.4*hf))]);
   G[0][1][0][1]=s.piles; G[3][0]='4. ห้องนอน 2 ห้อง ห้องน้ำ ครัวเปิดโล่ง '+s.g4;
   const rows=G[3][1], w=rows.find(r=>r[0].indexOf('ผนังโครงเหล็ก')===0), d=rows.find(r=>r[0].indexOf('ประตู')===0);
   w[1]=Math.max(0,w[1]-5+(s.wall||0)); d[1]=3; d[0]='ประตู (ห้องนอน 2 ห้อง ห้องน้ำ) · ครัวเปิดโล่งไม่มีประตู';
@@ -1028,6 +1042,7 @@ const rampH=y=>{const y0=RAMP.y0,L=31-y0,tr=RAMP.tr||0,sl=RAMP.s||RAMP.h/L;if(y<
 const rampProfile=()=>{const y0=RAMP.y0,tr=RAMP.tr||0;return (tr?[y0,y0+tr,31-tr,31]:[y0,31]).map(y=>[y,rampH(y)])};
 const HEIGHTS={'30':3.0,'35':3.5,'40':4.0,'45':4.5};
 let H=4.0;
+function curH(){return H}
 function setGeom(h){H=h;let L=7*h+3,tr=3;if(L>31){tr=0;L=Math.min(31,Math.round(h*7*2)/2)}RAMP.y0=31-L;RAMP.h=h;RAMP.tr=tr;RAMP.s=tr?1/7:h/L;const n=Math.round(h/0.175);STAIR.risers=n;STAIR.y0=17-(n-1)*STAIR.tread}
 const rampL=()=>RAMP.y1-RAMP.y0, slopeTxt=()=>(RAMP.s*100).toFixed(1), f2=v=>v.toFixed(2), fmtL=L=>L%1?L.toFixed(1):String(L);
 const Hm=h=>{const dh=H-4;if(h<=0)return h;if(h<3.4)return h*(3.4+dh)/3.4;return h+dh};
@@ -1636,6 +1651,7 @@ function stillMsg(){
   const parts=[]; if(imgFail) parts.push('โหลดภาพนิ่งไม่สำเร็จ ทั้งไฟล์ภาพและภาพที่ฝังในหน้า อาจถูกระบบความปลอดภัยของเครือข่ายหรือส่วนเสริมของ browser บล็อกไว้ ลองเปิดด้วยเครือข่ายอื่นหรือ browser อื่น ระหว่างนี้ดูผัง รูปด้าน และผังเสาในแท็บอื่นได้');
   const n=AD_ALL.filter(a=>adOn(a.id)).length;
   if(n) parts.push('ภาพนิ่งยังไม่แสดงส่วนเสริม '+n+' รายการที่เลือก ดูได้ในแท็บผังพื้น');
+  if(MODEL==='shelter'&&Math.abs(H-4)>0.01) parts.push('ภาพนิ่งเป็นแบบพื้น +4.00 · พื้น +'+f2(H)+' ที่เลือกดูได้ในภาพ 3 มิติ');
   if(parts.length) parts.push('กด "หมุนดูแบบ 3 มิติ" เพื่อดูภาพตรงตามที่เลือก');
   note(parts.join(' · '));
 }
@@ -2550,6 +2566,7 @@ document.getElementById('copyLink').addEventListener('click',()=>{
 });
 
 function refreshCosts(){
+  mfRender();
   AD_ALL.forEach(a=>{
     const ok=adOK(a,OPT), lab=document.getElementById('adl-'+a.id), cb=document.getElementById('ad-'+a.id); if(!lab) return;
     cb.checked=ok&&adSel.has(a.id); cb.disabled=!ok;
@@ -2631,7 +2648,7 @@ function renderSchedShelter(tb){
     {n:'เตรียมงานและแบบ',w:2,d:'แบบและคำนวณโครงสร้าง วางผัง ขุดฐานราก',c:['วิศวกรเซ็นแบบ','วางผังตรงตำแหน่ง']},
     {n:'ตอกเสาเข็ม',w:1,d:'เข็ม '+SF[SFORM].piles+' ต้น',c:['ครบ '+SF[SFORM].piles+' ต้น ตรงผัง','มีบันทึกการตอก']},
     {n:'ฐานราก เสา คาน พื้น +'+f2(H),w:4,d:'คอนกรีตราว '+Math.round(23*SF[SFORM].area/60)+' คิว เสา '+SF[SFORM].piles+' ต้น พื้นยกสูง '+SF[SFORM].area+' ตร.ม.',c:['ตรวจเหล็กก่อนเท','ถอดค้ำยันหลังคอนกรีตได้อายุ']},
-    {n:'หลังคา ราวกันตก บันได',w:2,d:'หลังคาเมทัลชีท ราวรอบระเบียง บันได 23 ขั้น',c:['หลังคาไม่รั่ว','ราวสูง 1.10 ม. แข็งแรง']},
+    {n:'หลังคา ราวกันตก บันได',w:2,d:'หลังคาเมทัลชีท ราวรอบระเบียง '+(SEASY?'บันไดชานพัก '+stairDims(H).nE+' ขั้น':'บันได '+stairDims(H).nS+' ขั้น')+(SCAN?' กันสาดใต้ระเบียง':''),c:['หลังคาไม่รั่ว','ราวสูง 1.10 ม. แข็งแรง']},
     {n:'ห้องนอน ห้องน้ำ ครัว งานระบบ',w:3,d:'ผนังเบา ประตูหน้าต่าง ไฟฟ้า ประปา สุขภัณฑ์',c:['ทดสอบไฟรั่ว','ห้องน้ำขังน้ำทดสอบกันซึม']},
     {n:'ผิวพื้น ถังน้ำ ไฟโซลาร์ ส่งมอบ',w:1,d:'เคลือบพื้น ถังเก็บน้ำฝน ไฟสำรอง ห่วงผูกเรือ',c:['เปิดก๊อกน้ำจากถังได้','ไฟสำรองติดตอนตัดไฟหลัก']}];
   const total=amt.reduce((a,b)=>a+b,0)*1.12, weeks=P.slice(1).reduce((a,p)=>a+p.w,0);
@@ -2651,7 +2668,7 @@ function renderSchedShelter(tb){
 function drawShelterPlan(){
   const svg=document.getElementById('plan'); if(!svg) return; svg.innerHTML='';
   const s=SF[SFORM]||SF.gable, [bx0,by0,bx1,by1]=s.bound, Wp=bx1-bx0, Dp=by1-by0;
-  svg.setAttribute('viewBox',(SEASY?'-2.4':'-1.9')+' -2.9 '+(Wp+(SEASY?4.7:4.2)).toFixed(2)+' '+(Dp+(SEASY?8.9:6.0)).toFixed(2)); svg.style.cssText='min-width:0;max-width:640px;margin:0 auto';
+  svg.setAttribute('viewBox',(SEASY?'-2.4':'-1.9')+' -2.9 '+(Wp+(SEASY?4.7:4.2)).toFixed(2)+' '+(Dp+(SEASY?stairDims(H).LE+5.3:6.0)).toFixed(2)); svg.style.cssText='min-width:0;max-width:640px;margin:0 auto';
   svg.setAttribute('aria-label','ผังพื้นบ้านพักชั่วคราว '+s.n+' '+Wp.toFixed(2)+' × '+Dp.toFixed(2)+' ม. ครัวเปิดโล่ง');
   const PX=x=>x-bx0, Y=y=>by1-y, ln=w=>'stroke:var(--ink);stroke-width:'+w, f2_=v=>v.toFixed(2);
   const R=(x0,y0,x1,y1,cls,w,extra)=>el('rect',{x:PX(x0),y:Y(y1),width:x1-x0,height:y1-y0,style:'fill:var(--'+cls+');'+ln(w||.04)+(extra||'')},svg);
@@ -2674,12 +2691,12 @@ function drawShelterPlan(){
   if(SCAN){const o=1.2;el('rect',{x:PX(bx0-o),y:Y(by1+o),width:Wp+2*o,height:Dp+2*o,style:'fill:none;stroke:var(--warn);stroke-width:.05;stroke-dasharray:.3 .15'},svg);
     T(bx0+Wp/2,by1+o-.32,'แนวกันสาดใต้ระเบียง ยื่น 1.20 ม.',.24,600,'warn')}
   const [sa,sb,sy]=s.stair;
-  if(SEASY){const f1a=sa-1.35,f1b=sa-.15,yl1=sy-3.6,yl0=yl1-1.3; R(f1a,yl1,f1b,sy,'room',.03); R(sa,yl1,sb,sy,'room',.03); R(f1a,yl0,sb,yl1,'room',.03);
-    for(let i=1;i<12;i++){L(f1a,sy-i*.3,f1b,sy-i*.3,ln(.015));L(sa,yl1+i*.3,sb,yl1+i*.3,ln(.015))}
-    T((f1a+f1b)/2,sy-.6,'ขึ้น ↓',.2,600); T((sa+sb)/2,sy-.6,'↑',.3,600); T((f1a+sb)/2,yl0+.65,'ชานพัก +2.00',.22,600);
-    T((f1a+sb)/2,yl0-.35,'บันไดชานพัก 26 ขั้น · ลูกตั้ง 15.4 ซม.',.24)}
+  if(SEASY){const sd=stairDims(H),f1a=sa-1.35,f1b=sa-.15,yl1=sy-sd.LE,yl0=yl1-1.3; R(f1a,yl1,f1b,sy,'room',.03); R(sa,yl1,sb,sy,'room',.03); R(f1a,yl0,sb,yl1,'room',.03);
+    for(let i=1;i<sd.kE-1;i++){L(f1a,sy-i*.3,f1b,sy-i*.3,ln(.015));L(sa,yl1+i*.3,sb,yl1+i*.3,ln(.015))}
+    T((f1a+f1b)/2,sy-.6,'ขึ้น ↓',.2,600); T((sa+sb)/2,sy-.6,'↑',.3,600); T((f1a+sb)/2,yl0+.65,'ชานพัก +'+(H/2).toFixed(2),.22,600);
+    T((f1a+sb)/2,yl0-.35,'บันไดชานพัก '+sd.nE+' ขั้น · ลูกตั้ง '+(sd.rE*100).toFixed(1)+' ซม.',.24)}
   else R(sa,sy-1.8,sb,sy,'room',.03);
-  if(SSTAIR&&SEASY){el('rect',{x:PX(sa-1.65),y:Y(sy-.55),width:sb-sa+1.95,height:4.95,style:'fill:none;stroke:var(--warn);stroke-width:.04;stroke-dasharray:.2 .1'},svg)}
+  if(SSTAIR&&SEASY){el('rect',{x:PX(sa-1.65),y:Y(sy-.55),width:sb-sa+1.95,height:stairDims(H).LE+1.35,style:'fill:none;stroke:var(--warn);stroke-width:.04;stroke-dasharray:.2 .1'},svg)}
   else if(SSTAIR){el('rect',{x:PX(sa-.35),y:Y(sy-.55),width:sb-sa+.7,height:2.35,style:'fill:none;stroke:var(--warn);stroke-width:.04;stroke-dasharray:.2 .1'},svg)} if(!SEASY){for(let i=1;i<7;i++)L(sa,sy-i*.26,sb,sy-i*.26,ln(.02)); T((sa+sb)/2,sy-2.15,'บันได 1.20 ม. ↓',.28)}
   if(s.tank){el('circle',{cx:PX(s.tank[0]),cy:Y(s.tank[1]),r:.5,style:'fill:none;'+ln(.03)},svg);T(s.tank[0],s.tank[1]-.85,'ถังน้ำฝน',.2)}
   s.cols[0].forEach(x=>s.cols[1].forEach(y=>el('rect',{x:PX(x)-.13,y:Y(y)-.13,width:.26,height:.26,style:'fill:var(--ink)'},svg)));
@@ -2689,14 +2706,14 @@ function drawShelterPlan(){
 }
 function renderShelterArea(){
   const tb=document.getElementById('sAreaT'); if(!tb) return; const s=SF[SFORM]||SF.gable, [bx0,by0,bx1,by1]=s.bound;
-  const f2_=v=>v.toFixed(2), a1=v=>String(Math.round(v*10)/10), rows=[['grp','บ้านพักชั่วคราว '+s.n+' ชั้นบน +4.00']];
+  const f2_=v=>v.toFixed(2), a1=v=>String(Math.round(v*10)/10), rows=[['grp','บ้านพักชั่วคราว '+s.n+' ชั้นบน +'+f2_(H)]];
   s.rooms.forEach(r=>{const w=r[2]-r[0],d=r[3]-r[1];rows.push(['',r[4],f2_(w)+' × '+f2_(d),a1(w*d)])});
   const dk=s.deck.reduce((a,d)=>a+(d[2]-d[0])*(d[3]-d[1]),0);
   rows.push(['',s.deck[0][4]+' มีหลังคา',s.deck.length>1?'รอบ 4 ด้าน':f2_(s.deck[0][2]-s.deck[0][0])+' × '+f2_(s.deck[0][3]-s.deck[0][1]),a1(dk)]);
   rows.push(['sum','รวมพื้นยกสูง',f2_(bx1-bx0)+' × '+f2_(by1-by0),a1((bx1-bx0)*(by1-by0))]);
   if(SCAN)rows.push(['','กันสาดใต้ระเบียง ยื่น 1.20 ม.','รอบ 4 ด้าน',a1(canopyQ(s).area)]);
-  if(SSTAIR)rows.push(SEASY?['','หลังคาคลุมบันได','3.15 × 5.65','17.8']:['','หลังคาคลุมบันได','1.90 × 6.6','12.5']);
-  rows.push(['grp','ระดับดิน ±0.00']); rows.push(['','ใต้ถุนโล่ง',f2_(bx1-bx0)+' × '+f2_(by1-by0),a1((bx1-bx0)*(by1-by0))]); rows.push(SEASY?['','บันไดชานพัก 26 ขั้น (ผู้สูงอายุ)','2.55 × 4.90','12.5']:['','บันไดคนเดิน 23 ขั้น','1.20 × 6.16','7.4']);
+  if(SSTAIR){const sd=stairDims(H),w=s.stair[1]-s.stair[0];rows.push(SEASY?['','หลังคาคลุมบันได',f2_(w+1.95)+' × '+f2_(sd.LE+2.05),a1((w+1.95)*(sd.LE+2.05))]:['','หลังคาคลุมบันได',f2_(w+0.7)+' × '+f2_(sd.LS+0.45),a1((w+0.7)*(sd.LS+0.45))])}
+  rows.push(['grp','ระดับดิน ±0.00']); rows.push(['','ใต้ถุนโล่ง',f2_(bx1-bx0)+' × '+f2_(by1-by0),a1((bx1-bx0)*(by1-by0))]); {const sd=stairDims(H),w=s.stair[1]-s.stair[0]+1.35;rows.push(SEASY?['','บันไดชานพัก '+sd.nE+' ขั้น (ผู้สูงอายุ)',f2_(w)+' × '+f2_(sd.LE+1.3),a1(w*(sd.LE+1.3))]:['','บันไดคนเดิน '+sd.nS+' ขั้น','1.20 × '+f2_(sd.LS),a1(1.2*sd.LS)])}
   tb.innerHTML=''; rows.forEach(r=>{const tr=document.createElement('tr');if(r[0])tr.className=r[0];
     if(r[0]==='grp'){const td=document.createElement('td');td.colSpan=3;td.textContent=r[1];tr.appendChild(td)}
     else [r[1],r[2],r[3]].forEach((v,i)=>{const td=document.createElement('td');if(i)td.className='n';td.textContent=v;tr.appendChild(td)});
@@ -2719,7 +2736,7 @@ function shelterify(){
       o.visible=k})};
   hide();
   const G=new T.Group();G.userData.shelter=true;sc.add(G);
-  const X=x=>x-20,Z=y=>20-y,H=4;
+  const X=x=>x-20,Z=y=>20-y,H=curH();
   const add=m=>{m.castShadow=!m.material.transparent;m.receiveShadow=true;G.add(m);return m};
   const box=(x0,x1,y0,y1,h0,h1,m)=>{const me=new T.Mesh(new T.BoxGeometry(x1-x0,h1-h0,y1-y0),m);me.position.set(X((x0+x1)/2),(h0+h1)/2,Z((y0+y1)/2));return add(me)};
   const Mc=M('#c3c7c3'),Mb=M('#b2b7b3'),Md=M('#a2a8a5'),Ms=M('#4a5256'),Mr=M('#3c464b'),Mw=M('#efece5'),Mg=M('#27424f'),Mt=M('#94592f'),Mwood=M('#a8703f'),Mtank=M('#2f6fa8');
@@ -2736,7 +2753,7 @@ function shelterify(){
   const doorX=(x,a,c)=>box(x-0.05,x+0.08,a,c,H,H+2.1,P.door), winX=(x,a,c,h0)=>box(x-0.03,x+0.12,a,c,(h0||H+0.9),H+2.1,P.glass);
   const rail=(ax,ay,bx,by)=>{const L=Math.hypot(bx-ax,by-ay);const top=new T.Mesh(new T.BoxGeometry(Math.abs(bx-ax)+0.06,0.05,Math.abs(by-ay)+0.06),P.rail);top.position.set(X((ax+bx)/2),H+1.05,Z((ay+by)/2));add(top);
     const n=Math.max(1,Math.round(L/0.12));for(let i=0;i<=n;i++){const x=ax+(bx-ax)*i/n,y=ay+(by-ay)*i/n;box(x-0.02,x+0.02,y-0.02,y+0.02,H,H+1.05,P.rail)}};
-  const stair=(xa,xb,y0)=>{const n=23,run=0.28,sy1=y0,sy0=y0-(n-1)*run;for(let i=0;i<n-1;i++){const h=(i+1)*H/n,y=sy0+i*run;box(xa,xb,y,y+run,h-0.04,h,Mwood)}
+  const stair=(xa,xb,y0)=>{const n=stairDims(H).nS,run=0.28,sy1=y0,sy0=y0-(n-1)*run;for(let i=0;i<n-1;i++){const h=(i+1)*H/n,y=sy0+i*run;box(xa,xb,y,y+run,h-0.04,h,Mwood)}
     [xa,xb].forEach(x=>{const L=Math.hypot(sy1-sy0,H),a=Math.atan2(H,sy1-sy0);const me=new T.Mesh(new T.BoxGeometry(0.06,0.22,L),P.rail);me.rotation.x=a;me.position.set(X(x),H/2,Z((sy0+sy1)/2));add(me);const hr=me.clone();hr.position.y=H/2+0.95;hr.scale.y=0.25;add(hr)})};
   const planeX=(xa,xb,a,ha,c,hc,m)=>{const dy=c-a,dh=hc-ha,L=Math.hypot(dy,dh),ang=Math.atan2(dh,dy);const me=new T.Mesh(new T.BoxGeometry(xb-xa,0.08,L),m||P.roof);me.rotation.x=ang;me.position.set(X((xa+xb)/2),(ha+hc)/2,Z((a+c)/2));return add(me)};
   const planeY=(ya,yb,a,ha,c,hc,m)=>{const dx=c-a,dh=hc-ha,L=Math.hypot(dx,dh),ang=Math.atan2(dh,Math.abs(dx))*(dx>0?1:-1);const me=new T.Mesh(new T.BoxGeometry(L,0.08,yb-ya),m||P.roof);me.rotation.z=ang;me.position.set(X((a+c)/2),(ha+hc)/2,Z((ya+yb)/2));return add(me)};
@@ -2770,7 +2787,7 @@ function shelterify(){
       const mid=top.clone();mid.position.y=H+0.55;add(mid);
       for(let i=0;i<=n;i++){const x=ax+(bx-ax)*i/n,y=ay+(by-ay)*i/n;box(x-0.03,x+0.03,y-0.03,y+0.03,H,H+1.1,Ms)}};
     rl(x0,y0,23.4,y0); rl(24.6,y0,x1,y0); rl(x0,y0,x0,uy); rl(x1,y0,x1,uy);
-    if(!SEASY){const n=23, run=0.28, sy1=y0, sy0=y0-(n-1)*run, sxa=23.4, sxb=24.6;
+    if(!SEASY){const n=stairDims(H).nS, run=0.28, sy1=y0, sy0=y0-(n-1)*run, sxa=23.4, sxb=24.6;
     for(let i=0;i<n-1;i++){const h=(i+1)*H/n,y=sy0+i*run;box(sxa,sxb,y,y+run,h-0.04,h,Mwood)}
     [sxa,sxb].forEach(x=>{const L=Math.hypot(sy1-sy0,H),a=Math.atan2(H,sy1-sy0);const me=new T.Mesh(new T.BoxGeometry(0.06,0.25,L),Ms);me.rotation.x=a;me.position.set(X(x),H/2,Z((sy0+sy1)/2));add(me);
       const hr=me.clone();hr.position.y=H/2+0.95;hr.scale.y=0.25;add(hr);
@@ -2863,21 +2880,21 @@ function shelterify(){
     const kb=new T.Mesh(new T.CylinderGeometry(0.16,0.16,0.04,16),new T.MeshBasicMaterial({color:new T.Color('#fff4dc').convertSRGBToLinear()})); kb.position.set(kl.position.x,H+2.56,kl.position.z); G.add(kb); lamps.push(kb);
   }
   const nlamps=[];
-  if(SEASY){ // stair for the elderly: two flights of 13 low risers (15.4 cm) with a half landing, handrails both sides, small step lights
-    const [sa,sb,sy]=sp.stair, r=H/26, t=0.30, f1a=sa-1.35, f1b=sa-0.15, yl1=sy-12*t, yl0=yl1-1.3;
-    for(let i=0;i<12;i++){const h=(i+1)*r; box(f1a,f1b,sy-t*(i+1),sy-t*i,h-0.04,h,Mwood)}
-    for(let j=0;j<12;j++){const h=2+(j+1)*r; box(sa,sb,yl1+t*j,yl1+t*(j+1),h-0.04,h,Mwood)}
-    box(f1a,sb,yl0,yl1,1.88,2.0,Mwood); box(f1a+0.05,sb-0.05,yl0+0.05,yl1-0.05,1.74,1.88,P.trim);
-    [[f1a+0.08,yl0+0.08],[sb-0.08,yl0+0.08],[f1a+0.08,yl1-0.08],[sb-0.08,yl1-0.08]].forEach(([x,y])=>{box(x-0.07,x+0.07,y-0.07,y+0.07,0,1.74,P.col);box(x-0.2,x+0.2,y-0.2,y+0.2,0,0.12,P.col)});
+  if(SEASY){ // stair for the elderly: two flights of low risers with a half landing, handrails both sides, small step lights
+    const [sa,sb,sy]=sp.stair, d=stairDims(H), r=d.rE, k=d.kE, t=0.30, M=H/2, f1a=sa-1.35, f1b=sa-0.15, yl1=sy-d.LE, yl0=yl1-1.3;
+    for(let i=0;i<k-1;i++){const h=(i+1)*r; box(f1a,f1b,sy-t*(i+1),sy-t*i,h-0.04,h,Mwood)}
+    for(let j=0;j<k-1;j++){const h=M+(j+1)*r; box(sa,sb,yl1+t*j,yl1+t*(j+1),h-0.04,h,Mwood)}
+    box(f1a,sb,yl0,yl1,M-0.12,M,Mwood); box(f1a+0.05,sb-0.05,yl0+0.05,yl1-0.05,M-0.26,M-0.12,P.trim);
+    [[f1a+0.08,yl0+0.08],[sb-0.08,yl0+0.08],[f1a+0.08,yl1-0.08],[sb-0.08,yl1-0.08]].forEach(([x,y])=>{box(x-0.07,x+0.07,y-0.07,y+0.07,0,M-0.26,P.col);box(x-0.2,x+0.2,y-0.2,y+0.2,0,0.12,P.col)});
     const sl=(x,yA,hA,yB,hB,w,hh)=>{const L=Math.hypot(yB-yA,hB-hA);const me=new T.Mesh(new T.BoxGeometry(w,hh,L),P.rail);me.rotation.x=Math.atan2(hB-hA,yB-yA);me.position.set(X(x),(hA+hB)/2,Z((yA+yB)/2));add(me)};
     const vp=(x,y,h)=>box(x-0.025,x+0.025,y-0.025,y+0.025,h,h+0.9,P.rail);
-    [f1a+0.03,f1b-0.03].forEach(x=>{sl(x,sy,-0.05,yl1,1.85,0.06,0.2); sl(x,sy-0.15,0.9,yl1,2.9,0.05,0.05); [sy-0.15,sy-1.9,yl1+0.1].forEach(y=>vp(x,y,(sy-y)/(sy-yl1)*1.85+0.05))});
-    [sa+0.03,sb-0.03].forEach(x=>{sl(x,yl1,1.9,sy,3.88,0.06,0.2); sl(x,yl1,2.9,sy-0.1,4.85,0.05,0.05); [yl1+0.1,yl1+1.8,sy-0.15].forEach(y=>vp(x,y,2+(y-yl1)/(sy-yl1)*1.85))});
-    box(f1a,sb,yl0-0.02,yl0+0.03,2.88,2.93,P.rail); box(f1a-0.02,f1a+0.03,yl0,yl1,2.88,2.93,P.rail); box(sb-0.03,sb+0.02,yl0,yl1,2.88,2.93,P.rail);
-    for(let x=f1a;x<=sb+0.01;x+=0.6) box(x-0.02,x+0.02,yl0-0.02,yl0+0.02,2.0,2.9,P.rail);
+    [f1a+0.03,f1b-0.03].forEach(x=>{sl(x,sy,-0.05,yl1,M-0.15,0.06,0.2); sl(x,sy-0.15,0.9,yl1,M+0.9,0.05,0.05); [sy-0.15,(sy+yl1)/2,yl1+0.1].forEach(y=>vp(x,y,(sy-y)/(sy-yl1)*(M-0.15)+0.05))});
+    [sa+0.03,sb-0.03].forEach(x=>{sl(x,yl1,M-0.1,sy,H-0.12,0.06,0.2); sl(x,yl1,M+0.9,sy-0.1,H+0.85,0.05,0.05); [yl1+0.1,(sy+yl1)/2,sy-0.15].forEach(y=>vp(x,y,M+(y-yl1)/(sy-yl1)*(H-M-0.15)))});
+    box(f1a,sb,yl0-0.02,yl0+0.03,M+0.88,M+0.93,P.rail); box(f1a-0.02,f1a+0.03,yl0,yl1,M+0.88,M+0.93,P.rail); box(sb-0.03,sb+0.02,yl0,yl1,M+0.88,M+0.93,P.rail);
+    for(let x=f1a;x<=sb+0.01;x+=0.6) box(x-0.02,x+0.02,yl0-0.02,yl0+0.02,M,M+0.9,P.rail);
     const bm=new T.MeshBasicMaterial({color:new T.Color('#fff1c4').convertSRGBToLinear()});
-    [[f1a+0.05,sy-1.8,0.95],[sa+0.05,yl1+1.8,2.95],[sb-0.05,sy-0.3,4.85],[(f1a+sb)/2,yl0+0.05,2.75]].forEach(([x,y,h])=>{const m=new T.Mesh(new T.BoxGeometry(0.08,0.05,0.12),bm);m.position.set(X(x),h,Z(y));G.add(m);nlamps.push(m)});
-    const sl2=new T.PointLight('#ffd9a0',0.9,7,2); sl2.position.set(X((f1a+sb)/2),3.2,Z(yl0+0.6)); G.add(sl2); nlamps.push(sl2);
+    [[f1a+0.05,(sy+yl1)/2,M/2+0.95],[sa+0.05,(sy+yl1)/2,(M+H)/2+0.95],[sb-0.05,sy-0.3,H+0.85],[(f1a+sb)/2,yl0+0.05,M+0.75]].forEach(([x,y,h])=>{const m=new T.Mesh(new T.BoxGeometry(0.08,0.05,0.12),bm);m.position.set(X(x),h,Z(y));G.add(m);nlamps.push(m)});
+    const sl2=new T.PointLight('#ffd9a0',0.9,7,2); sl2.position.set(X((f1a+sb)/2),M+1.2,Z(yl0+0.6)); G.add(sl2); nlamps.push(sl2);
   }
   { // lower canopy around the deck edge (under the floor) and a roof over the stair, both optional
     const [bx0,by0,bx1,by1]=sp.bound, [sa,sb,sy]=sp.stair, o=1.2, hi=H-0.62, lo=H-1.0, Mrf=P.roof, Mtr=P.trim;
@@ -2893,11 +2910,11 @@ function shelterify(){
       sp.cols[0].forEach(x=>sp.cols[1].forEach(y=>{const nearStair=y===by0&&x>g0-0.4&&x<g1+0.4;
         if(y===by0&&!nearStair)brace(x,y,0,-1); if(y===by1)brace(x,y,0,1); if(x===bx0)brace(x,y,-1,0); if(x===bx1)brace(x,y,1,0)}));
     }
-    if(SSTAIR&&SEASY){const yl0=sy-3.6-1.3, xa=sa-1.65, xb=sb+0.3, ya=yl0-0.3, yb=sy-0.55, ha=4.45, hb=6.1, hr=y=>ha+(hb-ha)*(y-ya)/(yb-ya);
+    if(SSTAIR&&SEASY){const yl0=sy-stairDims(H).LE-1.3, xa=sa-1.65, xb=sb+0.3, ya=yl0-0.3, yb=sy-0.55, ha=H/2+2.45, hb=H+2.1, hr=y=>ha+(hb-ha)*(y-ya)/(yb-ya);
       planeX(xa,xb,ya,ha,yb,hb,Mrf); box(xa,xb,ya-0.04,ya+0.04,ha-0.16,ha,Mtr);
       [ya+0.3,sy-2.3].forEach(y=>[xa+0.08,xb-0.08].forEach(x=>{box(x-0.06,x+0.06,y-0.06,y+0.06,0,hr(y),P.col);box(x-0.2,x+0.2,y-0.2,y+0.2,0,0.12,P.col)}));
     } else if(SSTAIR){
-      const sy1=sy, sy0=sy-22*0.28, sh=y=>H*(y-sy0)/(sy1-sy0), xa=sa-0.35, xb=sb+0.35, ya=sy0-0.5, yb=sy-0.55, cl=2.35, ha=Math.max(2.3,sh(ya)+cl);
+      const sy1=sy, sy0=sy-(stairDims(H).nS-1)*0.28, sh=y=>H*(y-sy0)/(sy1-sy0), xa=sa-0.35, xb=sb+0.35, ya=sy0-0.5, yb=sy-0.55, cl=2.35, ha=Math.max(2.3,sh(ya)+cl);
       planeX(xa,xb,ya,ha,yb,sh(yb)+cl,Mrf); box(xa,xb,ya-0.04,ya+0.04,ha-0.16,ha,Mtr);
       [ya+0.35,(ya+yb)/2].forEach(y=>[xa+0.08,xb-0.08].forEach(x=>{box(x-0.06,x+0.06,y-0.06,y+0.06,0,sh(y)+cl,P.col);box(x-0.2,x+0.2,y-0.2,y+0.2,0,0.12,P.col)}));
       [xa+0.08,xb-0.08].forEach(x=>{const L=Math.hypot(yb-ya,sh(yb)-sh(ya));const me=new T.Mesh(new T.BoxGeometry(0.08,0.12,L),Mtr);me.rotation.x=Math.atan2(sh(yb)-sh(ya),yb-ya);me.position.set(X(x),(sh(ya)+sh(yb))/2+cl-0.1,Z((ya+yb)/2));add(me)});
@@ -2907,7 +2924,7 @@ function shelterify(){
   bulb=new T.Mesh(new T.SphereGeometry(0.1,10,8),new T.MeshBasicMaterial({color:new T.Color('#fff4cf').convertSRGBToLinear()}));bulb.position.copy(lamp.position);G.add(bulb);
   // labels
   (f.LABELS||[]).forEach((l,i)=>{const d=SHELTER_LABELS[i];if(!d){l.v.set(0,-1000,0);return}
-    l.v.set(X(d.p[0]),d.p[2],Z(d.p[1]));const t=l.d.querySelector('.t');if(t)t.innerHTML=d.h});
+    l.v.set(X(d.p[0]),d.p[2]+(d.p[2]>3.2?H-4:0),Z(d.p[1]));const t=l.d.querySelector('.t');if(t)t.innerHTML=d.h});
   window.__shelterG={hide:hide,lamp:lamp,bulb:bulb,lamps:lamps,nlamps:nlamps};
   shelterNight();
 }
@@ -2933,11 +2950,12 @@ function sRoofs(){const f=SFORM,R='roof',Gb='gable',Py='poly',Gl='glass';
    lshape:{F:[rect(15.3,24.7,6.75,8.3,R),{pts:[[20.3,6.75],[22.5,8.3],[24.7,6.75]],c:Gb},rect(15.6,20.9,6.65,6.85,Py)],S:[{pts:[[25.3,6.75],[27.5,8.3],[29.7,6.75]],c:Gb},rect(20.3,26.4,6.75,8.3,R),rect(20.4,25.3,6.65,6.85,Py)]},
    aframe:{F:[{pts:[[14.1,4.95],[20,10.9],[25.9,4.95]],c:R},{pts:[[14.5,5.35],[20,10.65],[25.5,5.35],[25.5,4],[14.5,4]],c:Gl}],S:[rect(21.3,28.6,4.95,10.9,R)]},
    wrap:{F:[{pts:[[14.3,6.8],[25.7,6.8],[21.4,8.5],[18.6,8.5]],c:R}],S:[{pts:[[21.3,6.8],[25.6,8.5],[29.9,6.8]],c:R}]}};
-  return D[f]||D.gable}
+  const r0=D[f]||D.gable, dz=H-4, sh=a=>a.map(p=>({c:p.c,pts:p.pts.map(q=>[q[0],q[1]+dz])})); return {F:sh(r0.F),S:sh(r0.S)}}
 function sUnion(iv){iv=iv.slice().sort((a,b)=>a[0]-b[0]);const o=[];iv.forEach(v=>{const l=o[o.length-1];if(l&&v[0]<=l[1]+0.01)l[1]=Math.max(l[1],v[1]);else o.push([v[0],v[1]])});return o}
-function sStairInfo(s){const [sa,sb,sy]=s.stair;return SEASY?{sa,sb,sy,f1a:sa-1.35,f1b:sa-0.15,yl1:sy-3.6,yl0:sy-4.9}:{sa,sb,sy,y0:sy-6.16}}
+function stairDims(h){const nE=2*Math.max(8,Math.round(h/0.308)),kE=nE/2,nS=Math.max(12,Math.round(h/0.174));return {nE,kE,rE:h/nE,LE:(kE-1)*0.30,nS,rS:h/nS,LS:(nS-1)*0.28,mid:h/2}}
+function sStairInfo(s){const [sa,sb,sy]=s.stair, d=stairDims(H);return SEASY?Object.assign({sa,sb,sy,f1a:sa-1.35,f1b:sa-0.15,yl1:sy-d.LE,yl0:sy-d.LE-1.3},d):Object.assign({sa,sb,sy,y0:sy-d.LS},d)}
 function drawShelterElev(){
-  const s=SF[SFORM]||SF.gable, [bx0,by0,bx1,by1]=s.bound, rf=sRoofs(), st=sStairInfo(s), H=4;
+  const s=SF[SFORM]||SF.gable, [bx0,by0,bx1,by1]=s.bound, rf=sRoofs(), st=sStairInfo(s);
   const fill={roof:'var(--ink)',gable:'var(--room)',poly:'rgba(140,190,215,.45)',glass:'rgba(127,170,195,.35)',wall:'var(--room)'};
   const draw=(id,side)=>{const svg=document.getElementById(id); if(!svg) return; svg.innerHTML='';
     const shapes=side?rf.S:rf.F, roofTop=Math.max(...shapes.flatMap(p=>p.pts.map(q=>q[1])));
@@ -2958,7 +2976,7 @@ function drawShelterElev(){
     (side?s.cols[1]:s.cols[0]).forEach(u=>R(u-0.12,u+0.12,0,H-0.52,'var(--slab)',.03));
     R(lo-0.1,hi+0.1,H-0.52,H-0.12,'var(--slab)',.03); R(lo-0.15,hi+0.15,H-0.12,H,'var(--slab)',.04);
     // canopy under the deck
-    if(SCAN){R(lo-1.2,hi+1.2,2.82,3.0,'var(--ink)',.02); P([[lo-1.2,3.0],[lo,3.38],[hi,3.38],[hi+1.2,3.0]],'var(--muted)',.02)}
+    if(SCAN){R(lo-1.2,hi+1.2,H-1.18,H-1.0,'var(--ink)',.02); P([[lo-1.2,H-1.0],[lo,H-0.62],[hi,H-0.62],[hi+1.2,H-1.0]],'var(--muted)',.02)}
     // walls (union of rooms seen from this side), doors, kitchen opening
     if(!(SFORM==='aframe'&&!side)) sUnion(s.rooms.map(r=>side?[r[1],r[3]]:[r[0],r[2]])).forEach(([a,b])=>R(a,b,H,H+2.6,fill.wall,.04));
     s.doors.forEach(d=>{const hor=d[1]===d[3]; if(hor===!side) R(side?d[1]:d[0],side?d[3]:d[2],H,H+2.1,'var(--wood)',.02)});
@@ -2972,32 +2990,32 @@ function drawShelterElev(){
     if(SFORM==='aframe'&&!side) for(let u=16;u<25;u+=1.5) L(u,H,u,Math.min(H+2.6,4.95+1.01*(Math.min(u-14.1,25.9-u))-0.2),ln(.015));
     // stair
     if(!side){
-      if(SEASY){R(st.f1a,st.f1b,0,2,'var(--room)',.03);R(st.sa,st.sb,2,4,'var(--room)',.03);R(st.f1a,st.sb,1.74,2,'var(--wood)',.03);
-        for(let i=1;i<13;i++){L(st.f1a,i*4/26,st.f1b,i*4/26,ln(.012));L(st.sa,2+i*4/26,st.sb,2+i*4/26,ln(.012))}
-        [st.f1a+0.08,st.sb-0.08].forEach(u=>R(u-0.07,u+0.07,0,1.74,'var(--slab)',.02));
-        L(st.f1a,2.9,st.sb,2.9,ln(.03))}
-      else {R(st.sa,st.sb,0,H,'var(--room)',.03);for(let i=1;i<23;i++)L(st.sa,i*H/23,st.sb,i*H/23,ln(.012))}
-      if(SSTAIR){if(SEASY)R(st.sa-1.65,st.sb+0.3,4.29,6.1,'var(--muted)',.02,';fill-opacity:.55');else R(st.sa-0.35,st.sb+0.35,2.3,6.0,'var(--muted)',.02,';fill-opacity:.55')}
+      if(SEASY){const M=st.mid;R(st.f1a,st.f1b,0,M,'var(--room)',.03);R(st.sa,st.sb,M,H,'var(--room)',.03);R(st.f1a,st.sb,M-0.26,M,'var(--wood)',.03);
+        for(let i=1;i<st.kE;i++){L(st.f1a,i*st.rE,st.f1b,i*st.rE,ln(.012));L(st.sa,M+i*st.rE,st.sb,M+i*st.rE,ln(.012))}
+        [st.f1a+0.08,st.sb-0.08].forEach(u=>R(u-0.07,u+0.07,0,M-0.26,'var(--slab)',.02));
+        L(st.f1a,M+0.9,st.sb,M+0.9,ln(.03))}
+      else {R(st.sa,st.sb,0,H,'var(--room)',.03);for(let i=1;i<st.nS;i++)L(st.sa,i*st.rS,st.sb,i*st.rS,ln(.012))}
+      if(SSTAIR){if(SEASY)R(st.sa-1.65,st.sb+0.3,H/2+2.29,H+2.1,'var(--muted)',.02,';fill-opacity:.55');else R(st.sa-0.35,st.sb+0.35,2.3,H+2.0,'var(--muted)',.02,';fill-opacity:.55')}
     } else {
       const pl=[];
-      if(SEASY){for(let i=0;i<=12;i++){const y=st.sy-0.3*i,h=i*4/26;pl.push([y,h],[y-0.3,h])} P(pl.concat([[st.yl1,0],[st.sy,0]]).slice(0,-1),'var(--room)',.02);
-        const p2=[];for(let j=0;j<=12;j++){const y=st.yl1+0.3*j,h=2+(j+1)*4/26;p2.push([y,h-4/26],[y,h])} P(p2.concat([[st.sy,H],[st.sy,2],[st.yl1,2]]),'var(--wood)',.02);
-        R(st.yl0,st.yl1,1.74,2,'var(--wood)',.03); [st.yl0+0.08,st.yl1-0.08].forEach(u=>R(u-0.07,u+0.07,0,1.74,'var(--slab)',.02));
-        L(st.sy,0.9,st.yl1,2.9,ln(.03)); L(st.yl1,2.9,st.sy,4.9,ln(.03)); L(st.yl0,2.9,st.yl1,2.9,ln(.03))}
-      else {for(let i=0;i<23;i++){const y=st.y0+0.28*i,h=(i+1)*H/23;pl.push([y,h-H/23],[y,h])} P(pl.concat([[st.sy,H],[st.sy,H-0.3],[st.y0+0.3,0]]),'var(--wood)',.02); L(st.y0,0.95,st.sy,H+0.95,ln(.03))}
-      if(SSTAIR){if(SEASY){P([[st.yl0-0.3,4.45],[st.sy-0.55,6.1],[st.sy-0.55,5.96],[st.yl0-0.3,4.31]],'var(--muted)',.02);[st.yl0,st.sy-2.3].forEach(u=>R(u-0.06,u+0.06,0,4.45+(u-st.yl0+0.3)/(st.sy-0.55-st.yl0+0.3)*1.65,'var(--slab)',.015))}
-        else {const ya=st.y0-0.5,yb=st.sy-0.55;P([[ya,2.3],[yb,6.0],[yb,5.88],[ya,2.18]],'var(--muted)',.02)}}
+      if(SEASY){const M=st.mid,r=st.rE,k=st.kE;pl.push([st.sy,0]);for(let i=0;i<k-1;i++){const y=st.sy-0.3*i,h=(i+1)*r;pl.push([y,h],[y-0.3,h])} P(pl.concat([[st.yl1,M-0.26]]),'var(--room)',.02);
+        const p2=[];for(let j=0;j<k;j++){const y=st.yl1+0.3*j,h=M+(j+1)*r;p2.push([y,h-r],[y,h])} P(p2.concat([[st.sy,H],[st.sy,M],[st.yl1,M]]),'var(--wood)',.02);
+        R(st.yl0,st.yl1,M-0.26,M,'var(--wood)',.03); [st.yl0+0.08,st.yl1-0.08].forEach(u=>R(u-0.07,u+0.07,0,M-0.26,'var(--slab)',.02));
+        L(st.sy,0.9,st.yl1,M+0.9,ln(.03)); L(st.yl1,M+0.9,st.sy,H+0.9,ln(.03)); L(st.yl0,M+0.9,st.yl1,M+0.9,ln(.03))}
+      else {for(let i=0;i<st.nS;i++){const y=st.y0+0.28*i,h=(i+1)*st.rS;pl.push([y,h-st.rS],[y,h])} P(pl.concat([[st.sy,H],[st.sy,H-0.3],[st.y0+0.3,0]]),'var(--wood)',.02); L(st.y0,0.95,st.sy,H+0.95,ln(.03))}
+      if(SSTAIR){if(SEASY){const ha=H/2+2.45,hb=H+2.1;P([[st.yl0-0.3,ha],[st.sy-0.55,hb],[st.sy-0.55,hb-0.14],[st.yl0-0.3,ha-0.14]],'var(--muted)',.02);[st.yl0,st.sy-2.3].forEach(u=>R(u-0.06,u+0.06,0,ha+(u-st.yl0+0.3)/(st.sy-0.55-st.yl0+0.3)*(hb-ha),'var(--slab)',.015))}
+        else {const ya=st.y0-0.5,yb=st.sy-0.55;P([[ya,2.3],[yb,H+2.0],[yb,H+1.88],[ya,2.18]],'var(--muted)',.02)}}
     }
     // levels at the right
-    const lv=[[0,'±0.00 ดิน'],[H-0.52,'+3.48 ใต้คาน'],[H,'+4.00 พื้น'],[H+2.6,'+6.60 ฝ้า'],[roofTop,'+'+roofTop.toFixed(2)+' หลังคา']];
-    if(SCAN) lv.splice(1,0,[3.0,'+3.00 ปลายกันสาด']); if(SEASY) lv.splice(1,0,[2.0,'+2.00 ชานพัก']);
+    const fz=z=>'+'+z.toFixed(2), lv=[[0,'±0.00 ดิน'],[H-0.52,fz(H-0.52)+' ใต้คาน'],[H,fz(H)+' พื้น'],[H+2.6,fz(H+2.6)+' ฝ้า'],[roofTop,fz(roofTop)+' หลังคา']];
+    if(SCAN) lv.splice(1,0,[H-1.0,fz(H-1.0)+' ปลายกันสาด']); if(SEASY) lv.splice(1,0,[H/2,fz(H/2)+' ชานพัก']);
     const ux=uMax+0.3; L(ux,0,ux,roofTop,ln(.015));
     let lastZ=-9; lv.sort((a,b)=>a[0]-b[0]).forEach(([z,t])=>{L(ux-0.15,z,ux+0.15,z,ln(.03));const zz=Math.max(z,lastZ+0.36);lastZ=zz;T(ux+0.3,zz,t,.24,'start')});
     // overall width
     L(lo,-0.75,hi,-0.75,ln(.015)); L(lo,-0.6,lo,-0.9,ln(.015)); L(hi,-0.6,hi,-0.9,ln(.015)); T((lo+hi)/2,-1.05,(hi-lo).toFixed(2)+' ม. (ช่วงเสา '+(side?s.cols[1]:s.cols[0]).map((v,i,a)=>i?(v-a[i-1]).toFixed(2):'').filter(Boolean).join(' + ')+')',.26);
   };
   draw('sElevF',false); draw('sElevS',true);
-  setT('sElevNote','บ้านพัก'+s.n+' · '+(SCAN?'มีกันสาดใต้ระเบียง':'ไม่มีกันสาด')+' · '+(SEASY?'บันไดชานพัก 26 ขั้น':'บันไดตรง 23 ขั้น')+(SSTAIR?' มีหลังคาคลุม':'')+(flood>0.05?' · น้ำท่วมจำลอง +'+flood.toFixed(2)+' ม. ยังต่ำกว่าปลายกันสาด '+(3-flood).toFixed(2)+' ม. และต่ำกว่าพื้น '+(4-flood).toFixed(2)+' ม.':''));
+  setT('sElevNote','บ้านพัก'+s.n+' · '+(SCAN?'มีกันสาดใต้ระเบียง':'ไม่มีกันสาด')+' · '+(SEASY?'บันไดชานพัก '+st.nE+' ขั้น':'บันไดตรง '+st.nS+' ขั้น')+(SSTAIR?' มีหลังคาคลุม':'')+(flood>0.05?' · น้ำท่วมจำลอง +'+flood.toFixed(2)+' ม. '+(flood<H-1?'ยังต่ำกว่าปลายกันสาด '+(H-1-flood).toFixed(2)+' ม. ':'')+'ต่ำกว่าพื้น '+(H-flood).toFixed(2)+' ม.':''));
 }
 function sPlanSvg(id,s,extraBottom){const svg=document.getElementById(id); if(!svg) return null; svg.innerHTML='';
   const [bx0,by0,bx1,by1]=s.bound, Wp=bx1-bx0, Dp=by1-by0, eb=extraBottom||0;
@@ -3027,10 +3045,10 @@ function drawShelterCols(){
   else {g.R(st.sa,st.y0,st.sb,st.sy,'none',.05,';stroke:var(--warn)'); g.R(st.sa,st.y0-0.3,st.sb,st.y0+0.3,'var(--warn-soft)',.02); g.T((st.sa+st.sb)/2,st.y0-0.7,'ฐานบันได',.24,600,'var(--warn)')}
   if(SSTAIR){const a=SEASY?[st.sa-1.57,st.sb+0.22]:[st.sa-0.27,st.sb+0.27], ys2=SEASY?[st.yl0-0.0,st.sy-2.3]:[st.y0-0.1,(st.y0+st.sy)/2];a.forEach(x=>ys2.forEach(y=>g.R(x-0.06,y-0.06,x+0.06,y+0.06,'var(--muted)',.01)))}
   const L=beams.reduce((a,b)=>a+Math.hypot(b[2]-b[0],b[3]-b[1]),0), A=(bx1-bx0)*(by1-by0), nb=xs.reduce((a,x)=>a+ys.filter(y=>x===bx0||x===bx1||y===by0||y===by1).length,0)-1;
-  const rows=[['C1','เสา คสล. 0.25 × 0.25 ม.',n+' ต้น','สูง 3.48 ม. ถึงใต้คาน','เหล็ก 4-DB16 ปลอก RB6 @0.15'],['F1','ฐานราก คสล. 1.00 × 1.00 × 0.40 ม.',n+' ฐาน','ลึก 1.20 ม. จากดิน','เข็ม I-22 ยาว 18 ม. ฐานละ 1 ต้น'],
-    ['B1','คาน คสล. 0.20 × 0.40 ม.',L.toFixed(1)+' ม.','ท้องคาน +3.48','รับพื้นและผนังเบา'],['S1','พื้น คสล. หนา 0.12 ม.',A.toFixed(0)+' ตร.ม.','ผิวบน +4.00','เหล็กตะแกรง DB12 @0.20'],
-    SEASY?['ST','เสาเหล็กกล่อง 100 × 100 มม. ใต้ชานพักบันได','4 ต้น','ฐาน 0.60 × 0.60 × 0.40','บันไดหักกลับ 26 ขั้น ชานพัก +2.00']:['ST','ฐานบันได คสล. 1.40 × 0.60 × 0.40','1 ฐาน','รับปลายบันไดตรง','บันได 23 ขั้น']];
-  if(SCAN) rows.push(['CA','ค้ำยันกันสาด เหล็กท่อ 50 มม.',nb+' จุด','ยึดเสา C1 ที่ +2.25','กันสาดยื่น 1.20 ม.']);
+  const fz=z=>'+'+z.toFixed(2), rows=[['C1','เสา คสล. 0.25 × 0.25 ม.',n+' ต้น','สูง '+(H-0.52).toFixed(2)+' ม. ถึงใต้คาน','เหล็ก 4-DB16 ปลอก RB6 @0.15'],['F1','ฐานราก คสล. 1.00 × 1.00 × 0.40 ม.',n+' ฐาน','ลึก 1.20 ม. จากดิน','เข็ม I-22 ยาว 18 ม. ฐานละ 1 ต้น'],
+    ['B1','คาน คสล. 0.20 × 0.40 ม.',L.toFixed(1)+' ม.','ท้องคาน '+fz(H-0.52),'รับพื้นและผนังเบา'],['S1','พื้น คสล. หนา 0.12 ม.',A.toFixed(0)+' ตร.ม.','ผิวบน '+fz(H),'เหล็กตะแกรง DB12 @0.20'],
+    SEASY?['ST','เสาเหล็กกล่อง 100 × 100 มม. ใต้ชานพักบันได','4 ต้น','ฐาน 0.60 × 0.60 × 0.40','บันไดหักกลับ '+st.nE+' ขั้น ชานพัก '+fz(H/2)]:['ST','ฐานบันได คสล. 1.40 × 0.60 × 0.40','1 ฐาน','รับปลายบันไดตรง','บันได '+st.nS+' ขั้น']];
+  if(SCAN) rows.push(['CA','ค้ำยันกันสาด เหล็กท่อ 50 มม.',nb+' จุด','ยึดเสา C1 ที่ '+fz(H-1.75),'กันสาดยื่น 1.20 ม.']);
   if(SSTAIR) rows.push(['SR','เสาหลังคาคลุมบันได เหล็กกล่อง 100 × 100 มม.','4 ต้น','ฐาน 0.50 × 0.50 × 0.40','หลังคาเมทัลชีท']);
   const tb=document.getElementById('sColT'); if(tb){tb.innerHTML='';rows.forEach(r=>{const tr=document.createElement('tr');r.forEach((v,i)=>{const td=document.createElement('td');td.textContent=v;if(i===2)td.className='n';tr.appendChild(td)});tb.appendChild(tr)})}
   setT('sColNote','บ้านพัก'+s.n+' · เสา '+n+' ต้น ช่วงเสา '+xs.map((v,i,a)=>i?(v-a[i-1]).toFixed(1):'').filter(Boolean).join('/')+' × '+ys.map((v,i,a)=>i?(v-a[i-1]).toFixed(1):'').filter(Boolean).join('/')+' ม. · ขนาดเป็นค่าเบื้องต้น วิศวกรต้องคำนวณและเซ็นรับรองก่อนสร้าง');
@@ -3044,24 +3062,24 @@ function drawShelterMEP(){
   if(SEASY){g.R(st.f1a,st.yl0,st.sb,st.sy,'none',.02);g.T((st.f1a+st.sb)/2,st.yl0+0.5,'บันไดชานพัก · ไฟส่องขั้น 4 จุด',.2,600,'#c98a12')}else{g.R(st.sa,st.y0,st.sb,st.sy,'none',.02);g.T((st.sa+st.sb)/2,st.y0-0.4,'บันได',.2)}
   const E='#c98a12', Wt='#2f7fb4', Dr='#8a5a2b', Rn='#2a9d8f', items=[]; let k=0;
   const lamp=(x,y,lab,lv,why)=>{k++;g.C(x,y,.17,'var(--bg)',g.ln(.03,E));g.L(x-0.12,y-0.12,x+0.12,y+0.12,g.ln(.025,E));g.L(x-0.12,y+0.12,x+0.12,y-0.12,g.ln(.025,E));items.push(['E'+k,'โคมไฟ',lab,lv,why])};
-  const sock=(x,y,lab)=>{k++;g.R(x-0.12,y-0.08,x+0.12,y+0.08,'var(--bg)',.03,';stroke:'+E);g.T(x,y+0.25,'E'+k,.16,600,E);items.push(['E'+k,'ปลั๊กกันดูด','ปลั๊ก'+lab,'+4.80 (สูงจากพื้น 0.80)','ปลั๊กอยู่ชั้นบนทั้งหมด น้ำท่วมไม่ถึง'])};
-  s.rooms.forEach(r=>{const cx=(r[0]+r[2])/2,cy=(r[1]+r[3])/2;lamp(cx,cy,r[4],'+6.55 ฝ้า','ทุกห้องมีไฟเพดาน');if(r[4].indexOf('ห้องนอน')===0)sock(r[2]-0.35,r[3]-0.35,'ใน'+r[4]);if(r[5]==='k'){sock(r[0]+0.35,r[3]-0.3,'ครัว (ตู้เย็น)');sock(r[2]-0.35,r[3]-0.3,'ครัว (เตา/หม้อหุงข้าว)')}});
-  s.deck.filter(d=>d[4]).forEach(d=>{const w=d[2]-d[0],n=Math.max(1,Math.round(w/4));for(let i=0;i<n;i++)lamp(d[0]+w*(i+0.5)/n,(d[1]+d[3])/2+0.5,d[4],'+6.40 ใต้หลังคา','ไฟระเบียงตอนคนมาหลบ')});
+  const sock=(x,y,lab)=>{k++;g.R(x-0.12,y-0.08,x+0.12,y+0.08,'var(--bg)',.03,';stroke:'+E);g.T(x,y+0.25,'E'+k,.16,600,E);items.push(['E'+k,'ปลั๊กกันดูด','ปลั๊ก'+lab,'+'+(H+0.8).toFixed(2)+' (สูงจากพื้น 0.80)','ปลั๊กอยู่ชั้นบนทั้งหมด น้ำท่วมไม่ถึง'])};
+  s.rooms.forEach(r=>{const cx=(r[0]+r[2])/2,cy=(r[1]+r[3])/2;lamp(cx,cy,r[4],'+'+(H+2.55).toFixed(2)+' ฝ้า','ทุกห้องมีไฟเพดาน');if(r[4].indexOf('ห้องนอน')===0)sock(r[2]-0.35,r[3]-0.35,'ใน'+r[4]);if(r[5]==='k'){sock(r[0]+0.35,r[3]-0.3,'ครัว (ตู้เย็น)');sock(r[2]-0.35,r[3]-0.3,'ครัว (เตา/หม้อหุงข้าว)')}});
+  s.deck.filter(d=>d[4]).forEach(d=>{const w=d[2]-d[0],n=Math.max(1,Math.round(w/4));for(let i=0;i<n;i++)lamp(d[0]+w*(i+0.5)/n,(d[1]+d[3])/2+0.5,d[4],'+'+(H+2.4).toFixed(2)+' ใต้หลังคา','ไฟระเบียงตอนคนมาหลบ')});
   const kr=s.rooms.find(r=>r[5]==='k'), br=s.rooms.find(r=>r[4]==='ห้องน้ำ'), d0=s.deck[0];
   // consumer unit + meter + solar backup
-  const db=[kr[0]+0.25,(kr[1]+kr[3])/2]; g.R(db[0]-0.15,db[1]-0.3,db[0]+0.15,db[1]+0.3,E,.02); g.T(db[0]+0.35,db[1]-0.55,'ตู้ไฟ',.2,600,E,'start'); items.push(['DB','ตู้ไฟ + เบรกเกอร์กันดูด','ผนังครัว','+5.50 (สูงจากพื้น 1.50)','อยู่ชั้นบน น้ำท่วมไม่ถึง ตัดไฟได้จากบนบ้านพัก']);
+  const db=[kr[0]+0.25,(kr[1]+kr[3])/2]; g.R(db[0]-0.15,db[1]-0.3,db[0]+0.15,db[1]+0.3,E,.02); g.T(db[0]+0.35,db[1]-0.55,'ตู้ไฟ',.2,600,E,'start'); items.push(['DB','ตู้ไฟ + เบรกเกอร์กันดูด','ผนังครัว','+'+(H+1.5).toFixed(2)+' (สูงจากพื้น 1.50)','อยู่ชั้นบน น้ำท่วมไม่ถึง ตัดไฟได้จากบนบ้านพัก']);
   const mx=SEASY?st.f1a-0.5:st.sa-0.5, my=by0-0.6; g.R(mx-0.2,my-0.2,mx+0.2,my+0.2,'var(--bg)',.03,';stroke:'+E); g.T(mx,my-0.45,'มิเตอร์',.2,600,E); g.L(mx,my,db[0],db[1],g.ln(.04,E));
-  items.push(['M','มิเตอร์ไฟฟ้า','เสาหน้าบันได','+3.00 ขึ้นไป','สูงกว่าน้ำท่วมตัวอย่าง ถ้าเคยท่วมสูงกว่าให้ยกตามจริง']);
-  const sx=(d0[0]+d0[2])/2+1.2, sy2=d0[1]+0.4; g.R(sx-0.2,sy2-0.12,sx+0.2,sy2+0.12,'var(--bg)',.03,';stroke:'+E); g.T(sx,sy2-0.35,'ไฟโซลาร์สำรอง',.18,600,E); items.push(['SL','ไฟโซลาร์สำรอง + พาวเวอร์แบงก์','ระเบียง','+6.40','มีไฟตอนไฟดับ ไม่ต้องพึ่งไฟบ้าน']);
+  items.push(['M','มิเตอร์ไฟฟ้า','เสาหน้าบันได',(maxFloodVal()>=0?'+'+Math.max(3,maxFloodVal()+0.5).toFixed(2):'+3.00')+' ขึ้นไป','สูงกว่าน้ำเคยท่วมสูงสุดอย่างน้อย 0.50 ม.']);
+  const sx=(d0[0]+d0[2])/2+1.2, sy2=d0[1]+0.4; g.R(sx-0.2,sy2-0.12,sx+0.2,sy2+0.12,'var(--bg)',.03,';stroke:'+E); g.T(sx,sy2-0.35,'ไฟโซลาร์สำรอง',.18,600,E); items.push(['SL','ไฟโซลาร์สำรอง + พาวเวอร์แบงก์','ระเบียง','+'+(H+2.4).toFixed(2),'มีไฟตอนไฟดับ ไม่ต้องพึ่งไฟบ้าน']);
   if(SEASY) items.push(['SL2','ไฟส่องขั้นบันได LED กันน้ำ 4 จุด','บันไดและชานพัก','ข้างขั้นบันได','ขึ้นลงตอนกลางคืนหรือไฟดับได้ปลอดภัย ต่อไฟสำรองโซลาร์']);
-  if(SCAN&&sadSel.has('ulight')) items.push(['UL','ไฟใต้ถุน LED กันน้ำ 6 จุด','ใต้กันสาด','+3.30 ใต้คาน','สวิตช์อยู่ชั้นบน']);
+  if(SCAN&&sadSel.has('ulight')) items.push(['UL','ไฟใต้ถุน LED กันน้ำ 6 จุด','ใต้กันสาด','+'+(H-0.7).toFixed(2)+' ใต้คาน','สวิตช์อยู่ชั้นบน']);
   // water: tank -> riser -> bath + kitchen ; drain -> sealed septic
   const t=s.tank, rx=Math.min(Math.max(t[0],bx0),bx1), ry=Math.min(Math.max(t[1],by0),by1), bc=[(br[0]+br[2])/2,(br[1]+br[3])/2], ks=s.ctr[0], kc=[(ks[0]+ks[2])/2,(ks[1]+ks[3])/2];
   g.C(t[0],t[1],.5,'var(--accent-soft)',g.ln(.03,Wt)); g.T(t[0],t[1]+0.75,'ถังน้ำฝน',.2,600,Wt);
   const pipe=(pts,c,dash)=>el('polyline',{points:pts.map(p=>g.PX(p[0])+','+g.Y(p[1])).join(' '),style:'fill:none;stroke:'+c+';stroke-width:.06'+(dash?';stroke-dasharray:'+dash:'')},g.svg);
   pipe([[t[0],t[1]],[rx,ry],[bc[0],ry],[bc[0],bc[1]]],Wt); pipe([[bc[0],ry],[kc[0],ry],[kc[0],kc[1]]],Wt);
-  g.C(rx,ry,.12,Wt,g.ln(.01,Wt)); items.push(['W1','ท่อน้ำขึ้นชั้นบน + ปั๊มเล็ก','เสาใกล้ถังน้ำ','ปั๊มตั้งบน +4.00','ปั๊มอยู่บนบ้านพัก ไม่จมน้ำ ใช้ได้ทั้งน้ำประปาและน้ำฝน']);
-  items.push(['W2','ห้องน้ำ: ชักโครก ฝักบัว อ่างล้างหน้า','ห้องน้ำ','+4.00','ท่อทิ้งมีวาล์วกันน้ำย้อน'],['W3','ซิงก์ล้างจาน','เคาน์เตอร์ครัว','+4.85','ท่อทิ้งต่อรวมไปถังบำบัด']);
+  g.C(rx,ry,.12,Wt,g.ln(.01,Wt)); items.push(['W1','ท่อน้ำขึ้นชั้นบน + ปั๊มเล็ก','เสาใกล้ถังน้ำ','ปั๊มตั้งบน +'+H.toFixed(2),'ปั๊มอยู่บนบ้านพัก ไม่จมน้ำ ใช้ได้ทั้งน้ำประปาและน้ำฝน']);
+  items.push(['W2','ห้องน้ำ: ชักโครก ฝักบัว อ่างล้างหน้า','ห้องน้ำ','+'+H.toFixed(2),'ท่อทิ้งมีวาล์วกันน้ำย้อน'],['W3','ซิงก์ล้างจาน','เคาน์เตอร์ครัว','+'+(H+0.85).toFixed(2),'ท่อทิ้งต่อรวมไปถังบำบัด']);
   // septic: outside the nearest side/back edge from the bathroom
   const cands=[[bx0-1.4,bc[1],bc[0]-bx0],[bx1+1.4,bc[1],bx1-bc[0]],[bc[0],by1+1.4,by1-bc[1]]].sort((a,b)=>a[2]-b[2]);
   let sp=cands[0]; if(Math.hypot(sp[0]-t[0],sp[1]-t[1])<1.6) sp=cands[1];
@@ -3090,7 +3108,99 @@ function renderSAdd(){SADD_ALL.forEach(a=>{const cb=document.getElementById('sad
   const e=document.getElementById('sAdSum'); if(!e) return;
   e.innerHTML=!moneyOpen?(pk.length?'เลือก '+pk.length+' รายการ':'ยังไม่ได้เลือกส่วนเสริม'):pk.length?'เลือก '+pk.length+' รายการ · ส่วนเสริมรวม <b>'+fmtB(sum)+' บาท</b> · งบที่ควรเตรียมรวม <b>'+mil(all)+'</b>':'ยังไม่ได้เลือกส่วนเสริม · งบที่ควรเตรียม '+mil(all)}
 buildSAddUI();
-let houseH=4;
+/* ---------- the owner's own worst flood: is the floor high enough? ---------- */
+function maxFloodVal(){const e=document.getElementById('maxFlood');const v=e?parseFloat(e.value):NaN;return v>=0&&v<20?v:-1}
+try{const v=localStorage.getItem('fh-maxflood');if(v!==null){const e=document.getElementById('maxFlood');if(e)e.value=v}}catch(e){}
+function mfRender(){
+  const out=document.getElementById('mfVerdict'),use=document.getElementById('mfUse'),sim=document.getElementById('mfSim'); if(!out) return;
+  const v=maxFloodVal(); use.hidden=true; sim.hidden=!(v>0);
+  const sw=document.getElementById('sn-water');
+  if(sw) sw.textContent='พื้น +'+f2(H)+' ม. '+(v>=0?'สูงกว่าน้ำที่เคยท่วมสูงสุด ('+f2(v)+' ม.) อยู่ '+f2(H-v)+' ม.':'สูงกว่าน้ำท่วมตัวอย่าง 1.50 ม. อยู่ '+f2(H-1.5)+' ม.')+' ใต้ถุนโล่งให้น้ำไหลผ่าน';
+  if(v<0){out.className='mf-v';out.textContent='กรอกระดับน้ำที่เคยท่วมสูงสุด (วัดจากพื้นดิน) ระบบจะบอกว่าพื้นสูงพอไหม และควรยกเท่าไร';return}
+  const m=H-v, rec=[3,3.5,4,4.5].find(h=>h-v>=1.0-1e-9), L=[]; let cls='ok';
+  if(m>=1.0-1e-9){L.push('✓ พื้น +'+f2(H)+' สูงกว่าน้ำ '+f2(m)+' ม. ปลอดภัย (ควรเผื่ออย่างน้อย 1.00 ม.)'); if(rec&&rec<H-0.01) L.push('ยกแค่ +'+f2(rec)+' ก็พอ งบลดลง')}
+  else if(m>=0.3){cls='warn';L.push('พื้น +'+f2(H)+' สูงกว่าน้ำแค่ '+f2(m)+' ม. น้อยกว่าที่ควรเผื่อ 1.00 ม.')}
+  else {cls='bad';L.push(m>=0?'พื้น +'+f2(H)+' สูงกว่าน้ำแค่ '+f2(m)+' ม. ไม่ปลอดภัย':'น้ำเคยท่วมสูงกว่าพื้น +'+f2(H)+' อยู่ '+f2(-m)+' ม. ไม่ปลอดภัย')}
+  if(cls!=='ok') L.push(rec?'ควรยกพื้นเป็น +'+f2(rec)+' ม.':'น้ำท่วมสูงมาก ต้องยกพื้นเกิน +4.50 ม. ควรให้วิศวกรออกแบบเฉพาะ');
+  if(rec&&Math.abs(rec-H)>0.01){use.hidden=false;use.textContent='ใช้พื้น +'+f2(rec);use.dataset.h=String(rec)}
+  if(MODEL==='shelter'){
+    if(SCAN) L.push(v<H-1.0?'ปลายกันสาด +'+f2(H-1)+' อยู่เหนือน้ำ':'ปลายกันสาด +'+f2(H-1)+' จะจมน้ำ ของที่เก็บใต้ถุนต้องย้ายขึ้นข้างบน');
+    if(SEASY&&v>H/2-0.2) L.push('ชานพักบันได +'+f2(H/2)+' จะจมน้ำ ควรพาผู้สูงอายุขึ้นก่อนน้ำสูงถึง '+f2(Math.max(0.3,H/2-0.3))+' ม.');
+    if(v>=0.6) L.push('เรือเข้าใต้ถุนได้ต้องโล่งเหนือน้ำ 1.20 ม.: '+(H-1.0-v>=1.2||(!SCAN&&H-0.52-v>=1.2)?'พอ':'ไม่พอ เทียบเรือที่บันได'));
+  } else if(v>0.3) L.push('รถที่จอดใต้ถุนต้องย้ายขึ้นลานบนคานหรือที่สูงก่อนน้ำถึง 0.30 ม.');
+  out.className='mf-v '+cls; out.innerHTML=L.map(l=>'<span>'+l.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</span>').join('');
+}
+{const e=document.getElementById('maxFlood');if(e)e.addEventListener('input',()=>{try{localStorage.setItem('fh-maxflood',e.value)}catch(x){}mfRender();if(MODEL==='shelter'){drawShelterMEP()}});
+ const u=document.getElementById('mfUse');if(u)u.addEventListener('click',()=>{const h=+u.dataset.h;if(h>0&&Math.abs(h-H)>0.01){selectHeight(h);writeHash();if(MODEL==='shelter'&&Math.abs(H-4)>0.01&&stillMode&&gpuOK())go3d.click()}});
+ const sm=document.getElementById('mfSim');if(sm)sm.addEventListener('click',()=>{const v=maxFloodVal(),f=document.getElementById('flood');if(v>0&&f){f.value=String(Math.min(v,parseFloat(f.max)||v));f.dispatchEvent(new Event('input',{bubbles:true}))}});}
+
+/* ---------- a document for the builder: drawings, quantities and schedule of the chosen temporary house ---------- */
+const DL_P=(window.claude&&typeof window.claude.use==='function')?Promise.resolve().then(()=>window.claude.use('downloads')).catch(()=>null):Promise.resolve(null);
+function docMsg(t){setT('docMsg',t)}
+function makeDoc(){
+  const s=SF[SFORM]||SF.gable, st=sStairInfo(s), d=stairDims(H), E=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  drawShelterPlan(); renderShelterArea(); drawShelterElev(); drawShelterCols(); drawShelterMEP(); renderBOQ(); renderSched();
+  const svg=id=>{const e=document.getElementById(id);if(!e)return '';const c=e.cloneNode(true);c.removeAttribute('id');c.removeAttribute('style');c.setAttribute('style','width:100%;height:auto;max-height:200mm');return c.outerHTML};
+  const tb=id=>{const e=document.getElementById(id);return e?e.innerHTML:''};
+  let img='';
+  try{if(!stillMode&&window.__fh3d){const f=window.__fh3d;f.renderer.render(f.scene,f.camera);img=f.renderer.domElement.toDataURL('image/jpeg',0.85)}
+      else if(stillImg&&stillImg.complete&&stillImg.naturalWidth){const c=document.createElement('canvas'),w=Math.min(1600,stillImg.naturalWidth);c.width=w;c.height=Math.round(stillImg.naturalHeight*w/stillImg.naturalWidth);c.getContext('2d').drawImage(stillImg,0,0,c.width,c.height);img=c.toDataURL('image/jpeg',0.85)}}catch(e){img=''}
+  const ad=SADD_ALL.filter(a=>sadSel.has(a.id)), mf=maxFloodVal(), today=new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'});
+  const facts=[['รูปทรง',s.n+' · '+s.s],['ระดับพื้น','+'+f2(H)+' ม. จากพื้นดิน · ใต้คานโล่ง '+f2(H-0.52)+' ม.'],['ห้อง',s.rtxt],['พื้นที่หลบน้ำ',s.ftxt],
+    ['บันได',SEASY?'บันไดหักกลับ 2 ช่วง '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม. ลูกนอน 30 ซม. ชานพัก +'+f2(H/2)+' ราวจับสองข้าง ไฟส่องขั้น':'บันไดตรง '+d.nS+' ขั้น ลูกตั้ง '+(d.rS*100).toFixed(1)+' ซม. ราวจับสองข้าง'],
+    ['หลังคาเพิ่ม',(SCAN?'กันสาดใต้ระเบียงยื่น 1.20 ม. รอบ 4 ด้าน':'ไม่มีกันสาด')+' · '+(SSTAIR?'มีหลังคาคลุมบันได':'ไม่มีหลังคาคลุมบันได')],
+    ['ครัว','ครัวเปิดโล่ง ไม่มีประตู ผนังด้านทางเข้าเปิดโล่ง'],['ส่วนเสริม',ad.length?ad.map(a=>a.name).join(' · '):'ไม่ได้เลือก'],
+    ['น้ำเคยท่วมสูงสุด',mf>=0?f2(mf)+' ม. · พื้นสูงกว่าน้ำ '+f2(H-mf)+' ม.'+(H-mf>=1?' (ผ่านเกณฑ์เผื่อ 1.00 ม.)':' (ต่ำกว่าเกณฑ์เผื่อ 1.00 ม.)'):'ยังไม่ได้กรอก']];
+  const money=moneyOpen?`<section><h2>รายการวัสดุและงบประมาณ</h2><p class="note">ราคาอ้างอิงในเว็บ ภาคกลาง รวม VAT ใช้ประกอบการคุยราคา ผู้รับเหมาควรถอดปริมาณและเสนอราคาจริง</p>
+      <table class="t boq"><thead><tr><th>รายการ</th><th class="n">ปริมาณ</th><th>หน่วย</th><th class="n">ราคา/หน่วย</th><th class="n">รวม</th></tr></thead><tbody>${tb('boq')}</tbody></table></section>
+    <section><h2>งวดงานและการจ่ายเงิน</h2><table class="t"><thead><tr><th>งวด</th><th>งาน</th><th class="n">สัปดาห์</th><th>ช่วงเวลา</th><th class="n">จ่าย (บาท)</th><th class="n">%</th><th>ตรวจก่อนจ่าย</th></tr></thead><tbody>${tb('sched')}</tbody></table>
+      <p class="note">${E(document.getElementById('schedSum')?document.getElementById('schedSum').textContent:'')}</p></section>`
+    :`<section><h2>รายการวัสดุและงบประมาณ</h2><p class="note">งบประมาณถูกซ่อนไว้ในเว็บ ใส่รหัสในเว็บก่อนกดสร้างเอกสาร ถ้าต้องการให้เอกสารมีรายการวัสดุ ราคา และงวดงาน</p></section>`;
+  const css=`:root{--bg:#FFFFFF;--surface:#FFFFFF;--surface2:#F8FAFB;--ink:#0F2730;--muted:#5A6E75;--line:#DCE4E7;--line2:#EEF2F4;--accent:#1668A8;--accent-soft:#E6F0F8;--warn:#8A4B0B;--warn-soft:#FBF0E2;--slab:#DDE3E2;--wood:#EAD5BB;--room:#FFFFFF;--ok:#23613D;--bad:#B42318}
+*{box-sizing:border-box}body{margin:0;background:#E9EEF0;color:#0F2730;font-family:"IBM Plex Sans Thai","Sarabun",system-ui,sans-serif;font-size:13px;line-height:1.5}
+.bar{position:sticky;top:0;z-index:2;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;padding:10px 16px;background:#0F2730;color:#fff}
+.bar button{font:inherit;font-size:15px;font-weight:600;padding:10px 18px;border:0;border-radius:10px;background:#1668A8;color:#fff;cursor:pointer}
+.page{max-width:210mm;margin:12px auto;background:#fff;padding:14mm 13mm;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:0 0 8px;padding-bottom:4px;border-bottom:2px solid #0F2730}h3{font-size:13px;margin:10px 0 4px}
+.sub{color:#5A6E75;margin:0 0 10px}.cover img{width:100%;border-radius:6px;border:1px solid #DCE4E7;margin:8px 0}
+table.t{width:100%;border-collapse:collapse;font-size:11px;margin:4px 0 8px}table.t th,table.t td{border:1px solid #DCE4E7;padding:3px 5px;vertical-align:top;text-align:left}
+table.t th{background:#EEF2F4}.n{text-align:right;white-space:nowrap}tr.grp td{background:#EEF2F4;font-weight:700}tr.sum td{font-weight:700}
+table.f td:first-child{width:28%;font-weight:600;background:#F8FAFB}.note{color:#5A6E75;font-size:11px;margin:4px 0}
+section{margin-top:10mm;page-break-inside:avoid}section.pb{page-break-before:always}svg{display:block;margin:0 auto}.gbar{display:none}td ul{margin:0;padding-left:14px}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:20mm;margin-top:16mm}.sign div{border-top:1px solid #0F2730;padding-top:4px;text-align:center;color:#5A6E75}
+@page{size:A4;margin:10mm}@media print{body{background:#fff}.bar{display:none}.page{box-shadow:none;margin:0;max-width:none;padding:0}}`;
+  return `<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>แบบบ้านพักชั่วคราว ${E(s.n)} พื้น +${f2(H)}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&display=swap"><style>${css}</style></head><body>
+<div class="bar"><span>เอกสารแบบสำหรับช่าง · กดพิมพ์ แล้วเลือก "บันทึกเป็น PDF" ได้</span><button type="button" onclick="window.print()">พิมพ์ / บันทึก PDF</button></div>
+<div class="page">
+<div class="cover"><h1>แบบบ้านพักชั่วคราว ${E(s.n)}</h1><p class="sub">บ้านยกสูงหนีน้ำ พื้น +${f2(H)} ม. · ครัวเปิดโล่ง · จัดทำ ${E(today)}</p>
+${img?`<img src="${img}" alt="ภาพบ้านพักชั่วคราว ${E(s.n)}">`:''}
+<table class="t f"><tbody>${facts.map(f=>`<tr><td>${E(f[0])}</td><td>${E(f[1])}</td></tr>`).join('')}</tbody></table>
+<p class="note">แบบร่างแนวคิด ขนาดเสา คาน ฐานราก และเสาเข็มเป็นค่าเบื้องต้น ต้องให้วิศวกรโยธาตรวจดิน คำนวณ และเซ็นรับรองก่อนก่อสร้างจริง ระดับน้ำท่วมควรตรวจสอบกับข้อมูลในพื้นที่</p></div>
+<section class="pb"><h2>ผังพื้นชั้นบน +${f2(H)}</h2>${svg('plan')}<table class="t"><thead><tr><th>พื้นที่</th><th class="n">ขนาด (ม.)</th><th class="n">ตร.ม.</th></tr></thead><tbody>${tb('sAreaT')}</tbody></table></section>
+<section class="pb"><h2>รูปด้าน</h2><h3>ด้านหน้า (มองจากถนน)</h3>${svg('sElevF')}<h3>ด้านข้าง (มองจากด้านขวา)</h3>${svg('sElevS')}</section>
+<section class="pb"><h2>ผังเสา คาน และฐานราก</h2>${svg('sCols')}<table class="t"><thead><tr><th>รหัส</th><th>รายการ</th><th class="n">จำนวน</th><th>ขนาด / ระดับ</th><th>หมายเหตุ</th></tr></thead><tbody>${tb('sColT')}</tbody></table></section>
+<section class="pb"><h2>งานระบบไฟฟ้าและประปา</h2>${svg('sMep')}<table class="t"><thead><tr><th>จุด</th><th>อุปกรณ์</th><th>ตำแหน่ง</th><th class="n">ระดับติดตั้ง</th><th>เหตุผล</th></tr></thead><tbody>${tb('sMepT')}</tbody></table></section>
+${money.replace('<section>','<section class="pb">')}
+<div class="sign"><div>ผู้ว่าจ้าง</div><div>ผู้รับเหมา</div></div>
+</div></body></html>`;
+}
+async function docClick(){
+  const btn=document.getElementById('docBtn'); btn.disabled=true; docMsg('กำลังสร้างเอกสาร…');
+  let html=''; try{html=makeDoc()}catch(e){btn.disabled=false;docMsg('สร้างเอกสารไม่สำเร็จ ('+e.message+')');return}
+  const s=SF[SFORM]||SF.gable, fn=('แบบบ้านพักชั่วคราว-'+s.n+'-พื้น'+f2(H)).replace(/\s+/g,'-')+'.html';
+  const dl=await Promise.race([DL_P,new Promise(r=>setTimeout(()=>r(null),1500))]);
+  if(dl){try{await dl.save({filename:fn,data:html});btn.disabled=false;docMsg('บันทึกไฟล์แล้ว เปิดไฟล์ในเบราว์เซอร์ แล้วกด "พิมพ์ / บันทึก PDF"');return}
+    catch(e){if(e&&e.code==='declined'){btn.disabled=false;docMsg('ยกเลิกการบันทึกไฟล์');return}}}
+  try{const url=URL.createObjectURL(new Blob([html],{type:'text/html'})); const w=window.open(url,'_blank');
+    if(w){docMsg('เปิดเอกสารในแท็บใหม่แล้ว กด "พิมพ์ / บันทึก PDF" ที่หัวเอกสาร')}
+    else{const a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();a.remove();docMsg('ดาวน์โหลดไฟล์ '+fn+' แล้ว เปิดไฟล์แล้วกดพิมพ์')}}
+  catch(e){docMsg('เบราว์เซอร์นี้ไม่ให้สร้างไฟล์ ลองเปิดเว็บใน Chrome หรือ Safari')}
+  btn.disabled=false;
+}
+{const b=document.getElementById('docBtn');if(b)b.addEventListener('click',docClick)}
+
+let houseH=4, shelterH=4;
 function selectModel(m,noHash){
   m=m==='shelter'?'shelter':'house'; if(m===MODEL&&!noHash) return;
   if(m==='shelter'&&MODEL==='house') houseH=H;
@@ -3099,7 +3209,7 @@ function selectModel(m,noHash){
   const sh=m==='shelter';
   const k1=document.getElementById('spec-cars').parentNode, k2=document.getElementById('spec-ramp').parentNode;
   k1.querySelector('.k-l').textContent=sh?'หลบน้ำได้':'ที่จอดรถบนคาน'; k2.querySelector('.k-l').textContent=sh?'ทางขึ้น':'ทางลาดรถขึ้น';
-  const want=sh?4:houseH; if(Math.abs(want-H)>0.01) selectHeight(want); else {if(ready3d)init3D();refreshCosts()}
+  const want=sh?shelterH:houseH; selectHeight(want);
   if(sh){setT('spec-cars',SF[SFORM].seat+'+ คน');k1.querySelector('.k-s').textContent='นั่งหลบบน'+SF[SFORM].deck[0][4]+' '+SF[SFORM].refuge+' ตร.ม.';
     document.getElementById('spec-ramp').innerHTML='บันได <small>1.20 ม.</small>';k2.querySelector('.k-s').textContent='23 ขั้น · ไม่มีทางรถขึ้น'}
   else selectOption(OPT.key);
@@ -3112,7 +3222,7 @@ document.querySelectorAll('.opt[data-model]').forEach(b=>b.addEventListener('cli
 {const fi=document.getElementById('flood');if(fi)fi.addEventListener('input',()=>{if(MODEL==='shelter')drawShelterElev()})}
 function sformText(){const s=SF[SFORM];
   document.querySelectorAll('.opt[data-sform]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sform===SFORM?'true':'false'));
-  setT('sformDesc',s.n+' · '+s.s+' · '+s.d); setT('sn-rooms',s.rtxt); setT('sn-refuge',s.ftxt); setT('sn-struct',s.stxt); setT('sn-piles',String(s.piles)); setT('sn-stair',SEASY?'บันไดหักกลับ 2 ช่วง กว้าง 1.20 ม. 26 ขั้น ลูกตั้ง 15.4 ซม. ลูกนอน 30 ซม. ชานพักกลางที่ +2.00 ให้หยุดพัก ราวจับสองข้าง ไฟส่องขั้นบันได เหมาะกับผู้สูงอายุและเด็ก':'บันไดเหล็กตรงกว้าง 1.20 ม. 23 ขั้น ลูกตั้ง 17.4 ซม. ที่ปลายระเบียง ราวจับสองข้าง'); setT('sn-canopy',(SCAN?'กันสาดใต้ระเบียงยื่น 1.20 ม. รอบ 4 ด้าน ปลายสูง 3.00 ม. ใต้ถุนใช้งานได้ตอนฝนตก':'ไม่มีกันสาดใต้ระเบียง')+' · '+(SSTAIR?'หลังคาคลุมบันไดตลอดแนว ขึ้นลงตอนฝนตกไม่เปียก':'บันไดไม่มีหลังคาคลุม'));
+  setT('sformDesc',s.n+' · '+s.s+' · '+s.d); setT('sn-rooms',s.rtxt); setT('sn-refuge',s.ftxt); setT('sn-struct',s.stxt); setT('sn-piles',String(s.piles)); {const d=stairDims(H);setT('sn-stair',SEASY?'บันไดหักกลับ 2 ช่วง กว้าง 1.20 ม. '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม. ลูกนอน 30 ซม. ชานพักกลางที่ +'+f2(H/2)+' ให้หยุดพัก ราวจับสองข้าง ไฟส่องขั้นบันได เหมาะกับผู้สูงอายุและเด็ก':'บันไดเหล็กตรงกว้าง 1.20 ม. '+d.nS+' ขั้น ลูกตั้ง '+(d.rS*100).toFixed(1)+' ซม. ที่ปลายระเบียง ราวจับสองข้าง');setT('sformHint','ทุกแบบยกสูง +'+f2(H)+' ม. ขึ้นด้วยบันได ห้องนอน 2 ห้อง ครัวเปิดโล่งไม่มีประตู ห้องน้ำ และพื้นที่หลบน้ำมีหลังคา')} setT('sn-canopy',(SCAN?'กันสาดใต้ระเบียงยื่น 1.20 ม. รอบ 4 ด้าน ปลายสูง 3.00 ม. ใต้ถุนใช้งานได้ตอนฝนตก':'ไม่มีกันสาดใต้ระเบียง')+' · '+(SSTAIR?'หลังคาคลุมบันไดตลอดแนว ขึ้นลงตอนฝนตกไม่เปียก':'บันไดไม่มีหลังคาคลุม'));
   if(MODEL==='shelter'){setT('spec-cars',s.seat+'+ คน');const k=document.getElementById('spec-cars').parentNode.querySelector('.k-s');if(k)k.textContent='นั่งหลบบน'+s.deck[0][4]+' '+s.refuge+' ตร.ม.'}
   renderShelterArea()}
 function selectSOpt(k,v,noHash){
@@ -3135,7 +3245,7 @@ sformText();
  drawCols=function(){dc();mirrorDwg(document.getElementById('cols'));sideWords(document.getElementById('p-struct'))};
  drawMEP=function(){dm();mirrorDwg(document.getElementById('mep'));sideWords(document.getElementById('p-mep'))};}
 function selectHeight(h){
-  if(!(h>0)) h=4; if(MODEL==='shelter'){houseH=h;h=4} setGeom(h);
+  if(!(h>0)) h=4; if(MODEL==='shelter')shelterH=h; setGeom(h);
   document.querySelectorAll('.opt[data-h]').forEach(b=>b.setAttribute('aria-pressed',HEIGHTS[b.dataset.h]===H?'true':'false'));
   const ct=H-0.6, L=rampL(), S=slopeTxt(), n=STAIR.risers;
   setT('spec-h','+'+f2(H)+' ม.'); setT('spec-clear',f2(ct)+' ม.');
@@ -3149,16 +3259,17 @@ function selectHeight(h){
   const warn={3:' · ใต้คานเตี้ย รถตู้หลังคาสูงเข้าไม่ได้ และเผื่อระยะน้ำท่วมน้อย',3.5:'',4:' · แบบเดิม',4.5:' · ทางลาดยาวเต็มที่ดิน ไม่มีช่วงเปลี่ยนระดับ รถเตี้ยเสี่ยงขูด'}[H]||'';
   setT('hDesc','ใต้ท้องคานโล่ง '+f2(ct)+' ม. · ทางลาดยาว '+fmtL(L)+' ม. ชัน '+S+'%'+(RAMP.tr?' หัวท้าย 7%':'')+' · บันได '+n+' ขั้น · พื้นบ้านสูงกว่าน้ำท่วมตัวอย่าง 1.50 ม. อยู่ '+f2(H-1.5)+' ม.'+warn);
   const mx=Math.round(ct*10)/10; floodIn.max=String(mx); if(parseFloat(floodIn.value)>mx) floodIn.value=String(mx);
+  if(MODEL==='shelter'){const d=stairDims(H);setT('hDesc','ใต้คานโล่ง '+f2(H-0.52)+' ม. · '+(SEASY?'บันไดชานพัก '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม.':'บันได '+d.nS+' ขั้น')+(Math.abs(H-4)>0.01?' · ภาพนิ่งมีเฉพาะ +4.00 ความสูงอื่นดูในภาพ 3 มิติ':''));SHELTER_LABELS=shelterLabels();sformText()}
   if(ready3d) init3D();
   drawSection(); refreshCosts(); applyFlood();
 }
-function parseHash(){{const m2=/^#shelter((?:-[a-z]+)*)$/.exec(location.hash);if(m2){const a=m2[1].split('-').filter(Boolean),f=a.find(x=>SF[x]);return {m:'shelter',f:f||'gable',c:!a.includes('nc'),st:!a.includes('ns'),ez:!a.includes('ss')}}}const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
-function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
+function parseHash(){{const m2=/^#shelter((?:-[a-z0-9]+)*)$/.exec(location.hash);if(m2){const a=m2[1].split('-').filter(Boolean),f=a.find(x=>SF[x]);return {m:'shelter',f:f||'gable',c:!a.includes('nc'),st:!a.includes('ns'),ez:!a.includes('ss'),h:(a.find(x=>/^h\d\d$/.test(x))||'h40').slice(1)}}}const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
+function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
 document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{selectOption(b.dataset.opt);writeHash()}));
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
-document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash()}));
-window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter')selectModel('shelter',true);return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
-const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(HEIGHTS[R0.h]||4);
+document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-4)>0.01&&stillMode&&gpuOK())go3d.click()}));
+window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
+const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
 guard(()=>{if(R0.m==='shelter'){SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
