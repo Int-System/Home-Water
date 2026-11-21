@@ -439,7 +439,7 @@ details.colx[open] summary{margin-bottom:6px}
         <span class="fld-l big-only" id="lbl-blay">ผังห้องบ้าน 12 × 10</span>
         <div class="seg seg2 big-only" role="group" aria-labelledby="lbl-blay"><button type="button" class="opt" data-sform="big1" aria-pressed="false"><b>แบบ 1</b><small>มีห้องเก็บของ</small><small id="sfcost-big1">—</small></button><button type="button" class="opt" data-sform="big2" aria-pressed="false"><b>แบบ 2</b><small>ห้องนอนใหญ่ขึ้น</small><small id="sfcost-big2">—</small></button></div>
         <span class="fld-l big-only" id="lbl-broof">รูปทรงหลังคา</span>
-        <div class="seg seg3 sforms big-only" role="group" aria-labelledby="lbl-broof"><button type="button" class="opt" data-broof="hip" aria-pressed="true"><b>ปั้นหยา</b><small id="brcost-hip">—</small></button><button type="button" class="opt" data-broof="gable" aria-pressed="false"><b>จั่ว</b><small id="brcost-gable">—</small></button><button type="button" class="opt" data-broof="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="brcost-butterfly">—</small></button><button type="button" class="opt" data-broof="barrel" aria-pressed="false"><b>โค้ง</b><small id="brcost-barrel">—</small></button><button type="button" class="opt" data-broof="split" aria-pressed="false"><b>สลับระดับ</b><small id="brcost-split">—</small></button></div>
+        <div class="seg seg3 sforms big-only" role="group" aria-labelledby="lbl-broof"><button type="button" class="opt" data-broof="hip" aria-pressed="true"><b>ปั้นหยา</b><small id="brcost-hip">—</small></button><button type="button" class="opt" data-broof="gable" aria-pressed="false"><b>จั่ว</b><small id="brcost-gable">—</small></button><button type="button" class="opt" data-broof="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="brcost-butterfly">—</small></button><button type="button" class="opt" data-broof="barrel" aria-pressed="false"><b>โค้ง</b><small id="brcost-barrel">—</small></button><button type="button" class="opt" data-broof="split" aria-pressed="false"><b>สลับระดับ</b><small id="brcost-split">—</small></button><button type="button" class="opt" data-broof="shed" aria-pressed="false"><b>เพิงหมาแหงน</b><small id="brcost-shed">—</small></button></div>
         <span class="fld-l no-big" id="lbl-sform">รูปทรงบ้านพัก</span>
         <div class="seg seg3 sforms no-big" role="group" aria-labelledby="lbl-sform"><button type="button" class="opt" data-sform="gable" aria-pressed="true"><b>จั่ว</b><small id="sfcost-gable">—</small></button><button type="button" class="opt" data-sform="hip" aria-pressed="false"><b>ปั้นหยา</b><small id="sfcost-hip">—</small></button><button type="button" class="opt" data-sform="twin" aria-pressed="false"><b>เรือนแฝด</b><small id="sfcost-twin">—</small></button><button type="button" class="opt" data-sform="lshape" aria-pressed="false"><b>ตัว L</b><small id="sfcost-lshape">—</small></button><button type="button" class="opt" data-sform="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="sfcost-butterfly">—</small></button><button type="button" class="opt" data-sform="aframe" aria-pressed="false"><b>A-frame</b><small id="sfcost-aframe">—</small></button><button type="button" class="opt" data-sform="barrel" aria-pressed="false"><b>โค้ง</b><small id="sfcost-barrel">—</small></button><button type="button" class="opt" data-sform="split" aria-pressed="false"><b>สลับระดับ</b><small id="sfcost-split">—</small></button><button type="button" class="opt" data-sform="wrap" aria-pressed="false"><b>ระเบียงรอบ</b><small id="sfcost-wrap">—</small></button></div>
         <p class="hint" id="sformDesc"></p>
@@ -914,7 +914,7 @@ let OPT=OPTS.A, SIDE='L', MODEL='house';
 const SHELTER_BOQ=[["1. งานดินและเสาเข็ม",[["เสาเข็มตอก คอร.อัดแรง ไอ 0.22×0.22 ม. ยาว 18 ม. (ต้นละ 1 ต่อเสา)",9,"ต้น",7000],["วางผัง ขุด-ถมดินฐานราก",1,"งาน",15000]]],["2. งานโครงสร้าง คสล.",[["คอนกรีตหยาบรองพื้น",1,"ลบ.ม.",2200],["คอนกรีตโครงสร้าง ฐานราก เสา คาน พื้น",22.5,"ลบ.ม.",2650],["ค่ารถปั๊มคอนกรีต",2,"ครั้ง",10000],["เหล็กเสริม (รวมเผื่อเสีย)",2476,"กก.",24],["ลวดผูกเหล็ก",25,"กก.",50],["ไม้แบบ ไม้คร่าว ตะปู",219,"ตร.ม.",220],["ค้ำยัน/นั่งร้านเช่า ใต้พื้นสูง 4.00 ม.",60,"ตร.ม.",120],["ค่าแรงผูกเหล็ก",2476,"กก.",4],["ค่าแรงไม้แบบ",219,"ตร.ม.",180],["ค่าแรงเทคอนกรีต",24,"ลบ.ม.",400]]],["3. หลังคา ราว บันได",[["หลังคาโครงเหล็ก + เมทัลชีท ยื่นชายคา 0.5 ม.",77,"ตร.ม.",1000],["ราวกันตกเหล็กท่อกลม สูง 1.10 ม. รอบระเบียง",14.8,"ม.",1800],["บันไดเหล็ก กว้าง 1.20 ม. 23 ขั้น ราวจับสองข้าง",1,"ชุด",60000],["ทาสีกันสนิมงานเหล็ก + สีเสา",1,"งาน",15000]]],["4. ห้องนอน 2 ห้อง ห้องน้ำ ครัว เรียงแถว (ขนาด 10.0 × 3.0 ม.)",[["ผนังโครงเหล็กกล่อง บุไฟเบอร์ซีเมนต์บอร์ด 2 ด้าน + ฉนวนกันร้อน",77,"ตร.ม.",750],["ฝ้ายิปซัมกันชื้น",30,"ตร.ม.",400],["ประตู (ห้องนอน 2 ห้อง ครัว ห้องน้ำ)",4,"ชุด",6500],["หน้าต่างอะลูมิเนียมบานเลื่อน มุ้งลวด",5,"ตร.ม.",3500],["พื้นในห้อง กระเบื้อง/SPC",30,"ตร.ม.",650],["กระเบื้องผนังห้องน้ำ + กันซึม",12,"ตร.ม.",750],["ระบบประปา สุขภัณฑ์ ฝักบัว อ่างล้าง ซิงก์ ถังบำบัดแบบปิด 600 ล.",1,"งาน",55000],["ระบบไฟฟ้า ตู้ไฟ เบรกเกอร์ กันดูด ปลั๊ก ดวงโคม",1,"งาน",38000],["ไฟโซลาร์สำรองตอนไฟดับ (โคมโซลาร์ + พาวเวอร์แบงก์)",1,"ชุด",10000],["เคาน์เตอร์ครัวปูน ท็อปแกรนิต + ซิงก์",2,"ม.",6000],["สีภายนอก-ภายใน",154,"ตร.ม.",120]]],["5. พื้นและของใช้ฉุกเฉิน",[["ผิวพื้นขัดมัน + เคลือบกันซึม กันลื่น",60,"ตร.ม.",400],["รางรับน้ำฝน + ถังเก็บน้ำ 1,000 ลิตร + ก๊อก",1,"ชุด",18000],["ห่วงผูกเรือ + บันไดลิงลงน้ำ",1,"ชุด",8000]]],["6. แบบ",[["เขียนแบบ คำนวณโครงสร้างโดยวิศวกร",1,"งาน",30000]]]];
 /* ---------- flood refuge forms: same rooms (2 bedrooms, open kitchen with no door, bathroom), different building shapes ---------- */
 let BROOF='hip';
-const BROOFS={hip:'ปั้นหยา',gable:'จั่ว',butterfly:'ผีเสื้อ',barrel:'โค้ง',split:'สลับระดับ'};
+const BROOFS={hip:'ปั้นหยา',gable:'จั่ว',butterfly:'ผีเสื้อ',barrel:'โค้ง',split:'สลับระดับ',shed:'เพิงหมาแหงน'};
 let SFORM='gable', SCAN=true, SSTAIR=true, SEASY=true;
 const SF_ORDER=['gable','hip','twin','lshape','butterfly','aframe','barrel','split','wrap'];
 const SF_ROW={rooms:[[15,25,18,28,'ห้องนอน 1'],[18,25,21,28,'ห้องนอน 2'],[21,25,23.2,28,'ครัวเปิดโล่ง','k'],[23.2,25,25,28,'ห้องน้ำ']],
@@ -1035,10 +1035,11 @@ function saveSAdd(){try{localStorage.setItem('fh-sadd',JSON.stringify([...sadSel
 let SHELTER_LABELS=SF.gable.labels;
 function shelterLabels(){const s=SF[SFORM]||SF.gable;if(!SEASY)return s.labels;const [sa,sb,sy]=s.stair;
   const d=stairDims(H);return s.labels.map((l,i)=>i===1?{p:[(sa-1.35+sb)/2,sy-d.LE-0.7,H/2+0.6],raw:true,h:'<b>บันไดชานพัก</b> '+d.nE+' ขั้น เตี้ย'}:l)}
+function SH0(){return isBig()&&BROOF==='shed'?3:4}
 function isBig(){return !!(SF[SFORM]&&SF[SFORM].big)}
 function sTitle(){return isBig()?'บ้าน 12 × 10 ม. '+SF[SFORM].n+' หลังคา'+BROOFS[BROOF]:'บ้านพักชั่วคราว '+SF[SFORM].n}
 function sShort(){return isBig()?'บ้าน 12 × 10 '+SF[SFORM].n:'บ้านพัก'+SF[SFORM].n}
-const SKEY=()=>'S'+(SFORM==='gable'?'':'-'+SFORM)+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+'-h40';
+const SKEY=()=>'S'+(SFORM==='gable'?'':'-'+SFORM)+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+'-h'+Math.round(SH0()*10);
 function canopyQ(s){const [x0,y0,x1,y1]=s.bound,o=1.2,per=2*((x1-x0)+(y1-y0))+8*o;
   const br=s.cols[0].reduce((a,x)=>a+s.cols[1].filter(y=>x===x0||x===x1||y===y0||y===y1).length,0)-1;
   return {area:Math.round(2*o*((x1-x0)+(y1-y0))+4*o*o-1.5*o),br:br,gut:Math.round(per-1.5)}}
@@ -1060,11 +1061,11 @@ function shelterBOQ(f,can,st,noAdd){
   (s.adds||[]).forEach(a=>G[a[0]][1].push([a[1]+' · '+s.n,a[2],a[3],a[4]]));
   if(s.big){const fx=(gi,pre,f)=>{const r=G[gi][1].find(x=>x[0].indexOf(pre)===0);if(r)f(r)};
     G[0][1][1][3]=20000; G[1][1].forEach(r=>{if(r[0].indexOf('ค่ารถปั๊ม')===0)r[1]=3;else if(r[0].indexOf('ค้ำยัน')===0)r[1]=120;else r[1]=+(r[1]*1.9).toFixed(1)});
-    fx(2,'หลังคาโครงเหล็ก',r=>{r[0]='หลังคา'+BROOFS[BROOF]+'โครงเหล็ก + เมทัลชีท ยื่นชายคา 0.8 ม.';r[1]=160;if(BROOF==='gable')r[3]=950});
+    fx(2,'หลังคาโครงเหล็ก',r=>{r[0]='หลังคา'+BROOFS[BROOF]+'โครงเหล็ก + เมทัลชีท ยื่นชายคา 0.8 ม.';r[1]=160;if(BROOF==='gable')r[3]=950;if(BROOF==='shed')r[3]=880});
     ({butterfly:[[2,'รางน้ำกลางสแตนเลส + กันซึม',14,'ม.',900],[3,'กระจกช่องแสงสูงหน้า-หลัง',24,'ม.',1100],[2,'โครงยกขอบหลังคาหน้า-หลัง',1,'งาน',12000],[4,'ท่อลงถังเก็บน้ำ + ชุดกรองน้ำฝนแรก',1,'ชุด',4500]],
       barrel:[[2,'แผ่นเมทัลชีทรีดโค้ง (ส่วนเพิ่ม)',1,'งาน',26000],[2,'แปเหล็กดัดโค้ง',1,'งาน',16000],[3,'กระจกช่องแสงเหนือผนังหน้า',1,'งาน',12000]],
       split:[[3,'กระจกช่องแสงสูง ยาว 12 ม.',12,'ม.',1000],[2,'โครงหลังคา 2 ระดับ',1,'งาน',12000],[2,'แผ่นปิดรอยต่อ + รางน้ำเพิ่ม',1,'งาน',7000]],
-      gable:[[3,'ผนังหน้าจั่ว 2 ด้าน',1,'งาน',9000]]}[BROOF]||[]).forEach(a=>G[a[0]][1].push([a[1]+' · หลังคา'+BROOFS[BROOF],a[2],a[3],a[4]]));fx(2,'ทาสีกันสนิม',r=>r[3]=22000);
+      gable:[[3,'ผนังหน้าจั่ว 2 ด้าน',1,'งาน',9000]],shed:[[3,'กระจกช่องแสงสูงหน้าบ้าน + ผนังสามเหลี่ยมด้านข้าง',1,'งาน',16000],[1,'พื้นยื่นจากแนวเสา 1.00 ม. หน้า-หลัง (คานยื่น)',1,'งาน',18000]]}[BROOF]||[]).forEach(a=>G[a[0]][1].push([a[1]+' · หลังคา'+BROOFS[BROOF],a[2],a[3],a[4]]));fx(2,'ทาสีกันสนิม',r=>r[3]=22000);
     G[3][0]='4. ห้องนอน 2 ห้อง ห้องน้ำ 1 ห้อง '+(s.doorsN>4?'ห้องเก็บของ ':'')+'นั่งเล่น ครัวเปิดโล่ง (12.0 × 7.5 ม.)';
     fx(3,'ฝ้า',r=>r[1]=90);fx(3,'ประตู',r=>{r[0]='ประตู (หน้าบ้าน ห้องนอน 2 ห้อง ห้องน้ำ'+(s.doorsN>4?' ห้องเก็บของ':'')+') · ครัวเปิดโล่งไม่มีประตู';r[1]=s.doorsN});fx(3,'หน้าต่าง',r=>r[1]=12);
     fx(3,'พื้นในห้อง',r=>r[1]=90);fx(3,'ระบบประปา',r=>r[3]=65000);fx(3,'ระบบไฟฟ้า',r=>r[3]=60000);fx(3,'เคาน์เตอร์ครัว',r=>r[1]=3);fx(3,'สีภายนอก',r=>r[1]=300);
@@ -1694,7 +1695,7 @@ function stillMsg(){
   const parts=[]; if(imgFail) parts.push('โหลดภาพนิ่งไม่สำเร็จ ทั้งไฟล์ภาพและภาพที่ฝังในหน้า อาจถูกระบบความปลอดภัยของเครือข่ายหรือส่วนเสริมของ browser บล็อกไว้ ลองเปิดด้วยเครือข่ายอื่นหรือ browser อื่น ระหว่างนี้ดูผัง รูปด้าน และผังเสาในแท็บอื่นได้');
   const n=AD_ALL.filter(a=>adOn(a.id)).length;
   if(n) parts.push('ภาพนิ่งยังไม่แสดงส่วนเสริม '+n+' รายการที่เลือก ดูได้ในแท็บผังพื้น');
-  if(MODEL==='shelter'&&Math.abs(H-4)>0.01) parts.push('ภาพนิ่งเป็นแบบพื้น +4.00 · พื้น +'+f2(H)+' ที่เลือกดูได้ในภาพ 3 มิติ');
+  if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01) parts.push('ภาพนิ่งเป็นแบบพื้น +'+f2(SH0())+' · พื้น +'+f2(H)+' ที่เลือกดูได้ในภาพ 3 มิติ');
   if(parts.length) parts.push('กด "หมุนดูแบบ 3 มิติ" เพื่อดูภาพตรงตามที่เลือก');
   note(parts.join(' · '));
 }
@@ -2928,6 +2929,11 @@ function shelterify(){
       else if(BROOF==='split'){const cy=28.5; planeX(rx0,rx1,cy-0.5,H+3.85,ry1,e); planeX(rx0,rx1,ry0,H+2.6,cy+0.25,H+3.25);
         box(x0,x1,cy-0.05,cy+0.05,H+2.6,H+3.22,P.wall); box(x0,x1,cy-0.05,cy+0.05,H+3.22,H+3.78,P.glass); [15,17,19,21,23,25].forEach(x=>box(x-0.04,x+0.04,cy-0.1,cy-0.04,H+3.22,H+3.78,P.trim));
         [x0,x1-0.1].forEach(x=>{tri([[x,cy,H+2.6],[x,y1,H+2.6],[x,cy,H+3.78]],Wd);tri([[x,y1,H+2.6],[x,y1,H+2.75+(H+3.85-e)*0.06],[x,cy,H+3.78]],Wd);tri([[x,fy,H+2.6],[x,cy,H+2.6],[x,cy,H+3.2]],Wd)})}
+      else if(BROOF==='shed'){const hh=y=>H+3.6-(y-y0)*0.095; planeX(rx0,rx1,ry0,hh(ry0),ry1,hh(ry1));
+        box(rx0,rx1,ry0-0.05,ry0+0.05,hh(ry0)-0.4,hh(ry0)+0.04,P.trim); box(rx0,rx1,ry1-0.05,ry1+0.03,hh(ry1)-0.18,hh(ry1),P.trim);
+        box(x0,x1,fy,fy+0.1,H+2.6,hh(fy)-0.06,P.glass); [15,17,19,21,23,25].forEach(x=>box(x-0.04,x+0.04,fy-0.05,fy+0.02,H+2.6,hh(fy)-0.06,P.trim));
+        [x0,x1-0.1].forEach(x=>{tri([[x,fy,H+2.6],[x,y1,H+2.6],[x,fy,hh(fy)-0.06]],Wd);tri([[x,y1,H+2.6],[x,y1,hh(y1)-0.06],[x,fy,hh(fy)-0.06]],Wd)});
+        [[x0,y0],[18,y0],[22,y0],[x1,y0]].forEach(([x,y])=>box(x-0.07,x+0.07,y-0.07,y+0.07,H+2.8,hh(y),P.rail))}
       else hipRoof(rx0,rx1,ry0,ry1,e,H+4.6); }
     lampAt=[20,23.2];
   } else if(SFORM==='wrap'){
@@ -3027,6 +3033,7 @@ function sRoofs(){const f=SFORM,R='roof',Gb='gable',Py='poly',Gl='glass';
     D.big=BROOF==='gable'?{F:[rect(13.2,26.8,g,8.4,R)],S:[{pts:[[21.1,g],[26.95,8.4],[32.8,g]],c:Gb}]}
       :BROOF==='butterfly'?{F:[rect(13.2,26.8,g,7.9,R)],S:[{pts:[[21.1,7.9],[28.5,g],[32.8,7.9],[32.8,7.78],[28.5,g-0.12],[21.1,7.78]],c:R}]}
       :BROOF==='barrel'?{F:[rect(13.2,26.8,g,8.25,R)],S:[arc(21.1,32.8,g,1.5)]}
+      :BROOF==='shed'?{F:[rect(13.2,26.8,6.55,7.73,R)],S:[{pts:[[21.1,7.73],[32.8,6.62],[32.8,6.44],[21.1,7.29]],c:R}]}
       :{F:[rect(13.2,26.8,6.6,7.85,R)],S:[{pts:[[21.1,6.6],[28.75,7.25],[28.75,7.15],[21.1,6.5]],c:R},{pts:[[28.0,7.85],[32.8,g],[32.8,g-0.1],[28.0,7.75]],c:R},rect(28.45,28.55,7.22,7.78,Gl)]}}
   const r0=D[f]||(SF[f]&&SF[f].big?D.big:D.gable), dz=H-4, sh=a=>a.map(p=>({c:p.c,pts:p.pts.map(q=>[q[0],q[1]+dz])})); return {F:sh(r0.F),S:sh(r0.S)}}
 function sUnion(iv){iv=iv.slice().sort((a,b)=>a[0]-b[0]);const o=[];iv.forEach(v=>{const l=o[o.length-1];if(l&&v[0]<=l[1]+0.01)l[1]=Math.max(l[1],v[1]);else o.push([v[0],v[1]])});return o}
@@ -3210,7 +3217,7 @@ function mfRender(){
   out.className='mf-v '+cls; out.innerHTML=L.map(l=>'<span>'+l.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</span>').join('');
 }
 {const e=document.getElementById('maxFlood');if(e)e.addEventListener('input',()=>{try{localStorage.setItem('fh-maxflood',e.value)}catch(x){}mfRender();if(MODEL==='shelter'){drawShelterMEP()}});
- const u=document.getElementById('mfUse');if(u)u.addEventListener('click',()=>{const h=+u.dataset.h;if(h>0&&Math.abs(h-H)>0.01){selectHeight(h);writeHash();if(MODEL==='shelter'&&Math.abs(H-4)>0.01&&stillMode&&gpuOK())go3d.click()}});
+ const u=document.getElementById('mfUse');if(u)u.addEventListener('click',()=>{const h=+u.dataset.h;if(h>0&&Math.abs(h-H)>0.01){selectHeight(h);writeHash();if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01&&stillMode&&gpuOK())go3d.click()}});
  const sm=document.getElementById('mfSim');if(sm)sm.addEventListener('click',()=>{const v=maxFloodVal(),f=document.getElementById('flood');if(v>0&&f){f.value=String(Math.min(v,parseFloat(f.max)||v));f.dispatchEvent(new Event('input',{bubbles:true}))}});}
 
 /* ---------- a document for the builder: drawings, quantities and schedule of the chosen temporary house ---------- */
@@ -3310,11 +3317,12 @@ function sformText(){const s=SF[SFORM];
   setT('sformDesc',s.n+' · '+s.s+' · '+s.d); setT('sn-rooms',s.rtxt); setT('sn-refuge',s.ftxt); setT('sn-struct',s.stxt); setT('sn-piles',String(s.piles)); setT('h-snotes',isBig()?'หลักคิดของบ้าน 12 × 10':'หลักคิดของบ้านพักชั่วคราว'); setT('sn-intro',isBig()?'บ้านอยู่ถาวรหน้ากว้าง 12 ม. ลึก 10 ม. ไม่มีทางรถขึ้น ':'ตัดที่จอดรถบนคานและทางรถขึ้นออก เหลือบ้านหลังเล็ก'); {const d=stairDims(H);setT('sn-stair',SEASY?'บันไดหักกลับ 2 ช่วง กว้าง 1.20 ม. '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม. ลูกนอน 30 ซม. ชานพักกลางที่ +'+f2(H/2)+' ให้หยุดพัก ราวจับสองข้าง ไฟส่องขั้นบันได เหมาะกับผู้สูงอายุและเด็ก':'บันไดเหล็กตรงกว้าง 1.20 ม. '+d.nS+' ขั้น ลูกตั้ง '+(d.rS*100).toFixed(1)+' ซม. ที่ปลายระเบียง ราวจับสองข้าง');setT('sformHint',isBig()?'บ้าน 12 × 10 ม. ยกสูง +'+f2(H)+' ม. ขึ้นด้วยบันได ห้องนอน 2 ห้อง ห้องน้ำ 1 ห้อง นั่งเล่นกว้าง ครัวเปิดโล่ง ระเบียงหน้าบ้านไว้หลบน้ำ':'ทุกแบบยกสูง +'+f2(H)+' ม. ขึ้นด้วยบันได ห้องนอน 2 ห้อง ครัวเปิดโล่งไม่มีประตู ห้องน้ำ และพื้นที่หลบน้ำมีหลังคา')} setT('sn-canopy',(SCAN?'กันสาดใต้ระเบียงยื่น 1.20 ม. รอบ 4 ด้าน ปลายสูง 3.00 ม. ใต้ถุนใช้งานได้ตอนฝนตก':'ไม่มีกันสาดใต้ระเบียง')+' · '+(SSTAIR?'หลังคาคลุมบันไดตลอดแนว ขึ้นลงตอนฝนตกไม่เปียก':'บันไดไม่มีหลังคาคลุม'));
   if(MODEL==='shelter'){setT('spec-cars',s.seat+'+ คน');const k=document.getElementById('spec-cars').parentNode.querySelector('.k-s');if(k)k.textContent='นั่งหลบบน'+s.deck[0][4]+' '+s.refuge+' ตร.ม.'}
   renderShelterArea()}
-function selectBRoof(r,noHash){if(!BROOFS[r])r='hip';const ch=r!==BROOF;BROOF=r;
+function bigCols(){['big1','big2'].forEach(k=>{SF[k].cols=BROOF==='shed'?[[14,18,22,26],[23,27,31]]:[[14,18,22,26],[22,27,32]]})}
+function selectBRoof(r,noHash){if(!BROOFS[r])r='hip';const ch=r!==BROOF;BROOF=r;bigCols();
   document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));
   if(ch&&MODEL==='shelter'&&isBig()){sformText();if(ready3d)init3D();refreshCosts();updateStill()}
   if(!noHash) writeHash()}
-document.querySelectorAll('.opt[data-broof]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.broof!==BROOF)selectBRoof(b.dataset.broof)}));
+document.querySelectorAll('.opt[data-broof]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.broof!==BROOF){const was=BROOF;selectBRoof(b.dataset.broof);if(BROOF==='shed'&&Math.abs(H-3)>0.01){selectHeight(3);writeHash()}else if(was==='shed'&&BROOF!=='shed'&&Math.abs(H-3)<0.01){selectHeight(4);writeHash()}}}));
 function selectSOpt(k,v,noHash){
   if(k==='canopy')SCAN=v; else if(k==='easy')SEASY=v; else SSTAIR=v; SHELTER_LABELS=shelterLabels();
   document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});
@@ -3349,7 +3357,7 @@ function selectHeight(h){
   const warn={3:' · ใต้คานเตี้ย รถตู้หลังคาสูงเข้าไม่ได้ และเผื่อระยะน้ำท่วมน้อย',3.5:'',4:' · แบบเดิม',4.5:' · ทางลาดยาวเต็มที่ดิน ไม่มีช่วงเปลี่ยนระดับ รถเตี้ยเสี่ยงขูด'}[H]||'';
   setT('hDesc','ใต้ท้องคานโล่ง '+f2(ct)+' ม. · ทางลาดยาว '+fmtL(L)+' ม. ชัน '+S+'%'+(RAMP.tr?' หัวท้าย 7%':'')+' · บันได '+n+' ขั้น · พื้นบ้านสูงกว่าน้ำท่วมตัวอย่าง 1.50 ม. อยู่ '+f2(H-1.5)+' ม.'+warn);
   const mx=Math.round(ct*10)/10; floodIn.max=String(mx); if(parseFloat(floodIn.value)>mx) floodIn.value=String(mx);
-  if(MODEL==='shelter'){const d=stairDims(H);setT('hDesc','ใต้คานโล่ง '+f2(H-0.52)+' ม. · '+(SEASY?'บันไดชานพัก '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม.':'บันได '+d.nS+' ขั้น')+(Math.abs(H-4)>0.01?' · ภาพนิ่งมีเฉพาะ +4.00 ความสูงอื่นดูในภาพ 3 มิติ':''));SHELTER_LABELS=shelterLabels();sformText()}
+  if(MODEL==='shelter'){const d=stairDims(H);setT('hDesc','ใต้คานโล่ง '+f2(H-0.52)+' ม. · '+(SEASY?'บันไดชานพัก '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม.':'บันได '+d.nS+' ขั้น')+(Math.abs(H-SH0())>0.01?' · ภาพนิ่งมีเฉพาะ +'+f2(SH0())+' ความสูงอื่นดูในภาพ 3 มิติ':''));SHELTER_LABELS=shelterLabels();sformText()}
   if(ready3d) init3D();
   drawSection(); refreshCosts(); applyFlood();
 }
@@ -3357,12 +3365,12 @@ function parseHash(){{const m2=/^#shelter((?:-[a-z0-9]+)*)$/.exec(location.hash)
 function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
 document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{selectOption(b.dataset.opt);writeHash()}));
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
-document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-4)>0.01&&stillMode&&gpuOK())go3d.click()}));
+document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01&&stillMode&&gpuOK())go3d.click()}));
 window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(r.br!==BROOF)selectBRoof(r.br,true);if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
 const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
-guard(()=>{if(R0.m==='shelter'){BROOF=R0.br;document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
+guard(()=>{if(R0.m==='shelter'){BROOF=R0.br;bigCols();document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
 guard(applyFlood); guard(showStill);
 {const w=document.getElementById('jsWarn'); if(initErr||window.__jsErr){w.hidden=false;w.textContent='บางส่วนของหน้าเว็บทำงานไม่ครบ ('+(initErr?initErr.message:window.__jsErr)+') · ส่งภาพหน้าจอข้อความนี้มาได้เลย'} else w.hidden=true;}
 })();
