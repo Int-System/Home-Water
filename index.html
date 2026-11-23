@@ -412,6 +412,10 @@ html:not(.m-custom) .custom-only{display:none!important}
 #cusMini{width:100%;height:auto;display:block;user-select:none;-webkit-user-select:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;touch-action:manipulation;max-height:340px}
 #cusMini .rm{cursor:pointer}#cusMini text{pointer-events:none;text-anchor:middle;dominant-baseline:middle;fill:var(--ink)}
 #cusMsg.bad{color:#B42318}
+.land-t{width:100%;border-collapse:collapse;font-size:13px;margin-top:2px}.land-t td{padding:4px 2px;border-bottom:1px solid var(--line2);vertical-align:top}
+.land-t tr.cur td{font-weight:600}.land-t .ok{color:#23613D}.land-t .no{color:#B42318}.land-t td:last-child{text-align:right;white-space:nowrap}
+#landPanel details summary{cursor:pointer;font-size:12.5px;color:var(--muted)}#landPanel .sb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:6px}
+#landPanel .sb label{display:grid;gap:2px;font-size:12px;color:var(--muted)}#landPanel .sb input{font:inherit;font-size:15px;width:100%;min-width:0;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
 </style>
 
 
@@ -456,13 +460,22 @@ html:not(.m-custom) .custom-only{display:none!important}
           <label class="cus-row" for="cusStore"><span>ห้องเก็บของ</span><input type="checkbox" id="cusStore"></label>
           <label class="cus-row" for="cusLiving"><span>ห้องนั่งเล่น (ต่อกับครัว)</span><input type="checkbox" id="cusLiving" checked></label>
           <p class="hint" id="cusMsg" aria-live="polite"></p>
-          <svg id="cusMini" role="img" aria-label="ผังย่อ แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่"></svg>
-          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span class="hint" id="cusTip" style="margin:0">แตะห้องหนึ่งแล้วแตะอีกห้องเพื่อสลับที่ · ลากผนังสีฟ้าเพื่อปรับขนาดห้อง</span><button type="button" class="btn" id="cusReset" style="min-height:36px">จัดใหม่อัตโนมัติ</button></div>
+          <svg id="cusMini" role="img" aria-label="ผังย่อ ลากห้องไปวางบนอีกห้อง หรือแตะทีละห้อง เพื่อสลับที่"></svg>
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span class="hint" id="cusTip" style="margin:0">ลากห้องไปวางบนอีกห้องเพื่อสลับที่ · ลากผนังสีฟ้าเพื่อปรับขนาดห้อง</span><button type="button" class="btn" id="cusReset" style="min-height:36px">จัดใหม่อัตโนมัติ</button></div>
         </div>
         <span class="fld-l big-only" id="lbl-broof">รูปทรงหลังคา</span>
         <div class="seg seg3 sforms big-only" role="group" aria-labelledby="lbl-broof"><button type="button" class="opt" data-broof="hip" aria-pressed="true"><b>ปั้นหยา</b><small id="brcost-hip">—</small></button><button type="button" class="opt" data-broof="gable" aria-pressed="false"><b>จั่ว</b><small id="brcost-gable">—</small></button><button type="button" class="opt" data-broof="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="brcost-butterfly">—</small></button><button type="button" class="opt" data-broof="barrel" aria-pressed="false"><b>โค้ง</b><small id="brcost-barrel">—</small></button><button type="button" class="opt" data-broof="split" aria-pressed="false"><b>สลับระดับ</b><small id="brcost-split">—</small></button><button type="button" class="opt" data-broof="shed" aria-pressed="false"><b>เพิงหมาแหงน</b><small id="brcost-shed">—</small></button></div>
         <span class="fld-l big-only" id="lbl-spos">ตำแหน่งบันได</span>
         <div class="seg seg2 big-only" role="group" aria-labelledby="lbl-spos"><button type="button" class="opt" data-spos="fr" aria-pressed="true"><b>หน้าขวา</b><small>แบบเดิม</small></button><button type="button" class="opt" data-spos="fl" aria-pressed="false"><b>หน้าซ้าย</b><small>ขึ้นหน้าบ้านฝั่งซ้าย</small></button><button type="button" class="opt" data-spos="sr" aria-pressed="false"><b>ข้างขวา</b><small>ขึ้นข้างบ้าน มีชานหัวบันได</small></button><button type="button" class="opt" data-spos="sl" aria-pressed="false"><b>ข้างซ้าย</b><small>ขึ้นข้างบ้าน มีชานหัวบันได</small></button></div>
+        <span class="fld-l big-only" id="lbl-land" style="margin-top:10px">ขนาดที่ดิน</span>
+        <div class="big-only cus" id="landPanel" style="margin-top:0">
+          <div class="cus-dim"><label for="landW">กว้าง (ด้านติดถนน) ม.<input id="landW" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="เช่น 20"></label><span>×</span><label for="landD">ลึก ม.<input id="landD" type="number" inputmode="decimal" min="0" max="200" step="0.5" placeholder="เช่น 30"></label></div>
+          <details><summary id="landSbSum">ระยะร่นจากแนวเขต: หน้า 3.00 · ข้าง 2.00 · หลัง 2.00 ม.</summary>
+            <div class="sb"><label for="landF">หน้า (ถนน)<input id="landF" type="number" inputmode="decimal" min="0" max="20" step="0.5" value="3"></label><label for="landS">ข้าง<input id="landS" type="number" inputmode="decimal" min="0" max="20" step="0.5" value="2"></label><label for="landB">หลัง<input id="landB" type="number" inputmode="decimal" min="0" max="20" step="0.5" value="2"></label></div>
+            <p class="hint" style="margin:6px 0 0">ค่าเริ่มต้นตามกฎกระทรวงทั่วไป: ผนังที่มีหน้าต่างห่างแนวเขตอย่างน้อย 2 ม. หน้าบ้านติดถนนเผื่อ 3 ม. ก่อนยื่นขออนุญาตควรเช็คกับเทศบาลหรือ อบต. อีกครั้ง</p></details>
+          <div id="landRes" aria-live="polite"><p class="hint" style="margin:4px 0 0">ใส่ขนาดที่ดิน แล้วระบบจะบอกว่าบ้านแบบไหนวางได้</p></div>
+          <button type="button" class="btn" id="landFit" style="min-height:38px" hidden>ออกแบบเองให้พอดีที่ดินนี้</button>
+        </div>
         <span class="fld-l no-big" id="lbl-sform">รูปทรงบ้านพัก</span>
         <div class="seg seg3 sforms no-big" role="group" aria-labelledby="lbl-sform"><button type="button" class="opt" data-sform="gable" aria-pressed="true"><b>จั่ว</b><small id="sfcost-gable">—</small></button><button type="button" class="opt" data-sform="hip" aria-pressed="false"><b>ปั้นหยา</b><small id="sfcost-hip">—</small></button><button type="button" class="opt" data-sform="twin" aria-pressed="false"><b>เรือนแฝด</b><small id="sfcost-twin">—</small></button><button type="button" class="opt" data-sform="lshape" aria-pressed="false"><b>ตัว L</b><small id="sfcost-lshape">—</small></button><button type="button" class="opt" data-sform="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="sfcost-butterfly">—</small></button><button type="button" class="opt" data-sform="aframe" aria-pressed="false"><b>A-frame</b><small id="sfcost-aframe">—</small></button><button type="button" class="opt" data-sform="barrel" aria-pressed="false"><b>โค้ง</b><small id="sfcost-barrel">—</small></button><button type="button" class="opt" data-sform="split" aria-pressed="false"><b>สลับระดับ</b><small id="sfcost-split">—</small></button><button type="button" class="opt" data-sform="wrap" aria-pressed="false"><b>ระเบียงรอบ</b><small id="sfcost-wrap">—</small></button></div>
         <p class="hint" id="sformDesc"></p>
@@ -2793,6 +2806,33 @@ document.getElementById('copyLink').addEventListener('click',()=>{
   try{navigator.clipboard.writeText(link).then(()=>{msg.textContent='คัดลอกลิงก์แล้ว';setTimeout(()=>{msg.textContent=''},2500)},fallback)}catch(e){fallback()}
 });
 
+const LAND={w:0,d:0,f:3,s:2,b:2};
+// how much land a house needs with the current stair position, stair type and floor height
+function landNeed(s){const b=s.bound,sw=stWorldBox(s,true),ov=SCAN?1.2:0.8,W=b[2]-b[0],D=b[3]-b[1];
+  const le=Math.max(b[0]-Math.min(b[0],sw[0])+LAND.s,ov),re=Math.max(Math.max(b[2],sw[2])-b[2]+LAND.s,ov),fe=Math.max(b[1]-Math.min(b[1],sw[1])+LAND.f,ov),be=Math.max(LAND.b,ov);
+  return {w:le+W+re,d:fe+D+be,le,re,fe,be,W,D}}
+function landRect(s){if(!(LAND.w>0&&LAND.d>0))return null;const n=landNeed(s),b=s.bound,x0=b[0]-n.le-(LAND.w-n.w)/2,y0=b[1]-n.fe;
+  return {x0,y0,x1:x0+LAND.w,y1:y0+LAND.d,ok:LAND.w>=n.w-0.001&&LAND.d>=n.d-0.001,bx0:x0+LAND.s,by0:y0+LAND.f,bx1:x0+LAND.w-LAND.s,by1:y0+LAND.d-LAND.b}}
+// biggest custom house for this land (rooms as chosen), for each stair position
+function landMax(pos){const sv=SPOS;SPOS=pos;const n=landNeed(SF.custom);SPOS=sv;const fl=v=>Math.floor(v*2)/2;
+  return {W:Math.min(20,fl(LAND.w-(n.w-n.W))),D:Math.min(20,fl(LAND.d-(n.d-n.D)))}}
+function landUI(){const res=document.getElementById('landRes'),btn=document.getElementById('landFit');if(!res)return;
+  setT('landSbSum','ระยะร่นจากแนวเขต: หน้า '+f2(LAND.f)+' · ข้าง '+f2(LAND.s)+' · หลัง '+f2(LAND.b)+' ม.');
+  if(!(LAND.w>0&&LAND.d>0)){res.innerHTML='<p class="hint" style="margin:4px 0 0">ใส่ขนาดที่ดิน แล้วระบบจะบอกว่าบ้านแบบไหนวางได้</p>';if(btn)btn.hidden=true;return}
+  const E=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const rows=['big1','big2','b105','b135','custom'].map(k=>{const sp=SF[k];if(!sp)return '';const n=landNeed(sp),ok=LAND.w>=n.w-0.001&&LAND.d>=n.d-0.001,
+    nm=k==='custom'?'ออกแบบเอง '+sp.s.replace(' ม.',''):k==='b105'||k==='b135'?sp.s.replace(' ม.',''):'12 × 10 '+sp.n;
+    const why=ok?'เหลือ '+f2(Math.min(LAND.w-n.w,LAND.d-n.d))+' ม.':(LAND.w<n.w?'กว้างขาด '+f2(n.w-LAND.w)+' ม.':'')+(LAND.w<n.w&&LAND.d<n.d?' · ':'')+(LAND.d<n.d?'ลึกขาด '+f2(n.d-LAND.d)+' ม.':'');
+    return '<tr'+(k===SFORM?' class="cur"':'')+'><td>'+E(nm)+'<br><small style="color:var(--muted)">ต้องใช้ '+f2(n.w)+' × '+f2(n.d)+' ม.</small></td><td class="'+(ok?'ok':'no')+'">'+(ok?'✓ วางได้':'✗ ไม่พอ')+'<br><small>'+E(why)+'</small></td></tr>'}).join('');
+  const best=['fr','fl','sr','sl'].map(p=>Object.assign({p},landMax(p))).sort((a,b)=>b.W*b.D-a.W*a.D)[0], cur=landMax(SPOS), can=cur.W>=6&&cur.D>=9;
+  res.innerHTML='<table class="land-t"><tbody>'+rows+'</tbody></table><p class="hint" style="margin:6px 0 0">บันได'+SPOSN[SPOS]+' สร้างได้ใหญ่สุด '+(can?f2(cur.W)+' × '+f2(cur.D)+' ม.':'ไม่ได้ ที่ดินเล็กเกินไป')+(best.p!==SPOS&&best.W*best.D>cur.W*cur.D+0.5&&best.W>=6&&best.D>=9?' · ย้ายบันไดไป'+SPOSN[best.p]+'ได้ใหญ่สุด '+f2(best.W)+' × '+f2(best.D)+' ม.':'')+'</p>';
+  const okBest=best.W>=6&&best.D>=9;LAND_POS=can?SPOS:okBest?best.p:null;
+  if(btn){btn.hidden=!LAND_POS;const m=LAND_POS===SPOS?cur:best;btn.textContent=(LAND_POS&&LAND_POS!==SPOS?'ย้ายบันไดไป'+SPOSN[LAND_POS]+' และ':'')+'ออกแบบเองให้พอดีที่ดินนี้ ('+f2(m.W)+' × '+f2(m.D)+' ม.)'}}
+let LAND_POS=null;
+function landTok(){if(!(LAND.w>0&&LAND.d>0))return '';return '-lw'+Math.round(LAND.w*10)+'-ld'+Math.round(LAND.d*10)+(LAND.f!==3?'-lf'+Math.round(LAND.f*10):'')+(LAND.s!==2?'-ls'+Math.round(LAND.s*10):'')+(LAND.b!==2?'-lb'+Math.round(LAND.b*10):'')}
+function landParse(a){const g=(p,d)=>{const x=a.find(t=>t.startsWith(p)&&/^\d+$/.test(t.slice(p.length)));return x?+x.slice(p.length)/10:d};return {w:g('lw',0),d:g('ld',0),f:g('lf',3),s:g('ls',2),b:g('lb',2)}}
+function landSet(q,noHash){Object.assign(LAND,q);['W','D','F','S','B'].forEach(k=>{const e=document.getElementById('land'+k),v=LAND[k.toLowerCase()];if(e&&document.activeElement!==e)e.value=v>0||k!=='W'&&k!=='D'?v:''});
+  landUI();if(MODEL==='shelter'&&isBig())drawShelterPlan();if(!noHash)writeHash()}
 function refreshCosts(){
   mfRender();
   AD_ALL.forEach(a=>{
@@ -2823,6 +2863,7 @@ function refreshCosts(){
   [1,2,3,4].forEach(l=>setT('lvcost-'+l,mil(boqTotal(OPT,false,l)*1.176)));
   document.querySelectorAll('.opt[data-lv]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.lv===LEVEL?'true':'false'));
   setT('lvDesc',LV_DESC[LEVEL]+(LEVEL<4?' · ภาพและผังยังแสดงแบบเต็ม':''));
+  landUI();
 }
 
 /* ---------- parking options ---------- */
@@ -2897,7 +2938,7 @@ function renderSchedShelter(tb){
 function drawShelterPlan(){
   const svg=document.getElementById('plan'); if(!svg) return; svg.innerHTML='';
   const s=SF[SFORM]||SF.gable, [bx0,by0,bx1,by1]=s.bound, Wp=bx1-bx0, Dp=by1-by0;
-  {const b=stWorldBox(s),x0=Math.min(bx0-(SEASY?2.4:1.9),b[0]-0.5),x1=Math.max(bx1+2.3,b[2]+0.5),yB=Math.min(by0-3.1,b[1]-0.9);svg.setAttribute('viewBox',(x0-bx0).toFixed(2)+' -2.9 '+(x1-x0).toFixed(2)+' '+(by1+2.9-yB).toFixed(2))} svg.style.cssText='min-width:0;max-width:640px;margin:0 auto';
+  {const b=stWorldBox(s),L=isBig()?landRect(s):null;let x0=Math.min(bx0-(SEASY?2.4:1.9),b[0]-0.5),x1=Math.max(bx1+2.3,b[2]+0.5),yB=Math.min(by0-3.1,b[1]-0.9),yT=by1+2.9;if(L){x0=Math.min(x0,L.x0-0.7);x1=Math.max(x1,L.x1+0.7);yB=Math.min(yB,L.y0-1.4);yT=Math.max(yT,L.y1+0.9)}svg.setAttribute('viewBox',(x0-bx0).toFixed(2)+' '+(by1-yT).toFixed(2)+' '+(x1-x0).toFixed(2)+' '+(yT-yB).toFixed(2))} svg.style.cssText='min-width:0;max-width:640px;margin:0 auto';
   svg.setAttribute('aria-label','ผังพื้น'+sTitle()+' '+Wp.toFixed(2)+' × '+Dp.toFixed(2)+' ม. ครัวเปิดโล่ง');
   const PX=x=>x-bx0, Y=y=>by1-y, ln=w=>'stroke:var(--ink);stroke-width:'+w, f2_=v=>v.toFixed(2);
   const R=(x0,y0,x1,y1,cls,w,extra)=>el('rect',{x:PX(x0),y:Y(y1),width:x1-x0,height:y1-y0,style:'fill:var(--'+cls+');'+ln(w||.04)+(extra||'')},svg);
@@ -2931,6 +2972,11 @@ function drawShelterPlan(){
   if(SSTAIR&&SEASY){el('rect',{x:PX(sa-1.65),y:Y(sy-.55),width:sb-sa+1.95,height:stairDims(H).LE+1.35,style:'fill:none;stroke:var(--warn);stroke-width:.04;stroke-dasharray:.2 .1'},svg)}
   else if(SSTAIR){el('rect',{x:PX(sa-.35),y:Y(sy-.55),width:sb-sa+.7,height:2.35,style:'fill:none;stroke:var(--warn);stroke-width:.04;stroke-dasharray:.2 .1'},svg)} if(!SEASY){for(let i=1;i<7;i++)L(sa,sy-i*.26,sb,sy-i*.26,ln(.02)); T((sa+sb)/2,sy-2.15,'บันได 1.20 ม. ↓',.28)}}}
   {const tk=sTank(s);if(tk){el('circle',{cx:PX(tk[0]),cy:Y(tk[1]),r:.5,style:'fill:none;'+ln(.03)},svg);T(tk[0],tk[1]-.85,'ถังน้ำฝน',.2)}}
+  {const L=isBig()?landRect(s):null;if(L){const col=L.ok?'var(--ink)':'#B42318';
+    el('rect',{x:PX(L.x0),y:Y(L.y1),width:L.x1-L.x0,height:L.y1-L.y0,style:'fill:none;stroke:'+col+';stroke-width:.07;stroke-dasharray:.5 .2 .1 .2'},svg);
+    if(L.bx1>L.bx0&&L.by1>L.by0)el('rect',{x:PX(L.bx0),y:Y(L.by1),width:L.bx1-L.bx0,height:L.by1-L.by0,style:'fill:none;stroke:var(--muted);stroke-width:.03;stroke-dasharray:.12 .12'},svg);
+    T((L.x0+L.x1)/2,L.y0-0.55,'ถนน · ที่ดิน '+f2(LAND.w)+' × '+f2(LAND.d)+' ม.'+(L.ok?'':' · ที่ดินไม่พอ'),.3,600,L.ok?'ink':'warn');
+    T((L.x0+L.x1)/2,L.y1-0.35,'แนวเขตที่ดิน · เส้นประเล็กคือแนวร่น',.22,400,'muted')}}
   s.cols[0].forEach(x=>s.cols[1].forEach(y=>el('rect',{x:PX(x)-.13,y:Y(y)-.13,width:.26,height:.26,style:'fill:var(--ink)'},svg)));
   el('line',{x1:0,x2:Wp,y1:-.9,y2:-.9,style:ln(.02)},svg); el('text',{x:Wp/2,y:-1.25,'text-anchor':'middle',style:'font-size:.32px;fill:var(--ink)'},svg).textContent=f2_(Wp)+' ม.';
   el('line',{x1:-.9,x2:-.9,y1:0,y2:Dp,style:ln(.02)},svg);
@@ -3619,7 +3665,8 @@ function cusMini(){const svg=document.getElementById('cusMini'),s=SF.custom;if(!
   s.slots.forEach((q,n)=>{const r=q.r,on=cusSel&&cusSel.row===q.row&&cusSel.i===q.i;
     const e=mk('rect',{class:'rm',x:r[0]-x0,y:Y(r[3]),width:r[2]-r[0],height:r[3]-r[1],tabindex:0,role:'button','aria-label':r[4]+(on?' (เลือกอยู่)':''),
       style:'fill:'+(on?'var(--accent-soft)':q.k==='t'?'#dcebf4':q.k==='s'?'var(--line2)':'var(--room)')+';stroke:'+(on?'var(--accent)':'var(--ink)')+';stroke-width:'+(on?.14:.07)});
-    const go=()=>cusTap(q);e.addEventListener('click',go);e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}});
+    e.dataset.slot=q.row+':'+q.i;e.style.touchAction='none';const go=()=>{if(CUS_NOCLICK){CUS_NOCLICK=false;return}cusTap(q)};e.addEventListener('click',go);
+    e.addEventListener('pointerdown',ev=>{if(ev.button>0)return;CUS_RDRAG={q,sx:ev.clientX,sy:ev.clientY,moved:false,svg,x0,y1}});e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}});
     const w=r[2]-r[0],lab=q.k==='b'?r[4].replace('ห้องนอน ','นอน '):SH[q.k];
     mk('text',{x:(r[0]+r[2])/2-x0,y:Y((r[1]+r[3])/2),style:'font-size:'+Math.min(fs*1.1,w/Math.max(3,lab.length*0.55))+'px;font-weight:600;fill:'+(q.k==='k'||q.k==='d'?'var(--accent)':'var(--ink)')}).textContent=lab});
   mk('text',{x:W/2,y:D+0.45,style:'font-size:'+(fs*0.8)+'px;fill:var(--muted)'}).textContent='หน้าบ้าน (ถนน)';
@@ -3640,7 +3687,25 @@ function cusHandles(svg,s,mk,Y,x0,y1){
     hit.addEventListener('pointerdown',ev=>{ev.preventDefault();cusSel=null;CUS_DRAG={h,vert,pt}});
     hit.addEventListener('keydown',ev=>{const d={ArrowLeft:-0.1,ArrowRight:0.1,ArrowDown:-0.1,ArrowUp:0.1}[ev.key];if(d===undefined)return;ev.preventDefault();if(cusResize(h,(vert?h.x:h.y)+d))cusApply()})});
 }
-let CUS_DRAG=null;
+let CUS_DRAG=null, CUS_RDRAG=null, CUS_NOCLICK=false;
+function cusDropTarget(ev,d){d=d||CUS_RDRAG;if(d.ghost)d.ghost.style.display='none';const el=document.elementFromPoint(ev.clientX,ev.clientY);if(d.ghost)d.ghost.style.display='';
+  if(!el||!el.dataset||!el.dataset.slot||el.closest('#cusMini')!==d.svg)return null;const [row,i]=el.dataset.slot.split(':');return SF.custom.slots.find(q=>q.row===row&&q.i===+i)||null}
+window.addEventListener('pointermove',ev=>{const d=CUS_RDRAG;if(!d)return;
+  if(!d.moved){if(Math.hypot(ev.clientX-d.sx,ev.clientY-d.sy)<8)return;d.moved=true;cusSel=null;
+    const r=d.q.r,NS='http://www.w3.org/2000/svg',g=document.createElementNS(NS,'rect');g.setAttribute('width',r[2]-r[0]);g.setAttribute('height',r[3]-r[1]);
+    g.setAttribute('style','fill:var(--accent-soft);fill-opacity:.85;stroke:var(--accent);stroke-width:.12;pointer-events:none');d.svg.appendChild(g);
+    const t=document.createElementNS(NS,'text');t.setAttribute('style','font-size:.42px;font-weight:600;fill:var(--accent);pointer-events:none');t.textContent=r[4].replace('ห้องนอน ','นอน ').replace('นั่งเล่น + กินข้าว','นั่งเล่น');d.svg.appendChild(t);d.ghost=g;d.gtext=t;
+    setT('cusTip','กำลังย้าย '+r[4]+' · ปล่อยบนห้องที่อยากสลับ')}
+  ev.preventDefault();const m=d.svg.getScreenCTM();if(!m)return;const pt=d.svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const v=pt.matrixTransform(m.inverse()),r=d.q.r,w=r[2]-r[0],h=r[3]-r[1];
+  d.ghost.setAttribute('x',v.x-w/2);d.ghost.setAttribute('y',v.y-h/2);d.gtext.setAttribute('x',v.x);d.gtext.setAttribute('y',v.y);
+  const tg=cusDropTarget(ev);d.svg.querySelectorAll('.rm').forEach(e=>e.style.strokeDasharray='');
+  if(tg&&!(tg.row===d.q.row&&tg.i===d.q.i)){const e=d.svg.querySelector('[data-slot="'+tg.row+':'+tg.i+'"]');if(e)e.style.strokeDasharray='.25 .15';
+    setT('cusTip',(tg.row==='pub')!==(d.q.row==='pub')?'วางตรงนี้ไม่ได้ · นั่งเล่นและครัวสลับกับห้องนอนไม่ได้':'ปล่อยเพื่อสลับ '+d.q.r[4]+' กับ '+tg.r[4])}},{passive:false});
+{const end=ev=>{const d=CUS_RDRAG;if(!d)return;CUS_RDRAG=null;if(!d.moved)return;CUS_NOCLICK=true;setTimeout(()=>{CUS_NOCLICK=false},400);
+   const tg=ev.type==='pointerup'?cusDropTarget(ev,d):null;if(d.ghost)d.ghost.remove();if(d.gtext)d.gtext.remove();
+   if(!tg||(tg.row===d.q.row&&tg.i===d.q.i)){setT('cusTip','ไม่ได้ย้าย · ลากห้องไปวางบนอีกห้องเพื่อสลับ');cusMini();return}
+   cusSwap({row:d.q.row,i:d.q.i},tg)};
+ window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end)}
 window.addEventListener('pointermove',ev=>{if(!CUS_DRAG)return;ev.preventDefault();const p=CUS_DRAG.pt(ev);if(!p)return;const v=Math.round((CUS_DRAG.vert?p.x:p.y)*10)/10;if(v===CUS_DRAG.last)return;CUS_DRAG.last=v;if(cusResize(CUS_DRAG.h,v)){cusBuild();cusMini();cusUI2()}},{passive:false});
 {const end=()=>{if(!CUS_DRAG)return;CUS_DRAG=null;setT('cusTip','ปรับขนาดแล้ว · ลากผนังสีฟ้าเพื่อปรับต่อ หรือแตะห้องเพื่อสลับที่');cusApply()};window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end)}
 function cusUI2(){const m=document.getElementById('cusMsg'),s=SF.custom;if(m&&s&&CUS_ROWS){m.className='hint';m.textContent=(s.rows===3?'จัด 3 แถว มีทางเดินกลาง':'จัด 2 แถว')+' · พื้น '+s.area.toFixed(1)+' ตร.ม. · เสา '+s.piles+' ต้น'}}
@@ -3656,14 +3721,16 @@ function cusResize(h,v){const s=SF.custom,b=s.bound,fy=s.fy,Di=CUS.D-s.dd;
   return false}
 function cusTap(q){
   if(!cusSel){cusSel={row:q.row,i:q.i};setT('cusTip','เลือก '+q.r[4]+' แล้ว · แตะอีกห้องเพื่อสลับ');cusMini();return}
-  const a=cusSel;cusSel=null;if(a.row===q.row&&a.i===q.i){setT('cusTip','ย้ายห้อง: แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่');cusMini();return}
+  const a=cusSel;cusSel=null;if(a.row===q.row&&a.i===q.i){setT('cusTip','ย้ายห้อง: ลากห้องไปวางบนอีกห้อง หรือแตะทีละห้องเพื่อสลับที่');cusMini();return}
+  cusSwap(a,q)}
+function cusSwap(a,q){
   if((a.row==='pub')!==(q.row==='pub')){setT('cusTip','สลับห้องนั่งเล่น/ครัว กับห้องนอนไม่ได้ · ห้องนั่งเล่นและครัวอยู่แถวหน้าติดระเบียง');cusMini();return}
   const R={pub:CUS_ROWS.pub.slice(),back:CUS_ROWS.back.slice(),mid:CUS_ROWS.mid?CUS_ROWS.mid.slice():null},t=R[a.row][a.i];R[a.row][a.i]=R[q.row][q.i];R[q.row][q.i]=t;
   if(!cusRowsOk(CUS,R)){setT('cusTip','สลับแล้วห้องนอนจะแคบกว่า 2.80 ม. ลองสลับห้องอื่น');cusMini();return}
   {const s0=SF.custom,cur=r=>s0.slots.filter(q=>q.row===r).sort((x,y)=>x.i-y.i).map(q=>q.r[2]-q.r[0]);const wd={back:cur('back'),mid:CUS_ROWS.mid?cur('mid'):null};
    if(a.row===q.row&&a.row!=='pub'){const t2=wd[a.row][a.i];wd[a.row][a.i]=wd[q.row][q.i];wd[q.row][q.i]=t2;if(!cusRowW(Object.assign({},CUS,{wd}),R,a.row,a.row==='mid'?CUS.W-CUS_CORR:CUS.W).every((w,i)=>Math.abs(w-wd[a.row][i])<0.01))wd[a.row]=null}else if(a.row!=='pub'){wd[a.row]=null;wd[q.row]=null}
    CUS.wd=CUS.wd||a.row!=='pub'?wd:null}
-  CUS.ord=cusOrd(R);setT('cusTip','สลับแล้ว · แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับต่อ');cusApply()}
+  CUS.ord=cusOrd(R);setT('cusTip','สลับแล้ว · ลากห้องไปวางบนอีกห้องเพื่อสลับต่อ');cusApply()}
 function cusApply(noHash){const ok=cusBuild();cusUI();if(!ok)return;
   if(SFORM==='custom'){SHELTER_LABELS=shelterLabels();modelBtns();sformText();if(MODEL==='shelter'){if(ready3d)init3D();refreshCosts();updateStill()}if(!noHash)writeHash()}}
 {const num=(id,k,lo)=>{const e=document.getElementById(id);if(!e)return;let tm=0;const go=()=>{const v=parseFloat(e.value);if(!isFinite(v))return;const nv=cusClamp(Math.round(v*2)/2,lo,20);if(nv!==CUS[k]){if(k==='W'&&CUS.wd){const f=(nv-(CUS.W-nv)*0)/CUS.W;['back','mid'].forEach(r=>{if(CUS.wd[r]){const tot=r==='mid'?nv-CUS_CORR:nv,sum=CUS.wd[r].reduce((a,b)=>a+b,0);CUS.wd[r]=CUS.wd[r].map(w=>Math.round(w*tot/sum*100)/100)}});if(CUS.kw)CUS.kw=Math.round(CUS.kw*nv/CUS.W*10)/10}CUS[k]=nv;cusSel=null;cusApply()}};
@@ -3690,6 +3757,12 @@ function cusVariants(P){const key=[P.W,P.D,P.bed,P.bath,P.store,P.living].join('
 // counts or size changed: the button starts its cycle again
 {const r=document.getElementById('cusReset'),u=cusUI;cusUI=function(){u();if(r){const V=cusVariants(CUS),i=V.indexOf(CUS.ord);r.textContent='จัดใหม่อัตโนมัติ'+(V.length>1?' ('+(i>=0?i+1:'–')+'/'+V.length+')':'')}}}
 cusUI();
+{const rd=(id,k,lo,hi)=>{const e=document.getElementById(id);if(!e)return;let tm=0;const go=()=>{const v=parseFloat(e.value);const nv=isFinite(v)?Math.max(lo,Math.min(hi,Math.round(v*2)/2)):(k==='w'||k==='d'?0:LAND[k]);if(nv!==LAND[k])landSet({[k]:nv})};
+   e.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(go,500)});e.addEventListener('change',()=>{clearTimeout(tm);go()})};
+ rd('landW','w',0,100);rd('landD','d',0,200);rd('landF','f',0,20);rd('landS','s',0,20);rd('landB','b',0,20);
+ const fb=document.getElementById('landFit');if(fb)fb.addEventListener('click',()=>{if(!LAND_POS)return;if(LAND_POS!==SPOS)selectSPos(LAND_POS,true);const m=landMax(SPOS);if(m.W<6||m.D<9)return;CUS.W=m.W;CUS.D=m.D;CUS.ord='';CUS.wd=null;CUS.kw=0;CUS.dp=0;CUS.dm=0;cusSel=null;
+   if(SFORM!=='custom'){cusBuild();selectSForm('custom');if(stillMode&&gpuOK())go3d.click()}cusApply();setT('cusTip','ตั้งขนาดให้พอดีที่ดินแล้ว · ลากห้องไปวางบนอีกห้องเพื่อสลับที่')})}
+landUI();
 sformText();
 
 {const dp=drawPlan,dc=drawCols,dm=drawMEP;
@@ -3715,16 +3788,16 @@ function selectHeight(h){
   if(ready3d) init3D();
   drawSection(); refreshCosts(); applyFlood();
 }
-function parseHash(){{const m2=/^#shelter((?:-[a-z0-9]+)*)$/.exec(location.hash);if(m2){const a=m2[1].split('-').filter(Boolean),f=a.find(x=>SF[x]);const rr=a.find(x=>/^r[a-z]+$/.test(x)&&BROOFS[x.slice(1)]),cu=f==='custom'?cusParse(a):null,pp=a.find(x=>/^p(fl|sr|sl)$/.test(x));return {m:'shelter',br:rr?rr.slice(1):'hip',sp:pp?pp.slice(1):'fr',cus:cu,f:f||'gable',c:!a.includes('nc'),st:!a.includes('ns'),ez:!a.includes('ss'),h:(a.find(x=>/^h\d\d$/.test(x))||'h40').slice(1)}}}const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
-function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(SFORM==='custom'?cusTok():'')+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(isBig()&&SPOS!=='fr'?'-p'+SPOS:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
+function parseHash(){{const m2=/^#shelter((?:-[a-z0-9]+)*)$/.exec(location.hash);if(m2){const a=m2[1].split('-').filter(Boolean),f=a.find(x=>SF[x]);const rr=a.find(x=>/^r[a-z]+$/.test(x)&&BROOFS[x.slice(1)]),cu=f==='custom'?cusParse(a):null,ld=landParse(a),pp=a.find(x=>/^p(fl|sr|sl)$/.test(x));return {m:'shelter',br:rr?rr.slice(1):'hip',sp:pp?pp.slice(1):'fr',cus:cu,land:ld,f:f||'gable',c:!a.includes('nc'),st:!a.includes('ns'),ez:!a.includes('ss'),h:(a.find(x=>/^h\d\d$/.test(x))||'h40').slice(1)}}}const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
+function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(SFORM==='custom'?cusTok():'')+(isBig()?landTok():'')+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(isBig()&&SPOS!=='fr'?'-p'+SPOS:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
 document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{selectOption(b.dataset.opt);writeHash()}));
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
 document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01&&stillMode&&gpuOK())go3d.click()}));
-window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(SF[r.f]&&SF[r.f].big&&r.br!==BROOF)selectBRoof(r.br,true);if(SF[r.f]&&SF[r.f].big&&r.sp!==SPOS)selectSPos(r.sp,true);if(r.cus&&cusDiff(r.cus)){Object.assign(CUS,r.cus);cusApply(true)}if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
+window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(SF[r.f]&&SF[r.f].big&&r.br!==BROOF)selectBRoof(r.br,true);if(SF[r.f]&&SF[r.f].big&&r.sp!==SPOS)selectSPos(r.sp,true);if(r.cus&&cusDiff(r.cus)){Object.assign(CUS,r.cus);cusApply(true)}if(r.land&&SF[r.f]&&SF[r.f].big&&['w','d','f','s','b'].some(k=>r.land[k]!==LAND[k]))landSet(r.land,true);if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
 const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
-guard(()=>{if(R0.m==='shelter'){if(R0.cus){Object.assign(CUS,R0.cus);cusBuild();cusUI()}BROOF=R0.br;bigCols();SPOS=R0.sp||'fr';document.querySelectorAll('.opt[data-spos]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spos===SPOS?'true':'false'));document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
+guard(()=>{if(R0.m==='shelter'){if(R0.cus){Object.assign(CUS,R0.cus);cusBuild();cusUI()}if(R0.land&&R0.land.w>0)Object.assign(LAND,R0.land);BROOF=R0.br;bigCols();SPOS=R0.sp||'fr';document.querySelectorAll('.opt[data-spos]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spos===SPOS?'true':'false'));document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
 guard(applyFlood); guard(showStill);
 {const w=document.getElementById('jsWarn'); if(initErr||window.__jsErr){w.hidden=false;w.textContent='บางส่วนของหน้าเว็บทำงานไม่ครบ ('+(initErr?initErr.message:window.__jsErr)+') · ส่งภาพหน้าจอข้อความนี้มาได้เลย'} else w.hidden=true;}
 })();
