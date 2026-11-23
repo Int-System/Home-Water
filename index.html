@@ -409,7 +409,7 @@ html:not(.m-custom) .custom-only{display:none!important}
 .cus-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0;border-top:1px solid var(--line2);font-size:14px;color:var(--ink)}
 .cus-row input[type=checkbox]{width:20px;height:20px}
 .cus-ctr{display:flex;align-items:center;gap:6px}.cus-ctr button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}.cus-ctr button:disabled{opacity:.35;cursor:default}.cus-ctr output{min-width:22px;text-align:center;font-weight:600}
-#cusMini{width:100%;height:auto;display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;touch-action:manipulation;max-height:340px}
+#cusMini{width:100%;height:auto;display:block;user-select:none;-webkit-user-select:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;touch-action:manipulation;max-height:340px}
 #cusMini .rm{cursor:pointer}#cusMini text{pointer-events:none;text-anchor:middle;dominant-baseline:middle;fill:var(--ink)}
 #cusMsg.bad{color:#B42318}
 </style>
@@ -457,7 +457,7 @@ html:not(.m-custom) .custom-only{display:none!important}
           <label class="cus-row" for="cusLiving"><span>ห้องนั่งเล่น (ต่อกับครัว)</span><input type="checkbox" id="cusLiving" checked></label>
           <p class="hint" id="cusMsg" aria-live="polite"></p>
           <svg id="cusMini" role="img" aria-label="ผังย่อ แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่"></svg>
-          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span class="hint" id="cusTip" style="margin:0">ย้ายห้อง: แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่</span><button type="button" class="btn" id="cusReset" style="min-height:36px">จัดใหม่อัตโนมัติ</button></div>
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span class="hint" id="cusTip" style="margin:0">แตะห้องหนึ่งแล้วแตะอีกห้องเพื่อสลับที่ · ลากผนังสีฟ้าเพื่อปรับขนาดห้อง</span><button type="button" class="btn" id="cusReset" style="min-height:36px">จัดใหม่อัตโนมัติ</button></div>
         </div>
         <span class="fld-l big-only" id="lbl-broof">รูปทรงหลังคา</span>
         <div class="seg seg3 sforms big-only" role="group" aria-labelledby="lbl-broof"><button type="button" class="opt" data-broof="hip" aria-pressed="true"><b>ปั้นหยา</b><small id="brcost-hip">—</small></button><button type="button" class="opt" data-broof="gable" aria-pressed="false"><b>จั่ว</b><small id="brcost-gable">—</small></button><button type="button" class="opt" data-broof="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="brcost-butterfly">—</small></button><button type="button" class="opt" data-broof="barrel" aria-pressed="false"><b>โค้ง</b><small id="brcost-barrel">—</small></button><button type="button" class="opt" data-broof="split" aria-pressed="false"><b>สลับระดับ</b><small id="brcost-split">—</small></button><button type="button" class="opt" data-broof="shed" aria-pressed="false"><b>เพิงหมาแหงน</b><small id="brcost-shed">—</small></button></div>
@@ -1102,7 +1102,17 @@ function stWrap(t,R,L,T,P){const tx=x=>t.kx*x+t.cx,ty=y=>t.ky*y+t.cy,fl=str=>t.k
   return {tx,ty,R:R&&((x0,y0,x1,y1,...a)=>R(Math.min(tx(x0),tx(x1)),Math.min(ty(y0),ty(y1)),Math.max(tx(x0),tx(x1)),Math.max(ty(y0),ty(y1)),...a)),
     L:L&&((a,b,c,d,...r)=>L(tx(a),ty(b),tx(c),ty(d),...r)),T:T&&((x,y,str,...r)=>T(tx(x),ty(y),fl(str),...r)),P:P&&((pts,...r)=>P(pts.map(q=>[tx(q[0]),ty(q[1])]),...r))}}
 // ---- custom house: width × depth and room counts chosen by the user; rooms can be swapped by tapping two of them
-const CUS={W:11,D:12,bed:2,bath:1,store:0,living:1,ord:''};
+const CUS={W:11,D:12,bed:2,bath:1,store:0,living:1,ord:'',wd:null,kw:0,dp:0,dm:0};
+const CUS_MINW={b:2.8,t:1.5,s:1.2}, CUS_MINROW=3.0, CUS_MINLIV=3.0, CUS_MINKIT=2.4;
+// widths of the rooms in one row: the user's own sizes when they still add up, otherwise the automatic split
+function cusDefW(list,total){const fit=cusRowFit(total,list),w=list.map(k=>k==='b'?fit.wb:CUS_WID[k==='t'?'bath':'store']);if(w.length)w[w.length-1]=total-w.slice(0,-1).reduce((a,b)=>a+b,0);return w}
+function cusRowW(P,rows,row,total){const list=rows[row];let u=P.wd&&P.wd[row];
+  if(u&&u.length===list.length){const sum=u.reduce((a,b)=>a+b,0);if(Math.abs(sum-total)<0.35){u=u.map(w=>w*total/sum);if(u.every((w,i)=>w>=CUS_MINW[list[i]]-0.011))return u}}return cusDefW(list,total)}
+function cusDepths(P,rows){const dd=P.D>=13?3:2.5,Di=P.D-dd;
+  if(!rows.mid){let Dr=cusClamp(Di*0.5,3.2,5.5),Dp=Di-Dr;if(Dp>6.5)Dp=6.5;if(P.dp&&P.dp>=CUS_MINROW&&Di-P.dp>=CUS_MINROW-0.001)Dp=P.dp;return {Dp,Dm:0}}
+  let Dp=cusClamp(Di*0.32,3.2,4.5);if(P.dp&&P.dp>=CUS_MINROW&&Di-P.dp-CUS_CORR>=2*CUS_MINROW-0.001)Dp=P.dp;
+  const rest=Di-Dp-CUS_CORR;let Dm=rest/2;if(P.dm&&P.dm>=CUS_MINROW&&rest-P.dm>=CUS_MINROW-0.001)Dm=P.dm;return {Dp,Dm}}
+function cusKW(P){const W=P.W;if(!P.living)return W;return P.kw&&P.kw>=CUS_MINKIT&&W-P.kw>=CUS_MINLIV-0.001?P.kw:cusClamp(W*0.36,2.6,4.5)}
 const CUS_LIM={W:[6,20],D:[8,20],bed:[1,4],bath:[1,3]};
 const CUS_MINBED=2.8, CUS_CORR=1.2, CUS_WID={bath:2.2,store:2.0};
 const cusClamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -1140,26 +1150,25 @@ function cusSpec(P,rows){
   const slots=[],rooms=[],walls=[],doors=[],open=[],beds=[],bwin=[],lwin=[],rwin=[];let nb=0,nt=0;
   const NM={b:()=>'ห้องนอน '+(++nb),t:()=>P.bath>1?'ห้องน้ำ '+(++nt):'ห้องน้ำ',s:()=>'ห้องเก็บของ'};
   let Dp,yR,yM,yC,yB;
-  if(!rows.mid){let Dr=cusClamp(Di*0.5,3.2,5.5);Dp=Di-Dr;if(Dp>6.5){Dp=6.5;Dr=Di-Dp}yR=fy+Dp}
-  else{Dp=cusClamp(Di*0.32,3.2,4.5);const Dm=(Di-Dp-CUS_CORR)/2;yM=fy+Dp;yC=yM+Dm;yB=yC+CUS_CORR;yR=yM}
+  {const dp=cusDepths(P,rows);Dp=dp.Dp;if(!rows.mid)yR=fy+Dp;else{yM=fy+Dp;yC=yM+dp.Dm;yB=yC+CUS_CORR;yR=yM}}
   // public row
-  const kw=P.living?cusClamp(W*0.36,2.6,4.5):W; let liv=null,kit;
+  const kw=cusKW(P); let liv=null,kit;
   if(P.living){const kl=rows.pub[0]==='k';const lx0=kl?x0+kw:x0,lx1=kl?x1:x1-kw,kx0=kl?x0:x1-kw,kx1=kl?x0+kw:x1;
     liv=[r2(lx0),fy,r2(lx1),r2(yR),'นั่งเล่น + กินข้าว'];kit=[r2(kx0),fy,r2(kx1),r2(yR),'ครัวเปิดโล่ง','k'];slots.push({row:'pub',i:kl?1:0,k:'l',r:liv},{row:'pub',i:kl?0:1,k:'k',r:kit});rooms.push(liv,kit);open.push([r2(kl?kx1:kx0),fy,r2(kl?kx1:kx0),r2(yR)])}
   else{kit=[x0,fy,x1,r2(yR),'ครัว + กินข้าว','k'];rooms.push(kit);slots.push({row:'pub',i:0,k:'d',r:kit})}
   const ent=liv||kit, ex=cusClamp((ent[0]+ent[2])/2,ent[0]+0.9,ent[2]-0.9); doors.push([r2(ex-0.6),fy,r2(ex+0.6),fy]);
-  const place=(list,ax,bx,ya,yb,doorY,bedAt,rowName,i0)=>{const fit=cusRowFit(bx-ax,list);let x=ax;list.forEach((k,i)=>{const w=k==='b'?fit.wb:CUS_WID[k==='t'?'bath':'store'],xe=i===list.length-1?bx:x+w;
+  const place=(list,ax,bx,ya,yb,doorY,bedAt,rowName,i0,ws)=>{let x=ax;list.forEach((k,i)=>{const w=ws[i],xe=i===list.length-1?bx:x+w;
       const r=[r2(x),r2(ya),r2(xe),r2(yb),NM[k]()];rooms.push(r);slots.push({row:rowName,i:(i0||0)+i,k,r});const cx=(x+xe)/2,dw=Math.min(0.9,xe-x-0.4);doors.push([r2(cx-dw/2),r2(doorY),r2(cx+dw/2),r2(doorY)]);
       if(x>x0+0.01)walls.push([r2(x),r2(ya),r2(x),r2(yb)]);
       if(k==='b'){const bw=Math.min(1.8,xe-x-0.9),bl=Math.min(2.0,yb-ya-1.3);if(bw>1.2&&bl>1.6){const bx0=x+0.4;beds.push(bedAt==='back'?[r2(bx0),r2(yb-0.2-bl),r2(bx0+bw),r2(yb-0.2)]:[r2(bx0),r2(ya+0.2),r2(bx0+bw),r2(ya+0.2+bl)])}}
       if(yb>=y1-0.01){if(k==='b')bwin.push([r2(cx-Math.min(1.3,(xe-x)/2-0.5)),r2(cx+Math.min(1.3,(xe-x)/2-0.5))]);else bwin.push([r2(cx-0.45),r2(cx+0.45),1.6])}
       const sw=k==='b'?[r2(ya+0.6),r2(yb-0.6)]:[r2((ya+yb)/2-0.45),r2((ya+yb)/2+0.45),1.6];if(x<=x0+0.01)lwin.push(sw);if(xe>=x1-0.01)rwin.push(sw);
       x=xe});return x};
-  if(!rows.mid){place(rows.back,x0,x1,yR,y1,yR,'back','back');walls.push([x0,r2(yR),x1,r2(yR)])}
-  else{place(rows.back,x0,x1,yB,y1,yB,'back','back');walls.push([x0,r2(yB),x1,r2(yB)]);
+  if(!rows.mid){place(rows.back,x0,x1,yR,y1,yR,'back','back',0,cusRowW(P,rows,'back',W));walls.push([x0,r2(yR),x1,r2(yR)])}
+  else{place(rows.back,x0,x1,yB,y1,yB,'back','back',0,cusRowW(P,rows,'back',W));walls.push([x0,r2(yB),x1,r2(yB)]);
     const half=Math.ceil(rows.mid.length/2),L=rows.mid.slice(0,half),R=rows.mid.slice(half),wl=L.reduce((a,k)=>a+(k==='b'?0:CUS_WID[k==='t'?'bath':'store']),0);
-    const fitAll=cusRowFit(W-CUS_CORR,rows.mid),pa=x0+wl+L.filter(k=>k==='b').length*fitAll.wb,pb=pa+CUS_CORR;
-    if(L.length) place(L,x0,pa,yM,yC,yC,'front','mid',0); if(R.length) place(R,pb,x1,yM,yC,yC,'front','mid',half);
+    const mw=cusRowW(P,rows,'mid',W-CUS_CORR),pa=x0+mw.slice(0,half).reduce((a,b)=>a+b,0),pb=pa+CUS_CORR;
+    if(L.length) place(L,x0,pa,yM,yC,yC,'front','mid',0,mw.slice(0,half)); if(R.length) place(R,pb,x1,yM,yC,yC,'front','mid',half,mw.slice(half));
     walls.push([x0,r2(yM),r2(pa),r2(yM)],[r2(pb),r2(yM),x1,r2(yM)],[x0,r2(yC),r2(pa),r2(yC)],[r2(pb),r2(yC),x1,r2(yC)],[r2(pa),r2(yM),r2(pa),r2(yC)],[r2(pb),r2(yM),r2(pb),r2(yC)]);
     rooms.push([x0,r2(yC),x1,r2(yB),'ทางเดิน'],[r2(pa),r2(yM),r2(pb),r2(yC),'ทางเดิน']);open.push([r2(pa),r2(yM),r2(pb),r2(yM)],[r2(pa),r2(yC),r2(pb),r2(yC)])}
   // public row windows + furniture
@@ -1183,7 +1192,7 @@ function cusSpec(P,rows){
     bound:[x0,y0,x1,y1],fy,rowY:r2(yR),rooms,walls,deck:[[x0,y0,x1,fy,'ระเบียงหลบน้ำ',f2(W)+' × '+f2(dd)+' ม. · มีหลังคา']],doors,open,
     stair:[r2(x1-1.9),r2(x1-0.7),y0],cols:[xs,ys],beds,ctr,frg,misc,glassF,fwin,bwin,lwin,rwin,furn,tank,
     area,refuge:r2(W*dd),piles:xs.length*ys.length,seat:Math.round((W*dd+livA)*0.6),doorsN:doors.length,baths:nbath,nBed:P.bed,encl,wallM2:Math.round((2*(W+Di)+pLen)*2.6),winN:bwin.length+lwin.length+rwin.length+fwin.length+glassF.length*2,
-    rows:rows.mid?3:2,noWin,slots,dd,
+    rows:rows.mid?3:2,noWin,slots,dd,yM:yM||0,yC:yC||0,yB:yB||0,
     rtxt:bedRooms.map(r=>r[4]+' '+ds(r)).join(' · ')+' · '+bathRooms.map(r=>r[4]+' '+ds(r)).join(' · ')+(liv?' · นั่งเล่น + กินข้าว '+ds(liv):'')+' · '+kit[4]+' '+ds(kit),
     ftxt:'ระเบียงหน้าบ้าน '+f2(W)+' × '+f2(dd)+' ม. มีหลังคา'+(liv?' + ห้องนั่งเล่น '+Math.round(livA)+' ตร.ม.':'')+' นั่งหลบรวมได้ราว '+Math.round((W*dd+livA)*0.6)+' คน',
     stxt:'เสา '+xs.length*ys.length+' ต้น ระยะ '+(W/nx).toFixed(2)+' × '+((D-2)/ny).toFixed(2)+' ม. พื้นยื่นหน้า-หลัง 1 ม.',g4:'('+f2(W)+' × '+f2(Di)+' ม.)',
@@ -3587,10 +3596,10 @@ function selectSForm(f,noHash){
 }
 document.querySelectorAll('.opt[data-sform]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.sform!==SFORM){selectSForm(b.dataset.sform);if(SFORM==='custom'&&stillMode&&gpuOK())go3d.click()}}));
 let cusSel=null;
-function cusTok(){return '-cw'+Math.round(CUS.W*10)+'-cd'+Math.round(CUS.D*10)+'-cb'+CUS.bed+'-ct'+CUS.bath+'-cs'+(CUS.store?1:0)+'-cl'+(CUS.living?1:0)+(CUS.ord?'-co'+CUS.ord:'')}
+function cusTok(){return '-cw'+Math.round(CUS.W*10)+'-cd'+Math.round(CUS.D*10)+'-cb'+CUS.bed+'-ct'+CUS.bath+'-cs'+(CUS.store?1:0)+'-cl'+(CUS.living?1:0)+(CUS.ord?'-co'+CUS.ord:'')+(CUS.kw?'-ck'+Math.round(CUS.kw*10):'')+(CUS.dp?'-cp'+Math.round(CUS.dp*10):'')+(CUS.dm?'-cm'+Math.round(CUS.dm*10):'')+(CUS.wd?'-cv'+['back','mid'].map(r=>(CUS.wd[r]||[]).map(w=>Math.round(w*100)).join('x')).join('y'):'')}
 function cusParse(a){const g=(p,d)=>{const x=a.find(t=>t.startsWith(p)&&/^\d+$/.test(t.slice(p.length)));return x?+x.slice(p.length):d},o=a.find(t=>/^co[a-z]+$/.test(t));
-  return {W:cusClamp(Math.round(g('cw',110)/5)/2,6,20),D:cusClamp(Math.round(g('cd',120)/5)/2,9,20),bed:cusClamp(g('cb',2),1,4),bath:cusClamp(g('ct',1),1,3),store:g('cs',0)?1:0,living:g('cl',1)?1:0,ord:o?o.slice(2):''}}
-const cusDiff=q=>['W','D','bed','bath','store','living','ord'].some(k=>q[k]!==CUS[k]);
+  return {W:cusClamp(Math.round(g('cw',110)/5)/2,6,20),D:cusClamp(Math.round(g('cd',120)/5)/2,9,20),bed:cusClamp(g('cb',2),1,4),bath:cusClamp(g('ct',1),1,3),store:g('cs',0)?1:0,living:g('cl',1)?1:0,ord:o?o.slice(2):'',kw:g('ck',0)/10,dp:g('cp',0)/10,dm:g('cm',0)/10,wd:(()=>{const v=a.find(t=>/^cv[0-9xy]+$/.test(t));if(!v)return null;const [b,m]=v.slice(2).split('y');const f=q=>q?q.split('x').filter(Boolean).map(n=>+n/100):null;return {back:f(b),mid:f(m)}})()}}
+const cusDiff=q=>['W','D','bed','bath','store','living','ord','kw','dp','dm'].some(k=>q[k]!==CUS[k])||JSON.stringify(q.wd)!==JSON.stringify(CUS.wd);
 function cusUI(){
   const set=(id,v)=>{const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=v};set('cusW',CUS.W);set('cusD',CUS.D);
   ['bed','bath'].forEach(k=>{setT('cus-'+k,String(CUS[k]));document.querySelectorAll('[data-cus="'+k+'"]').forEach(b=>b.disabled=+b.dataset.v<0?CUS[k]<=CUS_LIM[k][0]:CUS[k]>=CUS_LIM[k][1])});
@@ -3614,21 +3623,72 @@ function cusMini(){const svg=document.getElementById('cusMini'),s=SF.custom;if(!
     const w=r[2]-r[0],lab=q.k==='b'?r[4].replace('ห้องนอน ','นอน '):SH[q.k];
     mk('text',{x:(r[0]+r[2])/2-x0,y:Y((r[1]+r[3])/2),style:'font-size:'+Math.min(fs*1.1,w/Math.max(3,lab.length*0.55))+'px;font-weight:600;fill:'+(q.k==='k'||q.k==='d'?'var(--accent)':'var(--ink)')}).textContent=lab});
   mk('text',{x:W/2,y:D+0.45,style:'font-size:'+(fs*0.8)+'px;fill:var(--muted)'}).textContent='หน้าบ้าน (ถนน)';
+  s.slots.forEach(q=>{const r=q.r,w=r[2]-r[0],h=r[3]-r[1];mk('text',{x:(r[0]+r[2])/2-x0,y:Y((r[1]+r[3])/2)-fs*0.95,style:'font-size:'+Math.min(fs*0.72,w/5.2)+'px;fill:var(--muted)'}).textContent=w.toFixed(2)+' × '+h.toFixed(2)});
+  cusHandles(svg,s,mk,Y,x0,y1);
 }
+// drag a wall to resize the rooms on both sides of it
+function cusHandles(svg,s,mk,Y,x0,y1){
+  const H=[],byRow=r=>s.slots.filter(q=>q.row===r).sort((a,b)=>a.i-b.i);
+  ['back','mid'].forEach(row=>{const L=byRow(row);for(let i=0;i+1<L.length;i++)if(Math.abs(L[i].r[2]-L[i+1].r[0])<0.02)H.push({t:'v',row,i,x:L[i].r[2],ya:L[i].r[1],yb:L[i].r[3]})});
+  const pub=byRow('pub');if(pub.length===2){const k=pub.find(q=>q.k==='k'),l=pub.find(q=>q.k==='l'),bx=k.r[0]>l.r[0]?k.r[0]:k.r[2];H.push({t:'kw',x:bx,ya:k.r[1],yb:k.r[3],kr:k.r[0]>l.r[0]})}
+  const b=s.bound;H.push({t:'dp',y:s.rowY,xa:b[0],xb:b[2]});if(s.rows===3)H.push({t:'dm',y:s.yC,xa:b[0],xb:b[2]});
+  const pt=ev=>{const m=svg.getScreenCTM();if(!m)return null;const p=svg.createSVGPoint();p.x=ev.clientX;p.y=ev.clientY;const q=p.matrixTransform(m.inverse());return {x:q.x+x0,y:y1-q.y}};
+  H.forEach(h=>{const vert=h.t==='v'||h.t==='kw',len=vert?h.yb-h.ya:h.xb-h.xa,L=Math.min(vert?1.1:1.6,len*(vert?0.3:0.5));
+    const hit=vert?mk('rect',{x:h.x-x0-0.35,y:Y(h.yb),width:0.7,height:h.yb-h.ya,style:'fill:transparent;cursor:ew-resize;touch-action:none'}):mk('rect',{x:h.xa-x0,y:Y(h.y)-0.35,width:h.xb-h.xa,height:0.7,style:'fill:transparent;cursor:ns-resize;touch-action:none'});
+    const bar=vert?mk('rect',{x:h.x-x0-0.09,y:Y(h.ya+Math.min(L/2+0.25,(h.yb-h.ya)*0.3))-L/2,width:0.18,height:L,rx:0.09,style:'fill:var(--accent);pointer-events:none'}):mk('rect',{x:(h.xa+h.xb)/2-x0-L/2,y:Y(h.y)-0.11,width:L,height:0.22,rx:0.11,style:'fill:var(--accent);pointer-events:none'});
+    hit.setAttribute('tabindex','0');hit.setAttribute('role','slider');hit.setAttribute('aria-label',vert?'ผนังกั้นห้อง ลากซ้ายขวาเพื่อปรับขนาดห้อง':'ผนังแบ่งแถว ลากขึ้นลงเพื่อปรับความลึกห้อง');
+    hit.addEventListener('pointerdown',ev=>{ev.preventDefault();cusSel=null;CUS_DRAG={h,vert,pt}});
+    hit.addEventListener('keydown',ev=>{const d={ArrowLeft:-0.1,ArrowRight:0.1,ArrowDown:-0.1,ArrowUp:0.1}[ev.key];if(d===undefined)return;ev.preventDefault();if(cusResize(h,(vert?h.x:h.y)+d))cusApply()})});
+}
+let CUS_DRAG=null;
+window.addEventListener('pointermove',ev=>{if(!CUS_DRAG)return;ev.preventDefault();const p=CUS_DRAG.pt(ev);if(!p)return;const v=Math.round((CUS_DRAG.vert?p.x:p.y)*10)/10;if(v===CUS_DRAG.last)return;CUS_DRAG.last=v;if(cusResize(CUS_DRAG.h,v)){cusBuild();cusMini();cusUI2()}},{passive:false});
+{const end=()=>{if(!CUS_DRAG)return;CUS_DRAG=null;setT('cusTip','ปรับขนาดแล้ว · ลากผนังสีฟ้าเพื่อปรับต่อ หรือแตะห้องเพื่อสลับที่');cusApply()};window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end)}
+function cusUI2(){const m=document.getElementById('cusMsg'),s=SF.custom;if(m&&s&&CUS_ROWS){m.className='hint';m.textContent=(s.rows===3?'จัด 3 แถว มีทางเดินกลาง':'จัด 2 แถว')+' · พื้น '+s.area.toFixed(1)+' ตร.ม. · เสา '+s.piles+' ต้น'}}
+// apply a wall move; returns false when a room would get too small
+function cusResize(h,v){const s=SF.custom,b=s.bound,fy=s.fy,Di=CUS.D-s.dd;
+  if(h.t==='v'){const L=s.slots.filter(q=>q.row===h.row).sort((a,b)=>a.i-b.i),ws=L.map(q=>q.r[2]-q.r[0]),a=L[h.i],c=L[h.i+1],lo=a.r[0]+CUS_MINW[a.k],hi=c.r[2]-CUS_MINW[c.k];
+    v=cusClamp(v,lo,hi);if(hi<lo)return false;ws[h.i]=v-a.r[0];ws[h.i+1]=c.r[2]-v;CUS.wd=CUS.wd||{back:null,mid:null};
+    if(!CUS.wd.back)CUS.wd.back=s.slots.filter(q=>q.row==='back').sort((a,b)=>a.i-b.i).map(q=>q.r[2]-q.r[0]);if(CUS_ROWS.mid&&!CUS.wd.mid)CUS.wd.mid=s.slots.filter(q=>q.row==='mid').sort((a,b)=>a.i-b.i).map(q=>q.r[2]-q.r[0]);
+    CUS.wd[h.row]=ws.map(w=>Math.round(w*100)/100);setT('cusTip',a.r[4]+' '+(v-a.r[0]).toFixed(2)+' ม. · '+c.r[4]+' '+(c.r[2]-v).toFixed(2)+' ม.');return true}
+  if(h.t==='kw'){let kw=h.kr?b[2]-v:v-b[0];kw=cusClamp(kw,CUS_MINKIT,CUS.W-CUS_MINLIV);CUS.kw=Math.round(kw*10)/10;setT('cusTip','ครัว '+CUS.kw.toFixed(2)+' ม. · นั่งเล่น '+(CUS.W-CUS.kw).toFixed(2)+' ม.');return true}
+  if(h.t==='dp'){const max=s.rows===3?Di-CUS_CORR-2*CUS_MINROW:Di-CUS_MINROW;CUS.dp=Math.round(cusClamp(v-fy,CUS_MINROW,max)*10)/10;if(s.rows===3)CUS.dm=0;setT('cusTip','แถวหน้า (นั่งเล่น ครัว) ลึก '+CUS.dp.toFixed(2)+' ม.');return true}
+  if(h.t==='dm'){const rest=Di-(s.yM-fy)-CUS_CORR;CUS.dm=Math.round(cusClamp(v-s.yM,CUS_MINROW,rest-CUS_MINROW)*10)/10;setT('cusTip','แถวกลางลึก '+CUS.dm.toFixed(2)+' ม. · แถวหลังลึก '+(rest-CUS.dm).toFixed(2)+' ม.');return true}
+  return false}
 function cusTap(q){
   if(!cusSel){cusSel={row:q.row,i:q.i};setT('cusTip','เลือก '+q.r[4]+' แล้ว · แตะอีกห้องเพื่อสลับ');cusMini();return}
   const a=cusSel;cusSel=null;if(a.row===q.row&&a.i===q.i){setT('cusTip','ย้ายห้อง: แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่');cusMini();return}
   if((a.row==='pub')!==(q.row==='pub')){setT('cusTip','สลับห้องนั่งเล่น/ครัว กับห้องนอนไม่ได้ · ห้องนั่งเล่นและครัวอยู่แถวหน้าติดระเบียง');cusMini();return}
   const R={pub:CUS_ROWS.pub.slice(),back:CUS_ROWS.back.slice(),mid:CUS_ROWS.mid?CUS_ROWS.mid.slice():null},t=R[a.row][a.i];R[a.row][a.i]=R[q.row][q.i];R[q.row][q.i]=t;
   if(!cusRowsOk(CUS,R)){setT('cusTip','สลับแล้วห้องนอนจะแคบกว่า 2.80 ม. ลองสลับห้องอื่น');cusMini();return}
+  {const s0=SF.custom,cur=r=>s0.slots.filter(q=>q.row===r).sort((x,y)=>x.i-y.i).map(q=>q.r[2]-q.r[0]);const wd={back:cur('back'),mid:CUS_ROWS.mid?cur('mid'):null};
+   if(a.row===q.row&&a.row!=='pub'){const t2=wd[a.row][a.i];wd[a.row][a.i]=wd[q.row][q.i];wd[q.row][q.i]=t2;if(!cusRowW(Object.assign({},CUS,{wd}),R,a.row,a.row==='mid'?CUS.W-CUS_CORR:CUS.W).every((w,i)=>Math.abs(w-wd[a.row][i])<0.01))wd[a.row]=null}else if(a.row!=='pub'){wd[a.row]=null;wd[q.row]=null}
+   CUS.wd=CUS.wd||a.row!=='pub'?wd:null}
   CUS.ord=cusOrd(R);setT('cusTip','สลับแล้ว · แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับต่อ');cusApply()}
 function cusApply(noHash){const ok=cusBuild();cusUI();if(!ok)return;
   if(SFORM==='custom'){SHELTER_LABELS=shelterLabels();modelBtns();sformText();if(MODEL==='shelter'){if(ready3d)init3D();refreshCosts();updateStill()}if(!noHash)writeHash()}}
-{const num=(id,k,lo)=>{const e=document.getElementById(id);if(!e)return;let tm=0;const go=()=>{const v=parseFloat(e.value);if(!isFinite(v))return;const nv=cusClamp(Math.round(v*2)/2,lo,20);if(nv!==CUS[k]){CUS[k]=nv;cusSel=null;cusApply()}};
+{const num=(id,k,lo)=>{const e=document.getElementById(id);if(!e)return;let tm=0;const go=()=>{const v=parseFloat(e.value);if(!isFinite(v))return;const nv=cusClamp(Math.round(v*2)/2,lo,20);if(nv!==CUS[k]){if(k==='W'&&CUS.wd){const f=(nv-(CUS.W-nv)*0)/CUS.W;['back','mid'].forEach(r=>{if(CUS.wd[r]){const tot=r==='mid'?nv-CUS_CORR:nv,sum=CUS.wd[r].reduce((a,b)=>a+b,0);CUS.wd[r]=CUS.wd[r].map(w=>Math.round(w*tot/sum*100)/100)}});if(CUS.kw)CUS.kw=Math.round(CUS.kw*nv/CUS.W*10)/10}CUS[k]=nv;cusSel=null;cusApply()}};
    e.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(go,600)});e.addEventListener('change',()=>{clearTimeout(tm);go();e.value=CUS[k]})};num('cusW','W',6);num('cusD','D',9);
- document.querySelectorAll('[data-cus]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.cus;CUS[k]=cusClamp(CUS[k]+(+b.dataset.v),CUS_LIM[k][0],CUS_LIM[k][1]);CUS.ord='';cusSel=null;cusApply()}));
- [['cusStore','store'],['cusLiving','living']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.addEventListener('change',()=>{CUS[k]=e.checked?1:0;CUS.ord='';cusSel=null;cusApply()})});
- {const r=document.getElementById('cusReset');if(r)r.addEventListener('click',()=>{CUS.ord='';cusSel=null;setT('cusTip','จัดห้องใหม่แล้ว · แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่');cusApply()})}}
+ document.querySelectorAll('[data-cus]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.cus;CUS[k]=cusClamp(CUS[k]+(+b.dataset.v),CUS_LIM[k][0],CUS_LIM[k][1]);CUS.ord='';CUS.wd=null;cusSel=null;cusApply()}));
+ [['cusStore','store'],['cusLiving','living']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.addEventListener('change',()=>{CUS[k]=e.checked?1:0;CUS.ord='';CUS.wd=null;cusSel=null;cusApply()})});
+ {const r=document.getElementById('cusReset');if(r)r.addEventListener('click',()=>{const V=cusVariants(CUS);CUS.wd=null;CUS.kw=0;CUS.dp=0;CUS.dm=0;cusSel=null;
+   if(!V.length){CUS.ord='';cusApply();return}const i=(V.indexOf(CUS.ord)+1)%V.length;CUS.ord=V[i];
+   setT('cusTip','แบบที่ '+(i+1)+' จาก '+V.length+' · กด "จัดใหม่อัตโนมัติ" อีกครั้งเพื่อดูแบบถัดไป');r.textContent='จัดใหม่อัตโนมัติ ('+(i+1)+'/'+V.length+')';cusApply()})}}
+// every distinct layout that fits: the automatic one first, then the best-scoring others (at most 16)
+function cusPerms(arr,cap){const out=new Set();const rec=(rest,cur)=>{if(out.size>=cap)return;if(!rest.length){out.add(cur.join(''));return}const seen=new Set();rest.forEach((x,i)=>{if(seen.has(x))return;seen.add(x);rec(rest.slice(0,i).concat(rest.slice(i+1)),cur.concat(x))})};rec(arr,[]);return [...out].map(q=>q.split(''))}
+let CUS_VKEY='',CUS_VLIST=[];
+function cusVariants(P){const key=[P.W,P.D,P.bed,P.bath,P.store,P.living].join(',');if(key===CUS_VKEY)return CUS_VLIST;
+  const def=cusDefaultRows(P),res=[],seen=new Set();CUS_VKEY=key;CUS_VLIST=[];if(!def||!cusRowsOk(P,def))return CUS_VLIST;
+  const pubs=P.living?[['l','k'],['k','l']]:[['d']],items=def.back.concat(def.mid||[]),nb=def.back.length;
+  const score=R=>{let sc=0;const row=r=>{if(!r)return;if(r[0]==='b')sc+=2;if(r[r.length-1]==='b')sc+=2;r.forEach((k,i)=>{if(k==='t'&&(r[i-1]==='b'||r[i+1]==='b'))sc+=1;if(k==='t'&&r[i+1]==='t')sc-=1})};row(R.back);row(R.mid);return sc};
+  const add=R=>{const o=cusOrd(R);if(seen.has(o)||!cusRowsOk(P,R))return;seen.add(o);res.push({o,sc:score(R)})};
+  // room arrangements first (automatic one, then by score), living/kitchen flipped after all of them
+  const arr=[],aseen=new Set(),key2=R=>R.back.join('')+'|'+(R.mid||[]).join('');
+  [{back:def.back,mid:def.mid}].concat(cusPerms(items,600).map(q=>({back:q.slice(0,nb),mid:def.mid?q.slice(nb):null}))).forEach(R=>{const k=key2(R);if(aseen.has(k)||!cusRowsOk(P,Object.assign({pub:def.pub},R)))return;aseen.add(k);arr.push(Object.assign({sc:score(R)},R))});
+  const top=[arr[0]].concat(arr.slice(1).sort((a,b)=>b.sc-a.sc)).slice(0,P.living?8:16);
+  [def.pub].concat(P.living?[def.pub.slice().reverse()]:[]).forEach(pb=>top.forEach(R=>add({pub:pb,back:R.back,mid:R.mid})));
+  CUS_VLIST=res.map(x=>x.o);return CUS_VLIST}
+// counts or size changed: the button starts its cycle again
+{const r=document.getElementById('cusReset'),u=cusUI;cusUI=function(){u();if(r){const V=cusVariants(CUS),i=V.indexOf(CUS.ord);r.textContent='จัดใหม่อัตโนมัติ'+(V.length>1?' ('+(i>=0?i+1:'–')+'/'+V.length+')':'')}}}
 cusUI();
 sformText();
 
