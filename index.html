@@ -3312,10 +3312,10 @@ function makeDoc(){
   try{if(!stillMode&&window.__fh3d){const f=window.__fh3d;f.renderer.render(f.scene,f.camera);img=f.renderer.domElement.toDataURL('image/jpeg',0.85)}
       else if(stillImg&&stillImg.complete&&stillImg.naturalWidth){const c=document.createElement('canvas'),w=Math.min(1600,stillImg.naturalWidth);c.width=w;c.height=Math.round(stillImg.naturalHeight*w/stillImg.naturalWidth);c.getContext('2d').drawImage(stillImg,0,0,c.width,c.height);img=c.toDataURL('image/jpeg',0.85)}}catch(e){img=''}
   const ad=SADD_ALL.filter(a=>sadSel.has(a.id)), mf=maxFloodVal(), today=new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'});
-  const facts=[['รูปทรง',s.n+' · '+s.s],['ระดับพื้น','+'+f2(H)+' ม. จากพื้นดิน · ใต้คานโล่ง '+f2(H-0.52)+' ม.'],['ห้อง',s.rtxt],['พื้นที่หลบน้ำ',s.ftxt],
+  const facts=[[isBig()?'แบบบ้าน':'รูปทรง',isBig()?sTitle():s.n+' · '+s.s],['ระดับพื้น','+'+f2(H)+' ม. จากพื้นดิน · ใต้คานโล่ง '+f2(H-0.52)+' ม.'],['ห้อง',s.rtxt],['พื้นที่หลบน้ำ',s.ftxt],
     ['บันได',SEASY?'บันไดหักกลับ 2 ช่วง '+d.nE+' ขั้น ลูกตั้ง '+(d.rE*100).toFixed(1)+' ซม. ลูกนอน 30 ซม. ชานพัก +'+f2(H/2)+' ราวจับสองข้าง ไฟส่องขั้น':'บันไดตรง '+d.nS+' ขั้น ลูกตั้ง '+(d.rS*100).toFixed(1)+' ซม. ราวจับสองข้าง'],
     ['หลังคาเพิ่ม',(SCAN?'กันสาดใต้ระเบียงยื่น 1.20 ม. รอบ 4 ด้าน':'ไม่มีกันสาด')+' · '+(SSTAIR?'มีหลังคาคลุมบันได':'ไม่มีหลังคาคลุมบันได')],
-    ['ครัว','ครัวเปิดโล่ง ไม่มีประตู ผนังด้านทางเข้าเปิดโล่ง'],['ส่วนเสริม',ad.length?ad.map(a=>a.name).join(' · '):'ไม่ได้เลือก'],
+    ['ครัว',isBig()?'ครัวเปิดโล่งต่อห้องนั่งเล่น ไม่มีประตู':'ครัวเปิดโล่ง ไม่มีประตู ผนังด้านทางเข้าเปิดโล่ง'],['ส่วนเสริม',ad.length?ad.map(a=>a.name).join(' · '):'ไม่ได้เลือก'],
     ['น้ำเคยท่วมสูงสุด',mf>=0?f2(mf)+' ม. · พื้นสูงกว่าน้ำ '+f2(H-mf)+' ม.'+(H-mf>=1?' (ผ่านเกณฑ์เผื่อ 1.00 ม.)':' (ต่ำกว่าเกณฑ์เผื่อ 1.00 ม.)'):'ยังไม่ได้กรอก']];
   const money=moneyOpen?`<section><h2>รายการวัสดุและงบประมาณ</h2><p class="note">ราคาอ้างอิงในเว็บ ภาคกลาง รวม VAT ใช้ประกอบการคุยราคา ผู้รับเหมาควรถอดปริมาณและเสนอราคาจริง</p>
       <table class="t boq"><thead><tr><th>รายการ</th><th class="n">ปริมาณ</th><th>หน่วย</th><th class="n">ราคา/หน่วย</th><th class="n">รวม</th></tr></thead><tbody>${tb('boq')}</tbody></table></section>
@@ -3339,7 +3339,7 @@ section{margin-top:10mm;page-break-inside:avoid}section.pb{page-break-before:alw
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&display=swap"><style>${css}</style></head><body>
 <div class="bar"><span>เอกสารแบบสำหรับช่าง · กดพิมพ์ แล้วเลือก "บันทึกเป็น PDF" ได้</span><button type="button" onclick="window.print()">พิมพ์ / บันทึก PDF</button></div>
 <div class="page">
-<div class="cover"><h1>แบบ${E(sTitle())}</h1><p class="sub">บ้านยกสูงหนีน้ำ พื้น +${f2(H)} ม. · ครัวเปิดโล่ง · จัดทำ ${E(today)}</p>
+<div class="cover"><h1>แบบ${E(sTitle())}</h1><p class="sub">${isBig()?'บ้านอยู่ถาวรยกสูงหนีน้ำ':'บ้านยกสูงหนีน้ำ'} พื้น +${f2(H)} ม. · ครัวเปิดโล่ง · จัดทำ ${E(today)}</p>
 ${img?`<img src="${img}" alt="ภาพ${E(sTitle())}">`:''}
 <table class="t f"><tbody>${facts.map(f=>`<tr><td>${E(f[0])}</td><td>${E(f[1])}</td></tr>`).join('')}</tbody></table>
 <p class="note">แบบร่างแนวคิด ขนาดเสา คาน ฐานราก และเสาเข็มเป็นค่าเบื้องต้น ต้องให้วิศวกรโยธาตรวจดิน คำนวณ และเซ็นรับรองก่อนก่อสร้างจริง ระดับน้ำท่วมควรตรวจสอบกับข้อมูลในพื้นที่</p></div>
@@ -3371,17 +3371,17 @@ function modelBtns(){const cur=MODEL==='house'?'house':(isBig()?'big':'shelter')
   document.querySelectorAll('.opt[data-model]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.model===cur?'true':'false'));
   document.documentElement.classList.toggle('m-big',MODEL==='shelter'&&isBig());
   SHELTER_VIEWS.top=SF[SFORM].gen?{p:[0,58,-(SF[SFORM].bound[1]+SF[SFORM].bound[3])/2+20+0.5],t:[0,0,-(SF[SFORM].bound[1]+SF[SFORM].bound[3])/2+20]}:isBig()?{p:[0,50,-6],t:[0,0,-7]}:{p:[0,44,-0.5],t:[0,0,-2.5]}}
-let lastSForm='gable', lastBig='big1';
+let lastSForm='gable', lastBig='big1'; const grpH={};
 function selectModel(m,noHash){
   if(m==='big'){if(!isBig()){lastSForm=SFORM;selectSForm(lastBig,true)}m='shelter'}
   else if(m==='shelter'&&isBig()&&MODEL==='shelter'){selectSForm(lastSForm||'gable',true)}
   m=m==='shelter'?'shelter':'house'; if(m===MODEL&&!noHash){modelBtns();writeHash();return}
-  if(m==='shelter'&&MODEL==='house') houseH=H;
+  if(m==='shelter'&&MODEL==='house') houseH=H; if(m==='house'&&MODEL==='shelter') grpH[isBig()?'b':'s']=H;
   MODEL=m; document.documentElement.classList.toggle('m-shelter',m==='shelter'); modelBtns();
   const sh=m==='shelter';
   const k1=document.getElementById('spec-cars').parentNode, k2=document.getElementById('spec-ramp').parentNode;
   k1.querySelector('.k-l').textContent=sh?'หลบน้ำได้':'ที่จอดรถบนคาน'; k2.querySelector('.k-l').textContent=sh?'ทางขึ้น':'ทางลาดรถขึ้น';
-  const want=sh?shelterH:houseH; selectHeight(want);
+  const want=sh?(noHash?shelterH:(grpH[isBig()?'b':'s']||SH0())):houseH; selectHeight(want);
   if(sh){setT('spec-cars',SF[SFORM].seat+'+ คน');k1.querySelector('.k-s').textContent='นั่งหลบบน'+SF[SFORM].deck[0][4]+' '+SF[SFORM].refuge+' ตร.ม.';
     document.getElementById('spec-ramp').innerHTML='บันได <small>1.20 ม.</small>';k2.querySelector('.k-s').textContent=(SEASY?stairDims(H).nE+' ขั้น มีชานพัก':stairDims(H).nS+' ขั้น')+' · ไม่มีทางรถขึ้น'}
   else selectOption(OPT.key);
@@ -3411,7 +3411,8 @@ function selectSOpt(k,v,noHash){
 }
 document.querySelectorAll('input[data-sopt]').forEach(b=>b.addEventListener('change',()=>selectSOpt(b.dataset.sopt,b.checked)));
 function selectSForm(f,noHash){
-  if(!SF[f]) f='gable'; const ch=f!==SFORM; SFORM=f; if(SF[f].big)lastBig=f; else lastSForm=f; SHELTER_LABELS=shelterLabels(); modelBtns(); sformText();
+  if(!SF[f]) f='gable'; const ch=f!==SFORM, pb=!!(SF[SFORM]&&SF[SFORM].big), nb=!!SF[f].big; SFORM=f; if(SF[f].big)lastBig=f; else lastSForm=f; SHELTER_LABELS=shelterLabels(); modelBtns(); sformText();
+  if(pb!==nb&&MODEL==='shelter'){grpH[pb?'b':'s']=H;const w=grpH[nb?'b':'s']||SH0();if(Math.abs(w-H)>0.01)selectHeight(w)}
   if(ch&&MODEL==='shelter'){if(ready3d)init3D();refreshCosts();updateStill()}
   if(!noHash) writeHash();
 }
@@ -3446,7 +3447,7 @@ function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?''
 document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{selectOption(b.dataset.opt);writeHash()}));
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
 document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01&&stillMode&&gpuOK())go3d.click()}));
-window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(r.br!==BROOF)selectBRoof(r.br,true);if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
+window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(SF[r.f]&&SF[r.f].big&&r.br!==BROOF)selectBRoof(r.br,true);if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
 const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
