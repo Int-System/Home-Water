@@ -401,6 +401,17 @@ details.colx[open] summary{margin-bottom:6px}
   .mbar b{font-family:var(--display);font-size:20px}
 }
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+html:not(.m-custom) .custom-only{display:none!important}
+.cus{display:grid;gap:6px;margin-top:8px}
+.cus-dim{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end}.cus-dim>span{padding-bottom:9px;color:var(--muted)}
+.cus-dim label{display:grid;gap:3px;font-size:12.5px;color:var(--muted)}
+.cus-dim input{font:inherit;font-size:17px;width:100%;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums}
+.cus-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0;border-top:1px solid var(--line2);font-size:14px;color:var(--ink)}
+.cus-row input[type=checkbox]{width:20px;height:20px}
+.cus-ctr{display:flex;align-items:center;gap:6px}.cus-ctr button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}.cus-ctr button:disabled{opacity:.35;cursor:default}.cus-ctr output{min-width:22px;text-align:center;font-weight:600}
+#cusMini{width:100%;height:auto;display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;touch-action:manipulation;max-height:340px}
+#cusMini .rm{cursor:pointer}#cusMini text{pointer-events:none;text-anchor:middle;dominant-baseline:middle;fill:var(--ink)}
+#cusMsg.bad{color:#B42318}
 </style>
 
 
@@ -431,13 +442,23 @@ details.colx[open] summary{margin-bottom:6px}
         <div class="seg seg3" role="group" aria-labelledby="lbl-model">
           <button type="button" class="opt" id="model-house" data-model="house" aria-pressed="true"><b>บ้านหลัก</b><small>จอดรถบนคาน</small></button>
           <button type="button" class="opt" id="model-shelter" data-model="shelter" aria-pressed="false"><b>บ้านพักชั่วคราว</b><small>9 รูปทรง</small></button>
-          <button type="button" class="opt" id="model-big" data-model="big" aria-pressed="false"><b>บ้านอยู่ถาวร</b><small>2 นอน · 3 ขนาด</small></button>
+          <button type="button" class="opt" id="model-big" data-model="big" aria-pressed="false"><b>บ้านอยู่ถาวร</b><small>4 ขนาด + ออกแบบเอง</small></button>
         </div>
         <p class="hint shelter-only" id="sformHint">ทุกแบบยกสูง +4.00 ม. ขึ้นด้วยบันได ห้องนอน 2 ห้อง ครัวเปิดโล่งไม่มีประตู ห้องน้ำ และพื้นที่หลบน้ำมีหลังคา</p>
       </div>
       <div class="fld shelter-only">
         <span class="fld-l big-only" id="lbl-blay">ขนาดและผังห้อง</span>
-        <div class="seg seg2 big-only" role="group" aria-labelledby="lbl-blay"><button type="button" class="opt" data-sform="big1" aria-pressed="false"><b>12 × 10 แบบ 1</b><small>มีห้องเก็บของ</small><small id="sfcost-big1">—</small></button><button type="button" class="opt" data-sform="big2" aria-pressed="false"><b>12 × 10 แบบ 2</b><small>ห้องนอนใหญ่ขึ้น</small><small id="sfcost-big2">—</small></button><button type="button" class="opt" data-sform="b105" aria-pressed="false"><b>10.5 × 15 ม.</b><small>บ้านลึก ห้องกว้าง</small><small id="sfcost-b105">—</small></button><button type="button" class="opt" data-sform="b135" aria-pressed="false"><b>13.5 × 10.5 ม.</b><small>บ้านกว้าง ระเบียงยาว</small><small id="sfcost-b135">—</small></button></div>
+        <div class="seg seg2 big-only" role="group" aria-labelledby="lbl-blay"><button type="button" class="opt" data-sform="big1" aria-pressed="false"><b>12 × 10 แบบ 1</b><small>มีห้องเก็บของ</small><small id="sfcost-big1">—</small></button><button type="button" class="opt" data-sform="big2" aria-pressed="false"><b>12 × 10 แบบ 2</b><small>ห้องนอนใหญ่ขึ้น</small><small id="sfcost-big2">—</small></button><button type="button" class="opt" data-sform="b105" aria-pressed="false"><b>10.5 × 15 ม.</b><small>บ้านลึก ห้องกว้าง</small><small id="sfcost-b105">—</small></button><button type="button" class="opt" data-sform="b135" aria-pressed="false"><b>13.5 × 10.5 ม.</b><small>บ้านกว้าง ระเบียงยาว</small><small id="sfcost-b135">—</small></button><button type="button" class="opt" data-sform="custom" aria-pressed="false" style="grid-column:1/-1"><b>ออกแบบเอง</b><small>ใส่ขนาดและจำนวนห้องเอง</small><small id="sfcost-custom">—</small></button></div>
+        <div class="custom-only cus" id="cusPanel">
+          <div class="cus-dim"><label for="cusW">กว้าง (หน้าบ้าน) ม.<input id="cusW" type="number" inputmode="decimal" min="6" max="20" step="0.5" value="11"></label><span>×</span><label for="cusD">ลึก ม.<input id="cusD" type="number" inputmode="decimal" min="9" max="20" step="0.5" value="12"></label></div>
+          <div class="cus-row"><span>ห้องนอน</span><span class="cus-ctr"><button type="button" data-cus="bed" data-v="-1" aria-label="ลดห้องนอน">−</button><output id="cus-bed">2</output><button type="button" data-cus="bed" data-v="1" aria-label="เพิ่มห้องนอน">+</button></span></div>
+          <div class="cus-row"><span>ห้องน้ำ</span><span class="cus-ctr"><button type="button" data-cus="bath" data-v="-1" aria-label="ลดห้องน้ำ">−</button><output id="cus-bath">1</output><button type="button" data-cus="bath" data-v="1" aria-label="เพิ่มห้องน้ำ">+</button></span></div>
+          <label class="cus-row" for="cusStore"><span>ห้องเก็บของ</span><input type="checkbox" id="cusStore"></label>
+          <label class="cus-row" for="cusLiving"><span>ห้องนั่งเล่น (ต่อกับครัว)</span><input type="checkbox" id="cusLiving" checked></label>
+          <p class="hint" id="cusMsg" aria-live="polite"></p>
+          <svg id="cusMini" role="img" aria-label="ผังย่อ แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่"></svg>
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span class="hint" id="cusTip" style="margin:0">ย้ายห้อง: แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่</span><button type="button" class="btn" id="cusReset" style="min-height:36px">จัดใหม่อัตโนมัติ</button></div>
+        </div>
         <span class="fld-l big-only" id="lbl-broof">รูปทรงหลังคา</span>
         <div class="seg seg3 sforms big-only" role="group" aria-labelledby="lbl-broof"><button type="button" class="opt" data-broof="hip" aria-pressed="true"><b>ปั้นหยา</b><small id="brcost-hip">—</small></button><button type="button" class="opt" data-broof="gable" aria-pressed="false"><b>จั่ว</b><small id="brcost-gable">—</small></button><button type="button" class="opt" data-broof="butterfly" aria-pressed="false"><b>ผีเสื้อ</b><small id="brcost-butterfly">—</small></button><button type="button" class="opt" data-broof="barrel" aria-pressed="false"><b>โค้ง</b><small id="brcost-barrel">—</small></button><button type="button" class="opt" data-broof="split" aria-pressed="false"><b>สลับระดับ</b><small id="brcost-split">—</small></button><button type="button" class="opt" data-broof="shed" aria-pressed="false"><b>เพิงหมาแหงน</b><small id="brcost-shed">—</small></button></div>
         <span class="fld-l big-only" id="lbl-spos">ตำแหน่งบันได</span>
@@ -1080,9 +1101,103 @@ function sTank(s){const t=s.tank;if(!t||!s.big)return t;const b=s.bound,c=(b[0]+
 function stWrap(t,R,L,T,P){const tx=x=>t.kx*x+t.cx,ty=y=>t.ky*y+t.cy,fl=str=>t.ky<0?String(str).replace(/[↑↓]/g,m=>m==='↑'?'↓':'↑'):str;
   return {tx,ty,R:R&&((x0,y0,x1,y1,...a)=>R(Math.min(tx(x0),tx(x1)),Math.min(ty(y0),ty(y1)),Math.max(tx(x0),tx(x1)),Math.max(ty(y0),ty(y1)),...a)),
     L:L&&((a,b,c,d,...r)=>L(tx(a),ty(b),tx(c),ty(d),...r)),T:T&&((x,y,str,...r)=>T(tx(x),ty(y),fl(str),...r)),P:P&&((pts,...r)=>P(pts.map(q=>[tx(q[0]),ty(q[1])]),...r))}}
+// ---- custom house: width × depth and room counts chosen by the user; rooms can be swapped by tapping two of them
+const CUS={W:11,D:12,bed:2,bath:1,store:0,living:1,ord:''};
+const CUS_LIM={W:[6,20],D:[8,20],bed:[1,4],bath:[1,3]};
+const CUS_MINBED=2.8, CUS_CORR=1.2, CUS_WID={bath:2.2,store:2.0};
+const cusClamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+// rows: pub (front, living + kitchen), mid (only in 3-row layouts, with a 1.20 m passage), back
+function cusRowFit(W,list){const fixed=list.reduce((a,k)=>a+(k==='b'?0:CUS_WID[k==='t'?'bath':'store']),0),nb=list.filter(k=>k==='b').length;
+  if(!nb) return fixed<=W+0.01&&list.length?{ok:true,wb:0}:{ok:false}; const wb=(W-fixed)/nb; return {ok:wb>=CUS_MINBED-0.001,wb}}
+function cusSeq(nb,oth){const s=[];let i=0,j=0;while(i<nb||j<oth.length){if(i<nb){s.push('b');i++}if(j<oth.length){s.push(oth[j]);j++}}return s}
+function cusDefaultRows(P){
+  const W=P.W, D=P.D, dd=D>=13?3:2.5, Di=D-dd, oth=[];for(let i=0;i<P.bath;i++)oth.push('t');if(P.store)oth.push('s');
+  const pub=P.living?['l','k']:['d'];
+  if(Di<6.2) return null;
+  if(cusRowFit(W,cusSeq(P.bed,oth)).ok) return {pub,back:cusSeq(P.bed,oth),mid:null};
+  if(Di<3.2+3.0+CUS_CORR+3.0) return null;
+  let best=null;
+  for(let kb=P.bed;kb>=0;kb--)for(let m=0;m<(1<<oth.length);m++){const ob=oth.filter((_,i)=>!(m>>i&1)),om=oth.filter((_,i)=>m>>i&1);
+    const b=cusSeq(kb,ob),md=cusSeq(P.bed-kb,om); if(!b.length||!md.length) continue; const a=cusRowFit(W,b),c=cusRowFit(W-CUS_CORR,md); if(!a.ok||!c.ok) continue;
+    const sc=Math.min(a.wb||9,c.wb||9); if(!best||sc>best.sc) best={sc,back:b,mid:md}}
+  return best?{pub,back:best.back,mid:best.mid}:null;
+}
+function cusRowsFromOrd(P){if(!P.ord) return null; const p=P.ord.split('x'); if(p.length<2) return null;
+  const rows={pub:p[0].split(''),back:p[1].split(''),mid:p[2]?p[2].split(''):null}, all=[...rows.back,...(rows.mid||[])];
+  const cnt=k=>all.filter(x=>x===k).length;
+  if(cnt('b')!==P.bed||cnt('t')!==P.bath||cnt('s')!==(P.store?1:0)) return null;
+  if(rows.pub.join('')!==(P.living?'lk':'d')&&rows.pub.join('')!==(P.living?'kl':'d')) return null;
+  return rows}
+function cusRowsOk(P,rows){const dd=P.D>=13?3:2.5,Di=P.D-dd;if(!rows||Di<6.2) return false;
+  if(!cusRowFit(P.W,rows.back).ok) return false; if(rows.mid){if(Di<3.2+3.0+CUS_CORR+3.0||!cusRowFit(P.W-CUS_CORR,rows.mid).ok) return false}
+  if(P.living&&P.W-cusClamp(P.W*0.36,2.6,4.5)<3.0) return false; return true}
+function cusOrd(rows){return rows.pub.join('')+'x'+rows.back.join('')+(rows.mid?'x'+rows.mid.join(''):'')}
+function cusMin(P){let w=null,d=null;for(let x=6;x<=24;x+=0.5){const q=Object.assign({},P,{W:x,ord:''});if(cusDefaultRows(q)&&cusRowsOk(q,cusDefaultRows(q))){w=x;break}}
+  for(let y=8;y<=24;y+=0.5){const q=Object.assign({},P,{D:y,ord:''});if(cusDefaultRows(q)&&cusRowsOk(q,cusDefaultRows(q))){d=y;break}}return {w,d}}
+// build an SF spec (plan coordinates: x 20±W/2, front of the deck at y=22) from the rows
+function cusSpec(P,rows){
+  const W=P.W,D=P.D,x0=20-W/2,x1=20+W/2,y0=22,y1=22+D,dd=D>=13?3:2.5,fy=y0+dd,Di=D-dd,f2=v=>v.toFixed(2),r2=v=>Math.round(v*100)/100;
+  const slots=[],rooms=[],walls=[],doors=[],open=[],beds=[],bwin=[],lwin=[],rwin=[];let nb=0,nt=0;
+  const NM={b:()=>'ห้องนอน '+(++nb),t:()=>P.bath>1?'ห้องน้ำ '+(++nt):'ห้องน้ำ',s:()=>'ห้องเก็บของ'};
+  let Dp,yR,yM,yC,yB;
+  if(!rows.mid){let Dr=cusClamp(Di*0.5,3.2,5.5);Dp=Di-Dr;if(Dp>6.5){Dp=6.5;Dr=Di-Dp}yR=fy+Dp}
+  else{Dp=cusClamp(Di*0.32,3.2,4.5);const Dm=(Di-Dp-CUS_CORR)/2;yM=fy+Dp;yC=yM+Dm;yB=yC+CUS_CORR;yR=yM}
+  // public row
+  const kw=P.living?cusClamp(W*0.36,2.6,4.5):W; let liv=null,kit;
+  if(P.living){const kl=rows.pub[0]==='k';const lx0=kl?x0+kw:x0,lx1=kl?x1:x1-kw,kx0=kl?x0:x1-kw,kx1=kl?x0+kw:x1;
+    liv=[r2(lx0),fy,r2(lx1),r2(yR),'นั่งเล่น + กินข้าว'];kit=[r2(kx0),fy,r2(kx1),r2(yR),'ครัวเปิดโล่ง','k'];slots.push({row:'pub',i:kl?1:0,k:'l',r:liv},{row:'pub',i:kl?0:1,k:'k',r:kit});rooms.push(liv,kit);open.push([r2(kl?kx1:kx0),fy,r2(kl?kx1:kx0),r2(yR)])}
+  else{kit=[x0,fy,x1,r2(yR),'ครัว + กินข้าว','k'];rooms.push(kit);slots.push({row:'pub',i:0,k:'d',r:kit})}
+  const ent=liv||kit, ex=cusClamp((ent[0]+ent[2])/2,ent[0]+0.9,ent[2]-0.9); doors.push([r2(ex-0.6),fy,r2(ex+0.6),fy]);
+  const place=(list,ax,bx,ya,yb,doorY,bedAt,rowName,i0)=>{const fit=cusRowFit(bx-ax,list);let x=ax;list.forEach((k,i)=>{const w=k==='b'?fit.wb:CUS_WID[k==='t'?'bath':'store'],xe=i===list.length-1?bx:x+w;
+      const r=[r2(x),r2(ya),r2(xe),r2(yb),NM[k]()];rooms.push(r);slots.push({row:rowName,i:(i0||0)+i,k,r});const cx=(x+xe)/2,dw=Math.min(0.9,xe-x-0.4);doors.push([r2(cx-dw/2),r2(doorY),r2(cx+dw/2),r2(doorY)]);
+      if(x>x0+0.01)walls.push([r2(x),r2(ya),r2(x),r2(yb)]);
+      if(k==='b'){const bw=Math.min(1.8,xe-x-0.9),bl=Math.min(2.0,yb-ya-1.3);if(bw>1.2&&bl>1.6){const bx0=x+0.4;beds.push(bedAt==='back'?[r2(bx0),r2(yb-0.2-bl),r2(bx0+bw),r2(yb-0.2)]:[r2(bx0),r2(ya+0.2),r2(bx0+bw),r2(ya+0.2+bl)])}}
+      if(yb>=y1-0.01){if(k==='b')bwin.push([r2(cx-Math.min(1.3,(xe-x)/2-0.5)),r2(cx+Math.min(1.3,(xe-x)/2-0.5))]);else bwin.push([r2(cx-0.45),r2(cx+0.45),1.6])}
+      const sw=k==='b'?[r2(ya+0.6),r2(yb-0.6)]:[r2((ya+yb)/2-0.45),r2((ya+yb)/2+0.45),1.6];if(x<=x0+0.01)lwin.push(sw);if(xe>=x1-0.01)rwin.push(sw);
+      x=xe});return x};
+  if(!rows.mid){place(rows.back,x0,x1,yR,y1,yR,'back','back');walls.push([x0,r2(yR),x1,r2(yR)])}
+  else{place(rows.back,x0,x1,yB,y1,yB,'back','back');walls.push([x0,r2(yB),x1,r2(yB)]);
+    const half=Math.ceil(rows.mid.length/2),L=rows.mid.slice(0,half),R=rows.mid.slice(half),wl=L.reduce((a,k)=>a+(k==='b'?0:CUS_WID[k==='t'?'bath':'store']),0);
+    const fitAll=cusRowFit(W-CUS_CORR,rows.mid),pa=x0+wl+L.filter(k=>k==='b').length*fitAll.wb,pb=pa+CUS_CORR;
+    if(L.length) place(L,x0,pa,yM,yC,yC,'front','mid',0); if(R.length) place(R,pb,x1,yM,yC,yC,'front','mid',half);
+    walls.push([x0,r2(yM),r2(pa),r2(yM)],[r2(pb),r2(yM),x1,r2(yM)],[x0,r2(yC),r2(pa),r2(yC)],[r2(pb),r2(yC),x1,r2(yC)],[r2(pa),r2(yM),r2(pa),r2(yC)],[r2(pb),r2(yM),r2(pb),r2(yC)]);
+    rooms.push([x0,r2(yC),x1,r2(yB),'ทางเดิน'],[r2(pa),r2(yM),r2(pb),r2(yC),'ทางเดิน']);open.push([r2(pa),r2(yM),r2(pb),r2(yM)],[r2(pa),r2(yC),r2(pb),r2(yC)])}
+  // public row windows + furniture
+  const glassF=[],fwin=[],furn=[],misc=[[x0+0.3,y0+0.4,x0+0.8,r2(fy-0.4)]];
+  if(liv){const a=liv[0]+0.6,b=Math.min(liv[2]-0.6,ex-0.9);if(b-a>1.5)glassF.push([r2(a),r2(Math.min(b,a+4.2))]);else{const a2=ex+0.9,b2=liv[2]-0.6;if(b2-a2>1.2)glassF.push([r2(a2),r2(b2)])}
+    const sw=Math.min(3.6,liv[2]-liv[0]-1.4);if(sw>1.4){misc.push([r2(liv[0]+0.6),r2(fy+0.9),r2(liv[0]+0.6+sw),r2(fy+1.8)]);furn.push([r2(liv[0]+0.6),r2(fy+0.9),r2(liv[0]+0.6+sw),r2(fy+1.8),0.45])}
+    const tx=(liv[0]+liv[2])/2;if(yR-fy>3.6)furn.push([r2(tx-0.8),r2(yR-1.9),r2(tx+0.8),r2(yR-0.5),0.76,0.72]);
+    if(liv[0]<=x0+0.01)lwin.push([r2(fy+0.6),r2(yR-0.6),0.3]);if(liv[2]>=x1-0.01)rwin.push([r2(fy+0.6),r2(yR-0.6),0.3])}
+  const kr=kit[2]>=x1-0.01, cx0=kr?kit[2]-0.55:kit[0]+0.1, ctr=[[r2(cx0),fy+0.3,r2(cx0+0.45),r2(Math.max(fy+1.5,yR-1.0))]], frg=[r2(kr?kit[2]-0.7:kit[0]+0.05),r2(yR-0.75),r2(kr?kit[2]-0.05:kit[0]+0.7),r2(yR-0.1)];
+  {const a=kit[0]+0.5,b=kit[2]-0.9;if(b-a>1)fwin.push([r2(a),r2(b),1.0])}
+  if(!liv){const sw=Math.min(3.0,W-2.5);misc.push([r2(x0+0.6),r2(fy+0.9),r2(x0+0.6+sw),r2(fy+1.8)]);furn.push([r2(x0+0.8),r2(fy+1.4),r2(x0+2.4),r2(fy+2.6),0.76,0.72])}
+  if(kr)rwin.push([r2(fy+0.4),r2(Math.max(fy+1.2,yR-1.2)),1.0]);else lwin.push([r2(fy+0.4),r2(Math.max(fy+1.2,yR-1.2)),1.0]);
+  // structure
+  const nx=Math.ceil(W/4.5),ny=Math.ceil((D-2)/4.5),xs=[],ys=[];for(let i=0;i<=nx;i++)xs.push(r2(x0+W*i/nx));for(let j=0;j<=ny;j++)ys.push(r2(y0+1+(D-2)*j/ny));
+  const pLen=walls.reduce((a,w)=>a+Math.hypot(w[2]-w[0],w[3]-w[1]),0), area=r2(W*D), encl=r2(W*Di), livA=liv?(liv[2]-liv[0])*(liv[3]-liv[1]):0;
+  const nbath=P.bath, noWin=rooms.filter(r=>/ห้องนอน/.test(r[4])&&r[0]>x0+0.01&&r[2]<x1-0.01&&r[3]<y1-0.01).map(r=>r[4]);
+  const bedRooms=rooms.filter(r=>/ห้องนอน/.test(r[4])), bathRooms=rooms.filter(r=>/ห้องน้ำ/.test(r[4])), ds=r=>f2(r[2]-r[0])+' × '+f2(r[3]-r[1])+' ม.';
+  const b1=bedRooms[0]||kit, tank=[r2(x1+0.9),r2(y1-2.0)];
+  return {n:f2(W).replace(/\.00$/,'').replace(/0$/,'')+' × '+f2(D).replace(/\.00$/,'').replace(/0$/,'')+' ม. (ออกแบบเอง)',big:1,gen:1,custom:1,s:f2(W)+' × '+f2(D)+' ม.',
+    d:'บ้านออกแบบเอง หน้ากว้าง '+f2(W)+' ม. ลึก '+f2(D)+' ม. พื้น '+area.toFixed(1)+' ตร.ม. ห้องนอน '+P.bed+' ห้อง ห้องน้ำ '+nbath+' ห้อง'+(P.store?' ห้องเก็บของ':'')+(P.living?' นั่งเล่น':'')+' ครัวเปิดโล่ง ระเบียงหลบน้ำ',
+    bound:[x0,y0,x1,y1],fy,rowY:r2(yR),rooms,walls,deck:[[x0,y0,x1,fy,'ระเบียงหลบน้ำ',f2(W)+' × '+f2(dd)+' ม. · มีหลังคา']],doors,open,
+    stair:[r2(x1-1.9),r2(x1-0.7),y0],cols:[xs,ys],beds,ctr,frg,misc,glassF,fwin,bwin,lwin,rwin,furn,tank,
+    area,refuge:r2(W*dd),piles:xs.length*ys.length,seat:Math.round((W*dd+livA)*0.6),doorsN:doors.length,baths:nbath,nBed:P.bed,encl,wallM2:Math.round((2*(W+Di)+pLen)*2.6),winN:bwin.length+lwin.length+rwin.length+fwin.length+glassF.length*2,
+    rows:rows.mid?3:2,noWin,slots,dd,
+    rtxt:bedRooms.map(r=>r[4]+' '+ds(r)).join(' · ')+' · '+bathRooms.map(r=>r[4]+' '+ds(r)).join(' · ')+(liv?' · นั่งเล่น + กินข้าว '+ds(liv):'')+' · '+kit[4]+' '+ds(kit),
+    ftxt:'ระเบียงหน้าบ้าน '+f2(W)+' × '+f2(dd)+' ม. มีหลังคา'+(liv?' + ห้องนั่งเล่น '+Math.round(livA)+' ตร.ม.':'')+' นั่งหลบรวมได้ราว '+Math.round((W*dd+livA)*0.6)+' คน',
+    stxt:'เสา '+xs.length*ys.length+' ต้น ระยะ '+(W/nx).toFixed(2)+' × '+((D-2)/ny).toFixed(2)+' ม. พื้นยื่นหน้า-หลัง 1 ม.',g4:'('+f2(W)+' × '+f2(Di)+' ม.)',
+    labels:[{p:[20,y0+dd/2,5.0],h:'<b>ระเบียงหลบน้ำ</b> '+f2(W)+' × '+f2(dd)+' ม.'},{p:[x1-1.3,17,2.6],raw:true,h:'<b>บันได</b>'},{p:[(b1[0]+b1[2])/2,(b1[1]+b1[3])/2,7.4],h:'<b>ห้องนอน '+P.bed+' ห้อง</b> ห้องน้ำ '+nbath},
+      {p:[(kit[0]+kit[2])/2,(kit[1]+kit[3])/2,6.6],h:'<b>ครัวเปิดโล่ง</b>'+(liv?' · นั่งเล่น':'')},{p:[tank[0],tank[1],1.9],raw:true,h:'<b>ถังเก็บน้ำฝน</b>'},{p:[20,(y0+y1)/2,2.2],raw:true,h:'<b>ใต้ถุนโล่ง</b>'}]};
+}
+let CUS_ROWS=null;
+function cusBuild(){const P=CUS;let rows=cusRowsFromOrd(P);if(!cusRowsOk(P,rows)){rows=cusDefaultRows(P);P.ord=rows&&cusRowsOk(P,rows)?cusOrd(rows):''}
+  if(!rows||!cusRowsOk(P,rows)){CUS_ROWS=null;return false} CUS_ROWS=rows;SF.custom=cusSpec(P,rows);return true}
+
+cusBuild();
 function sTitle(){return SF[SFORM].gen?'บ้าน '+SF[SFORM].n+' หลังคา'+BROOFS[BROOF]:isBig()?'บ้าน 12 × 10 ม. '+SF[SFORM].n+' หลังคา'+BROOFS[BROOF]:'บ้านพักชั่วคราว '+SF[SFORM].n}
 function sShort(){return SF[SFORM].gen?'บ้าน '+SF[SFORM].n:isBig()?'บ้าน 12 × 10 '+SF[SFORM].n:'บ้านพัก'+SF[SFORM].n}
-const SKEY=()=>'S'+(SFORM==='gable'?'':'-'+SFORM)+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(isBig()&&SPOS!=='fr'?'-p'+SPOS:(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss'))+'-h'+Math.round(SH0()*10);
+const SKEY=()=>'S'+(SFORM==='gable'?'':'-'+(SFORM==='custom'?'b105':SFORM))+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(isBig()&&SPOS!=='fr'?'-p'+SPOS:(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss'))+'-h'+Math.round(SH0()*10);
 function canopyQ(s){const [x0,y0,x1,y1]=s.bound,o=1.2,per=2*((x1-x0)+(y1-y0))+8*o;
   const br=s.cols[0].reduce((a,x)=>a+s.cols[1].filter(y=>x===x0||x===x1||y===y0||y===y1).length,0)-1;
   return {area:Math.round(2*o*((x1-x0)+(y1-y0))+4*o*o-1.5*o),br:br,gut:Math.round(per-1.5)}}
@@ -1108,10 +1223,10 @@ function shelterBOQ(f,can,st,noAdd){
     G[1][1].push(['คานยื่นรับพื้นหน้า-หลัง 1.00 ม.',1,'งาน',Math.round((bx1-bx0)*2200)]);
     fx(2,'หลังคาโครงเหล็ก',r=>{r[0]='หลังคา'+BROOFS[BROOF]+'โครงเหล็ก + เมทัลชีท ยื่นชายคา 0.8 ม.';r[1]=ra;r[3]=BROOF==='shed'?880:BROOF==='gable'?950:1000});fx(2,'ทาสีกันสนิม',r=>r[3]=26000);
     fx(2,'ราวกันตก',r=>r[1]=+((bx1-bx0)-1.2+2*(s.fy-by0)).toFixed(1));
-    G[3][0]='4. ห้องนอน 2 ห้อง ห้องน้ำ '+s.baths+' ห้อง นั่งเล่น ครัวเปิดโล่ง '+s.g4;
-    fx(3,'ฝ้า',r=>r[1]=s.encl);fx(3,'ประตู',r=>{r[0]='ประตู (หน้าบ้าน ห้องนอน 2 ห้อง ห้องน้ำ) · ครัวเปิดโล่งไม่มีประตู';r[1]=s.doorsN});fx(3,'หน้าต่าง',r=>r[1]=16);
-    fx(3,'พื้นในห้อง',r=>r[1]=s.encl);fx(3,'กระเบื้องผนังห้องน้ำ',r=>r[1]=s.baths>1?26:16);fx(3,'ระบบประปา',r=>{r[0]='ระบบประปา ห้องน้ำ '+s.baths+' ห้อง สุขภัณฑ์ ฝักบัว ซิงก์ ถังบำบัดแบบปิด';r[3]=s.baths>1?95000:68000});
-    fx(3,'ระบบไฟฟ้า',r=>r[3]=75000);fx(3,'เคาน์เตอร์ครัว',r=>r[1]=3.5);fx(3,'สีภายนอก',r=>r[1]=Math.round(s.wallM2*2));
+    G[3][0]='4. ห้องนอน '+(s.nBed||2)+' ห้อง ห้องน้ำ '+s.baths+' ห้อง'+(s.custom&&!CUS.living?'':' นั่งเล่น')+' ครัวเปิดโล่ง '+s.g4;
+    fx(3,'ฝ้า',r=>r[1]=s.encl);fx(3,'ประตู',r=>{r[0]='ประตู (หน้าบ้าน ห้องนอน '+(s.nBed||2)+' ห้อง ห้องน้ำ'+(s.custom&&CUS.store?' ห้องเก็บของ':'')+') · ครัวเปิดโล่งไม่มีประตู';r[1]=s.doorsN});fx(3,'หน้าต่าง',r=>r[1]=s.winN||16);
+    fx(3,'พื้นในห้อง',r=>r[1]=s.encl);fx(3,'กระเบื้องผนังห้องน้ำ',r=>r[1]=16+10*(s.baths-1));fx(3,'ระบบประปา',r=>{r[0]='ระบบประปา ห้องน้ำ '+s.baths+' ห้อง สุขภัณฑ์ ฝักบัว ซิงก์ ถังบำบัดแบบปิด';r[3]=68000+27000*(s.baths-1)});
+    fx(3,'ระบบไฟฟ้า',r=>r[3]=s.custom?Math.round(75000*Math.max(0.85,s.area/150)/1000)*1000:75000);fx(3,'เคาน์เตอร์ครัว',r=>r[1]=3.5);fx(3,'สีภายนอก',r=>r[1]=Math.round(s.wallM2*2));
     const w=G[3][1].find(x=>x[0].indexOf('ผนังโครงเหล็ก')===0); if(w) w[1]=s.wallM2+5-(s.wall||0);
     G[5][1][0][3]=45000;
     ({butterfly:[[2,'รางน้ำกลางสแตนเลส + กันซึม',bx1-bx0+2,'ม.',900],[3,'กระจกช่องแสงสูงหน้า-หลัง',2*(bx1-bx0),'ม.',1100],[2,'โครงยกขอบหลังคา',1,'งาน',14000]],
@@ -1753,6 +1868,7 @@ function stillMsg(){
   const parts=[]; if(imgFail) parts.push('โหลดภาพนิ่งไม่สำเร็จ ทั้งไฟล์ภาพและภาพที่ฝังในหน้า อาจถูกระบบความปลอดภัยของเครือข่ายหรือส่วนเสริมของ browser บล็อกไว้ ลองเปิดด้วยเครือข่ายอื่นหรือ browser อื่น ระหว่างนี้ดูผัง รูปด้าน และผังเสาในแท็บอื่นได้');
   const n=AD_ALL.filter(a=>adOn(a.id)).length;
   if(n) parts.push('ภาพนิ่งยังไม่แสดงส่วนเสริม '+n+' รายการที่เลือก ดูได้ในแท็บผังพื้น');
+  if(MODEL==='shelter'&&SFORM==='custom') parts.push('ภาพนิ่งเป็นบ้านตัวอย่าง 10.5 × 15 ม. · บ้าน '+SF.custom.s+' ที่ออกแบบเองดูได้ในภาพ 3 มิติ');
   if(MODEL==='shelter'&&isBig()&&SPOS!=='fr'&&!(SCAN&&SSTAIR&&SEASY)) parts.push('ภาพนิ่งบันได'+SPOSN[SPOS]+'มีเฉพาะแบบติ๊กครบ (กันสาด หลังคาบันได บันไดชานพัก)');
   if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01) parts.push('ภาพนิ่งเป็นแบบพื้น +'+f2(SH0())+' · พื้น +'+f2(H)+' ที่เลือกดูได้ในภาพ 3 มิติ');
   if(parts.length) parts.push('กด "หมุนดูแบบ 3 มิติ" เพื่อดูภาพตรงตามที่เลือก');
@@ -2684,7 +2800,7 @@ function refreshCosts(){
     :'ยังไม่ได้เลือกส่วนเสริม · งบที่ควรเตรียม '+mil(base);
   Object.keys(OPTS).forEach(k=>setT('optcost-'+k,mil(boqTotal(OPTS[k])*1.176)));
   const sT=(f,c,st)=>shelterBOQ(f,c,st).reduce((a,g)=>a+g[1].reduce((b,r)=>b+r[1]*r[3],0),0)*1.176;
-  SF_ORDER.concat(['big1','big2','b105','b135']).forEach(k=>setT('sfcost-'+k,mil(sT(k))));
+  SF_ORDER.concat(['big1','big2','b105','b135','custom']).forEach(k=>setT('sfcost-'+k,mil(sT(k))));
   {const br=BROOF;Object.keys(BROOFS).forEach(k=>{BROOF=k;setT('brcost-'+k,mil(sT(isBig()?SFORM:'big1')))});BROOF=br}
   setT('socost-canopy','· +'+fmtB(Math.round((sT(SFORM,true,SSTAIR)-sT(SFORM,false,SSTAIR))/1000)*1000)+' บาท'); setT('socost-stair','· +'+fmtB(Math.round((sT(SFORM,SCAN,true)-sT(SFORM,SCAN,false))/1000)*1000)+' บาท');
   {const k=SEASY;SEASY=true;const a=sT(SFORM);SEASY=false;const b=sT(SFORM);SEASY=k;setT('socost-easy','· +'+fmtB(Math.round((a-b)/1000)*1000)+' บาท')}
@@ -2790,7 +2906,7 @@ function drawShelterPlan(){
     T(cx,cy+.2,r[4],sm?.26:.34,600,r[5]==='k'?'accent':'ink',bg); T(cx,cy-.25,f2_(w)+' × '+f2_(d),sm?.2:.26,400,'ink',bg)});
   s.doors.forEach(d=>L(d[0],d[1],d[2],d[3],'stroke:var(--wood);stroke-width:.12'));
   s.open.forEach(o=>{L(o[0],o[1],o[2],o[3],'stroke:var(--slab);stroke-width:.14');L(o[0],o[1],o[2],o[3],'stroke:var(--accent);stroke-width:.06;stroke-dasharray:.16 .12')});
-  {const o=s.open[0],vert=o[0]===o[2],mx=(o[0]+o[2])/2,my=(o[1]+o[3])/2;
+  if(s.open.length){const o=s.open[0],vert=o[0]===o[2],mx=(o[0]+o[2])/2,my=(o[1]+o[3])/2;
    if(vert) T(mx-.55,my,'เปิดโล่ง',.22,600,'accent'); else T(mx,my-.32,'เปิดโล่ง ไม่มีประตู',.22,600,'accent')}
   if(SCAN){const o=1.2;el('rect',{x:PX(bx0-o),y:Y(by1+o),width:Wp+2*o,height:Dp+2*o,style:'fill:none;stroke:var(--warn);stroke-width:.05;stroke-dasharray:.3 .15'},svg);
     T(bx0+Wp/2,by1+o-.32,'แนวกันสาดใต้ระเบียง ยื่น 1.20 ม.',.24,600,'warn')}
@@ -3415,7 +3531,9 @@ async function docClick(){
 let houseH=4, shelterH=4;
 function modelBtns(){const cur=MODEL==='house'?'house':(isBig()?'big':'shelter');
   document.querySelectorAll('.opt[data-model]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.model===cur?'true':'false'));
-  document.documentElement.classList.toggle('m-big',MODEL==='shelter'&&isBig());
+  document.documentElement.classList.toggle('m-big',MODEL==='shelter'&&isBig()); document.documentElement.classList.toggle('m-custom',MODEL==='shelter'&&SFORM==='custom');
+  {const SV=SHELTER_VIEWS;if(!window.__SV0)window.__SV0=JSON.parse(JSON.stringify(SV));const V0=window.__SV0;
+   ['iso','front','ramp','under'].forEach(v=>{if(SFORM==='custom'&&SF.custom){const b=SF.custom.bound,dz=(20-(b[1]+b[3])/2)+7,k=Math.max(1,Math.max(b[2]-b[0],b[3]-b[1])/12.5),t=[V0[v].t[0],V0[v].t[1],V0[v].t[2]+dz];SV[v]={p:V0[v].p.map((q,i)=>t[i]+(q-V0[v].t[i])*k),t}}else SV[v]=JSON.parse(JSON.stringify(V0[v]))})}
   SHELTER_VIEWS.top=SF[SFORM].gen?{p:[0,58,-(SF[SFORM].bound[1]+SF[SFORM].bound[3])/2+20+0.5],t:[0,0,-(SF[SFORM].bound[1]+SF[SFORM].bound[3])/2+20]}:isBig()?{p:[0,50,-6],t:[0,0,-7]}:{p:[0,44,-0.5],t:[0,0,-2.5]}}
 let lastSForm='gable', lastBig='big1'; const grpH={};
 function selectModel(m,noHash){
@@ -3467,7 +3585,51 @@ function selectSForm(f,noHash){
   if(ch&&MODEL==='shelter'){if(ready3d)init3D();refreshCosts();updateStill()}
   if(!noHash) writeHash();
 }
-document.querySelectorAll('.opt[data-sform]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.sform!==SFORM)selectSForm(b.dataset.sform)}));
+document.querySelectorAll('.opt[data-sform]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.sform!==SFORM){selectSForm(b.dataset.sform);if(SFORM==='custom'&&stillMode&&gpuOK())go3d.click()}}));
+let cusSel=null;
+function cusTok(){return '-cw'+Math.round(CUS.W*10)+'-cd'+Math.round(CUS.D*10)+'-cb'+CUS.bed+'-ct'+CUS.bath+'-cs'+(CUS.store?1:0)+'-cl'+(CUS.living?1:0)+(CUS.ord?'-co'+CUS.ord:'')}
+function cusParse(a){const g=(p,d)=>{const x=a.find(t=>t.startsWith(p)&&/^\d+$/.test(t.slice(p.length)));return x?+x.slice(p.length):d},o=a.find(t=>/^co[a-z]+$/.test(t));
+  return {W:cusClamp(Math.round(g('cw',110)/5)/2,6,20),D:cusClamp(Math.round(g('cd',120)/5)/2,9,20),bed:cusClamp(g('cb',2),1,4),bath:cusClamp(g('ct',1),1,3),store:g('cs',0)?1:0,living:g('cl',1)?1:0,ord:o?o.slice(2):''}}
+const cusDiff=q=>['W','D','bed','bath','store','living','ord'].some(k=>q[k]!==CUS[k]);
+function cusUI(){
+  const set=(id,v)=>{const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=v};set('cusW',CUS.W);set('cusD',CUS.D);
+  ['bed','bath'].forEach(k=>{setT('cus-'+k,String(CUS[k]));document.querySelectorAll('[data-cus="'+k+'"]').forEach(b=>b.disabled=+b.dataset.v<0?CUS[k]<=CUS_LIM[k][0]:CUS[k]>=CUS_LIM[k][1])});
+  const st=document.getElementById('cusStore'),lv=document.getElementById('cusLiving');if(st)st.checked=!!CUS.store;if(lv)lv.checked=!!CUS.living;
+  const m=document.getElementById('cusMsg'),s=SF.custom;if(!m)return;
+  if(!CUS_ROWS){const mn=cusMin(CUS);m.className='hint bad';m.textContent='ขนาด '+CUS.W+' × '+CUS.D+' ม. วางห้องที่เลือกไม่ลง'+(mn.w?' · กว้างอย่างน้อย '+mn.w+' ม.':'')+(mn.w&&mn.d?' หรือ':'')+(mn.d?' ลึกอย่างน้อย '+mn.d+' ม.':'')+(!mn.w&&!mn.d?' · ลองลดจำนวนห้อง':'')+' · ตอนนี้ยังแสดงแบบก่อนหน้า'}
+  else{m.className='hint';const small=s.rooms.filter(r=>/ห้องนอน/.test(r[4])&&(r[2]-r[0])*(r[3]-r[1])<9).map(r=>r[4]);
+    m.textContent=(s.rows===3?'จัด 3 แถว มีทางเดินกลาง':'จัด 2 แถว')+' · พื้น '+s.area.toFixed(1)+' ตร.ม. · เสา '+s.piles+' ต้น'+(small.length?' · '+small.join(', ')+' เล็กกว่า 9 ตร.ม.':'')+(s.noWin.length?' · '+s.noWin.join(', ')+' ไม่มีหน้าต่างด้านนอก':'')}
+  cusMini()}
+function cusMini(){const svg=document.getElementById('cusMini'),s=SF.custom;if(!svg||!s)return;svg.innerHTML='';
+  const [x0,y0,x1,y1]=s.bound,W=x1-x0,D=y1-y0,Y=y=>y1-y,NS='http://www.w3.org/2000/svg',mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e};
+  svg.setAttribute('viewBox','-0.3 -0.3 '+(W+0.6)+' '+(D+1.1));
+  mk('rect',{x:0,y:Y(s.fy),width:W,height:s.fy-y0,style:'fill:var(--wood);stroke:var(--ink);stroke-width:.04'});
+  const fs=Math.max(0.3,Math.min(0.5,W/22)); mk('text',{x:W/2,y:Y((y0+s.fy)/2),style:'font-size:'+fs+'px'}).textContent='ระเบียงหลบน้ำ';
+  s.rooms.filter(r=>r[4]==='ทางเดิน').forEach(r=>mk('rect',{x:r[0]-x0,y:Y(r[3]),width:r[2]-r[0],height:r[3]-r[1],style:'fill:var(--line2);stroke:none'}));
+  const SH={l:'นั่งเล่น',k:'ครัว',d:'ครัว+ทานข้าว',t:'น้ำ',s:'เก็บของ'};
+  s.slots.forEach((q,n)=>{const r=q.r,on=cusSel&&cusSel.row===q.row&&cusSel.i===q.i;
+    const e=mk('rect',{class:'rm',x:r[0]-x0,y:Y(r[3]),width:r[2]-r[0],height:r[3]-r[1],tabindex:0,role:'button','aria-label':r[4]+(on?' (เลือกอยู่)':''),
+      style:'fill:'+(on?'var(--accent-soft)':q.k==='t'?'#dcebf4':q.k==='s'?'var(--line2)':'var(--room)')+';stroke:'+(on?'var(--accent)':'var(--ink)')+';stroke-width:'+(on?.14:.07)});
+    const go=()=>cusTap(q);e.addEventListener('click',go);e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}});
+    const w=r[2]-r[0],lab=q.k==='b'?r[4].replace('ห้องนอน ','นอน '):SH[q.k];
+    mk('text',{x:(r[0]+r[2])/2-x0,y:Y((r[1]+r[3])/2),style:'font-size:'+Math.min(fs*1.1,w/Math.max(3,lab.length*0.55))+'px;font-weight:600;fill:'+(q.k==='k'||q.k==='d'?'var(--accent)':'var(--ink)')}).textContent=lab});
+  mk('text',{x:W/2,y:D+0.45,style:'font-size:'+(fs*0.8)+'px;fill:var(--muted)'}).textContent='หน้าบ้าน (ถนน)';
+}
+function cusTap(q){
+  if(!cusSel){cusSel={row:q.row,i:q.i};setT('cusTip','เลือก '+q.r[4]+' แล้ว · แตะอีกห้องเพื่อสลับ');cusMini();return}
+  const a=cusSel;cusSel=null;if(a.row===q.row&&a.i===q.i){setT('cusTip','ย้ายห้อง: แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่');cusMini();return}
+  if((a.row==='pub')!==(q.row==='pub')){setT('cusTip','สลับห้องนั่งเล่น/ครัว กับห้องนอนไม่ได้ · ห้องนั่งเล่นและครัวอยู่แถวหน้าติดระเบียง');cusMini();return}
+  const R={pub:CUS_ROWS.pub.slice(),back:CUS_ROWS.back.slice(),mid:CUS_ROWS.mid?CUS_ROWS.mid.slice():null},t=R[a.row][a.i];R[a.row][a.i]=R[q.row][q.i];R[q.row][q.i]=t;
+  if(!cusRowsOk(CUS,R)){setT('cusTip','สลับแล้วห้องนอนจะแคบกว่า 2.80 ม. ลองสลับห้องอื่น');cusMini();return}
+  CUS.ord=cusOrd(R);setT('cusTip','สลับแล้ว · แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับต่อ');cusApply()}
+function cusApply(noHash){const ok=cusBuild();cusUI();if(!ok)return;
+  if(SFORM==='custom'){SHELTER_LABELS=shelterLabels();modelBtns();sformText();if(MODEL==='shelter'){if(ready3d)init3D();refreshCosts();updateStill()}if(!noHash)writeHash()}}
+{const num=(id,k,lo)=>{const e=document.getElementById(id);if(!e)return;let tm=0;const go=()=>{const v=parseFloat(e.value);if(!isFinite(v))return;const nv=cusClamp(Math.round(v*2)/2,lo,20);if(nv!==CUS[k]){CUS[k]=nv;cusSel=null;cusApply()}};
+   e.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(go,600)});e.addEventListener('change',()=>{clearTimeout(tm);go();e.value=CUS[k]})};num('cusW','W',6);num('cusD','D',9);
+ document.querySelectorAll('[data-cus]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.cus;CUS[k]=cusClamp(CUS[k]+(+b.dataset.v),CUS_LIM[k][0],CUS_LIM[k][1]);CUS.ord='';cusSel=null;cusApply()}));
+ [['cusStore','store'],['cusLiving','living']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.addEventListener('change',()=>{CUS[k]=e.checked?1:0;CUS.ord='';cusSel=null;cusApply()})});
+ {const r=document.getElementById('cusReset');if(r)r.addEventListener('click',()=>{CUS.ord='';cusSel=null;setT('cusTip','จัดห้องใหม่แล้ว · แตะห้องหนึ่ง แล้วแตะอีกห้องเพื่อสลับที่');cusApply()})}}
+cusUI();
 sformText();
 
 {const dp=drawPlan,dc=drawCols,dm=drawMEP;
@@ -3493,16 +3655,16 @@ function selectHeight(h){
   if(ready3d) init3D();
   drawSection(); refreshCosts(); applyFlood();
 }
-function parseHash(){{const m2=/^#shelter((?:-[a-z0-9]+)*)$/.exec(location.hash);if(m2){const a=m2[1].split('-').filter(Boolean),f=a.find(x=>SF[x]);const rr=a.find(x=>/^r[a-z]+$/.test(x)&&BROOFS[x.slice(1)]),pp=a.find(x=>/^p(fl|sr|sl)$/.test(x));return {m:'shelter',br:rr?rr.slice(1):'hip',sp:pp?pp.slice(1):'fr',f:f||'gable',c:!a.includes('nc'),st:!a.includes('ns'),ez:!a.includes('ss'),h:(a.find(x=>/^h\d\d$/.test(x))||'h40').slice(1)}}}const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
-function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(isBig()&&SPOS!=='fr'?'-p'+SPOS:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
+function parseHash(){{const m2=/^#shelter((?:-[a-z0-9]+)*)$/.exec(location.hash);if(m2){const a=m2[1].split('-').filter(Boolean),f=a.find(x=>SF[x]);const rr=a.find(x=>/^r[a-z]+$/.test(x)&&BROOFS[x.slice(1)]),cu=f==='custom'?cusParse(a):null,pp=a.find(x=>/^p(fl|sr|sl)$/.test(x));return {m:'shelter',br:rr?rr.slice(1):'hip',sp:pp?pp.slice(1):'fr',cus:cu,f:f||'gable',c:!a.includes('nc'),st:!a.includes('ns'),ez:!a.includes('ss'),h:(a.find(x=>/^h\d\d$/.test(x))||'h40').slice(1)}}}const m=/^#cars-([345])(?:-h(\d\d))?(-r)?$/.exec(location.hash);return m?{o:{'3':'A','4':'B','5':'C'}[m[1]],h:m[2],s:m[3]?'R':'L'}:{}}
+function writeHash(){if(MODEL==='shelter'){const v='shelter'+(SFORM==='gable'?'':'-'+SFORM)+(SFORM==='custom'?cusTok():'')+(isBig()&&BROOF!=='hip'?'-r'+BROOF:'')+(isBig()&&SPOS!=='fr'?'-p'+SPOS:'')+(SCAN?'':'-nc')+(SSTAIR?'':'-ns')+(SEASY?'':'-ss')+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'');if(location.hash!=='#'+v)location.hash=v;return}const v='cars-'+OPT.n+(Math.abs(H-4)>0.01?'-h'+Math.round(H*10):'')+(SIDE==='R'?'-r':'');if(location.hash!=='#'+v)location.hash=v}
 document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click',()=>{selectOption(b.dataset.opt);writeHash()}));
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
 document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01&&stillMode&&gpuOK())go3d.click()}));
-window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(SF[r.f]&&SF[r.f].big&&r.br!==BROOF)selectBRoof(r.br,true);if(SF[r.f]&&SF[r.f].big&&r.sp!==SPOS)selectSPos(r.sp,true);if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
+window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(SF[r.f]&&SF[r.f].big&&r.br!==BROOF)selectBRoof(r.br,true);if(SF[r.f]&&SF[r.f].big&&r.sp!==SPOS)selectSPos(r.sp,true);if(r.cus&&cusDiff(r.cus)){Object.assign(CUS,r.cus);cusApply(true)}if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
 const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
-guard(()=>{if(R0.m==='shelter'){BROOF=R0.br;bigCols();SPOS=R0.sp||'fr';document.querySelectorAll('.opt[data-spos]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spos===SPOS?'true':'false'));document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
+guard(()=>{if(R0.m==='shelter'){if(R0.cus){Object.assign(CUS,R0.cus);cusBuild();cusUI()}BROOF=R0.br;bigCols();SPOS=R0.sp||'fr';document.querySelectorAll('.opt[data-spos]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spos===SPOS?'true':'false'));document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
 guard(applyFlood); guard(showStill);
 {const w=document.getElementById('jsWarn'); if(initErr||window.__jsErr){w.hidden=false;w.textContent='บางส่วนของหน้าเว็บทำงานไม่ครบ ('+(initErr?initErr.message:window.__jsErr)+') · ส่งภาพหน้าจอข้อความนี้มาได้เลย'} else w.hidden=true;}
 })();
