@@ -500,7 +500,7 @@ html:not(.m-custom) .custom-only{display:none!important}
   <div class="topbar-in pad">
     <div class="brand">
       <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 5l8 6"></path><path d="M6 10v4h12v-4"></path><path d="M7 14v6M17 14v6M12 14v6"></path><path d="M2 21c2-1 3-1 5 0s3 1 5 0 3-1 5 0 3 1 5 0"></path></svg></span>
-      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด · อัปเดต 25 พ.ย. 2569</small></span>
+      <span class="brand-t"><b>บ้านยกสูงหนีน้ำ</b><small>ที่ดิน 1 ไร่ · แบบร่างแนวคิด · อัปเดต 26 พ.ย. 2569</small></span>
     </div>
     <div class="top-act">
       <span class="copy-msg" id="copyMsg" aria-live="polite"></span>
@@ -1916,7 +1916,7 @@ function drawWater(){
 function fhMerge(d){const F=window.FALLBACK_IMG=window.FALLBACK_IMG||{};for(const k in d)F[k]=Object.assign(F[k]||{},d[k])}
 function stillWait(on){const b=document.getElementById('imgbox');if(b)b.classList.toggle('fh-wait',!!on)}
 function updateStill(){
-  if(!stillMode) return;
+  if(!stillMode||window.__fhBoot) return;
   if(CHUNKED){const g=MODEL==='shelter'?SKEY():OPT.key+SFX()+'-h'+Math.round(H*10),e0=(window.FALLBACK_IMG||{})[stillKey()],
       nk0=night?(anyLight()?'non':'noff'):(eve?'eve':''),ng=(window.FH_NGRP||{})[g];
     if(!e0||!e0.img){if(nk0&&ng)loadChunk(ng).catch(()=>{});
@@ -3958,11 +3958,11 @@ document.querySelectorAll('.opt[data-opt]').forEach(b=>b.addEventListener('click
 document.querySelectorAll('.opt[data-lv]').forEach(b=>b.addEventListener('click',()=>{LEVEL=+b.dataset.lv;try{localStorage.setItem('fh-level',String(LEVEL))}catch(e){}refreshCosts()}));
 document.querySelectorAll('.opt[data-h]').forEach(b=>b.addEventListener('click',()=>{if(HEIGHTS[b.dataset.h]!==H)selectHeight(HEIGHTS[b.dataset.h]);writeHash();if(MODEL==='shelter'&&Math.abs(H-SH0())>0.01&&stillMode&&gpuOK())go3d.click()}));
 window.addEventListener('hashchange',()=>{const r=parseHash();if(r.m==='shelter'){if(SF[r.f]&&SF[r.f].big&&r.br!==BROOF)selectBRoof(r.br,true);if(SF[r.f]&&SF[r.f].big&&r.sp!==SPOS)selectSPos(r.sp,true);if(r.cus&&cusDiff(r.cus)){Object.assign(CUS,r.cus);cusApply(true)}if(r.land&&SF[r.f]&&SF[r.f].big&&['w','d','f','s','b'].some(k=>r.land[k]!==LAND[k]))landSet(r.land,true);if(r.c!==SCAN)selectSOpt('canopy',r.c,true);if(r.st!==SSTAIR)selectSOpt('stair',r.st,true);if(r.ez!==SEASY)selectSOpt('easy',r.ez,true);if(r.f!==SFORM)selectSForm(r.f,true);if(MODEL!=='shelter'){shelterH=HEIGHTS[r.h]||4;selectModel('shelter',true)}else{const h=HEIGHTS[r.h]||4;if(Math.abs(h-H)>0.01)selectHeight(h)}return}if(!r.o)return;if(MODEL==='shelter')selectModel('house',true);if(r.s!==SIDE)selectSide(r.s,true);const h=HEIGHTS[r.h]||4;if(h!==H)selectHeight(h);if(r.o!==OPT.key)selectOption(r.o)});
-const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
+window.__fhBoot=1; const R0=parseHash(); OPT=OPTS[R0.o]||OPTS.A; SIDE=R0.s||'L'; setGeom(R0.m==='shelter'?4:(HEIGHTS[R0.h]||4)); if(R0.m==='shelter')shelterH=HEIGHTS[R0.h]||4;
 let initErr=null; const guard=f=>{try{f()}catch(e){console.error(e);initErr=initErr||e}};
 guard(()=>selectOption(OPT.key)); guard(()=>selectHeight(H));
 guard(()=>{if(R0.m==='shelter'){if(R0.cus){Object.assign(CUS,R0.cus);cusBuild();cusUI()}if(R0.land&&R0.land.w>0)Object.assign(LAND,R0.land);BROOF=R0.br;bigCols();SPOS=R0.sp||'fr';document.querySelectorAll('.opt[data-spos]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spos===SPOS?'true':'false'));document.querySelectorAll('.opt[data-broof]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.broof===BROOF?'true':'false'));SCAN=R0.c;SSTAIR=R0.st;SEASY=R0.ez;document.querySelectorAll('input[data-sopt]').forEach(b=>{b.checked=b.dataset.sopt==='canopy'?SCAN:b.dataset.sopt==='easy'?SEASY:SSTAIR});selectSForm(R0.f,true);selectModel('shelter',true)}});
-guard(applyFlood); guard(showStill);
+window.__fhBoot=0; guard(applyFlood); guard(showStill);
 {const w=document.getElementById('jsWarn'); if(initErr||window.__jsErr){w.hidden=false;w.textContent='บางส่วนของหน้าเว็บทำงานไม่ครบ ('+(initErr?initErr.message:window.__jsErr)+') · ส่งภาพหน้าจอข้อความนี้มาได้เลย'} else w.hidden=true;}
 })();
 </script>
