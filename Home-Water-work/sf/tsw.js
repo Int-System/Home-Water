@@ -1,0 +1,23 @@
+// model / form switching keeps sensible roof + floor height
+const {chromium}=require('playwright');const fs=require('fs');const path=require('path');
+const html='<!doctype html><html><head><meta charset="utf-8"></head><body>'+fs.readFileSync(path.join(__dirname,'../flood-house.lite.html'),'utf8')+'</body></html>';
+(async()=>{const b=await chromium.launch({args:['--disable-webgl']});const p=await b.newPage({viewport:{width:1366,height:900}});const err=[];p.on('pageerror',e=>err.push(e.message));
+ await p.route('**/*',r=>r.request().url().startsWith('http://local/')?r.fulfill({body:html,contentType:'text/html'}):r.abort());
+ const st=async l=>console.log(l.padEnd(28),JSON.stringify(await p.evaluate(()=>({hash:location.hash,h:document.querySelector('.opt[data-h][aria-pressed=true]').dataset.h,model:document.querySelector('.opt[data-model][aria-pressed=true]').dataset.model,form:(document.querySelector('.opt[data-sform][aria-pressed=true]')||{dataset:{}}).dataset.sform,roof:document.querySelector('.opt[data-broof][aria-pressed=true]').dataset.broof,note:document.getElementById('stillNote').textContent.slice(0,40)}))));
+ const c=async(sel,l)=>{await p.evaluate(s=>document.querySelector(s).click(),sel);await p.waitForTimeout(700);await st(l)};
+ await p.goto('http://local/#shelter-b105-rshed-h30');await p.waitForTimeout(1500);await st('load b105 shed');
+ await c('#model-shelter','-> shelter');
+ await c('#model-big','-> big (want shed 3.0)');
+ await c('#model-house','-> house');
+ await c('#model-big','-> big again (shed 3.0)');
+ await c('[data-broof="hip"]','roof hip (4.0)');
+ await c('#model-shelter','-> shelter (4.0)');
+ await c('.opt[data-h="35"]','shelter h3.5');
+ await c('#model-big','-> big (hip 4.0)');
+ await c('#model-shelter','-> shelter (3.5 kept)');
+ await c('#model-house','-> house');
+ await c('#model-shelter','-> shelter (3.5)');
+ await p.evaluate(()=>location.hash='shelter-big2-rgable-h45');await p.waitForTimeout(700);await st('hash big2 gable 4.5');
+ await p.evaluate(()=>location.hash='shelter-twin');await p.waitForTimeout(700);await st('hash twin (4.0)');
+ await c('#model-big','-> big (gable 4.5)');
+ console.log('errors',err);await b.close()})();

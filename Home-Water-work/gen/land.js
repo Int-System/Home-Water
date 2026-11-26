@@ -1,0 +1,26 @@
+const {chromium}=require('playwright');const fs=require('fs');const path=require('path');
+const SP=path.join(__dirname,'..'), D=path.join(SP,'deps/node_modules');
+const html='<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}[hidden]{display:none!important}</style></head><body>'+fs.readFileSync(path.join(SP,'flood-house.lite.html'),'utf8')+'</body></html>';
+(async()=>{const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
+ const p=await b.newPage({viewport:{width:1300,height:950}});const err=[];p.on('pageerror',e=>err.push(e.message));
+ await p.addInitScript(()=>{window.__m45all=1});
+ await p.addInitScript(()=>{const g=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(t,o){if(o)delete o.failIfMajorPerformanceCaveat;return g.call(this,t,o)}});
+ await p.route('**/*',r=>{const u=r.request().url();
+  if(u.includes('three.min.js'))return r.fulfill({path:D+'/three/build/three.min.js',contentType:'text/javascript'});
+  if(u.includes('OrbitControls'))return r.fulfill({path:D+'/three/examples/js/controls/OrbitControls.js',contentType:'text/javascript'});
+  if(u.startsWith('http://local/'))return r.fulfill({body:html,contentType:'text/html'});return r.abort();});
+ const res=()=>p.evaluate(()=>location.hash+'\n  '+[...document.querySelectorAll('#landRes tr')].map(t=>t.innerText.replace(/\n/g,' ')).join('\n  ')+'\n  '+(document.querySelector('#landRes p')||{}).textContent+'\n  btn: '+(document.getElementById('landFit').hidden?'(hidden)':document.getElementById('landFit').textContent));
+ await p.goto('http://local/#shelter-b105');await p.waitForTimeout(1500);
+ if(await p.isVisible('#lockCode')){await p.fill('#lockCode','5857');await p.evaluate(()=>document.getElementById('lockForm').requestSubmit());await p.waitForTimeout(300)}
+ await p.fill('#landW','16');await p.dispatchEvent('#landW','change');await p.fill('#landD','26');await p.dispatchEvent('#landD','change');await p.waitForTimeout(800);
+ console.log('16x26 b105 fr',await res());
+ await p.evaluate(()=>document.querySelector('[data-spos="sr"]').click());await p.waitForTimeout(800);console.log('sr',await res());
+ await p.evaluate(()=>document.querySelector('[data-tab="plan"]').click());await p.waitForTimeout(400);await (await p.$('#plan')).screenshot({path:path.join(__dirname,'land-plan1.png')});
+ await p.evaluate(()=>document.querySelector('[data-tab="overview"]').click());
+ await p.evaluate(()=>document.getElementById('landFit').click());await p.waitForTimeout(5000);console.log('fit',await res(),'\n  cus:',await p.evaluate(()=>document.getElementById('cusMsg').textContent));
+ await p.evaluate(()=>document.querySelector('[data-tab="plan"]').click());await p.waitForTimeout(400);await (await p.$('#plan')).screenshot({path:path.join(__dirname,'land-plan2.png')});
+ await p.evaluate(()=>document.querySelector('[data-tab="overview"]').click());
+ await (await p.$('#landPanel')).screenshot({path:path.join(__dirname,'land-panel.png')});
+ await p.fill('#landW','11');await p.dispatchEvent('#landW','change');await p.waitForTimeout(800);console.log('11 wide',await res());
+ const h=await p.evaluate(()=>location.hash);await p.goto('http://local/#shelter');await p.waitForTimeout(400);await p.goto('http://local/'+h);await p.waitForTimeout(2000);console.log('reload',await res(),'\n  inputs',await p.evaluate(()=>['landW','landD','landF','landS','landB'].map(i=>document.getElementById(i).value).join(',')));
+ console.log('errors',err);await b.close()})();
